@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTistico Wear - Orders</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', Arial, sans-serif; background: #f7f5ef; padding: 30px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: #294d3b; }
+        .subtitle { color: #718078; margin-bottom: 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .stat-card span { font-size: 12px; color: #888; text-transform: uppercase; }
+        .stat-card strong { font-size: 24px; display: block; }
+        .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .filters button { padding: 8px 18px; border: 1px solid #ddd; background: white; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+        .filters button.active { background: #294d3b; color: white; border-color: #294d3b; }
+        .table-wrapper { background: white; border-radius: 12px; overflow: hidden; overflow-x: auto; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 900px; }
+        th { background: #294d3b; color: white; padding: 12px 16px; text-align: left; }
+        td { padding: 12px 16px; border-bottom: 1px solid #f0ece6; }
+        .status { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-paid { background: #d4edda; color: #155724; }
+        .status-failed { background: #f8d7da; color: #721c24; }
+        .status-pending_verification { background: #cce5ff; color: #004085; }
+        .btn { padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; margin: 2px; transition: 0.3s; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-info { background: #3498db; color: white; }
+        .btn:hover { transform: scale(1.05); }
+        .empty { text-align: center; padding: 50px; color: #999; }
+        .back-btn { display: inline-block; margin-top: 20px; background: #294d3b; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; }
+        .loading { text-align: center; padding: 50px; color: #294d3b; font-size: 18px; }
+        @media (max-width: 600px) { body { padding: 16px; } h1 { font-size: 24px; } .stats { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📦 Order Management</h1>
+    <p class="subtitle">ARTistico Wear — Track and confirm orders</p>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="filters">
+        <button class="active" data-filter="all">All</button>
+        <button data-filter="pending">⏳ Pending</button>
+        <button data-filter="paid">✅ Paid</button>
+        <button data-filter="failed">❌ Failed</button>
+    </div>
+
+    <div class="table-wrapper">
+        <div id="ordersTable"><div class="loading">⏳ Firebase থেকে অর্ডার লোড হচ্ছে...</div></div>
+    </div>
+
+    <a href="index.html" class="back-btn">← Back to Shop</a>
+</div>
+
+<script>
+    // 🔐 পাসওয়ার্ড প্রোটেকশন
+    var correctPassword = "115631";
+    var userPassword = prompt("🔐 অর্ডার পেজ দেখতে পাসওয়ার্ড দিন:");
+    if (userPassword !== correctPassword) {
+        document.body.innerHTML = `
+            <div style="text-align: center; margin-top: 100px; font-family: Arial, sans-serif;">
+                <h1 style="color: #d32f2f;">⛔ ভুল পাসওয়ার্ড!</h1>
+                <p style="color: #666;">আপনার সঠিক পাসওয়ার্ড দিন।</p>
+                <button onclick="location.reload()" style="padding: 10px 20px; background: #294d3b; color: white; border: none; border-radius: 5px; cursor: pointer;">আবার চেষ্টা করুন</button>
+            </div>
+        `;
+        throw new Error("Wrong password");
+    }
+
+    const FIREBASE_URL = "https://artistico-c3a5e-default-rtdb.asia-southeast1.firebasedatabase.app";
+    let allOrders = [];
+
+    async function loadOrders(filter = 'all') {
+        const container = document.getElementById('ordersTable');
+        const stats = document.getElementById('stats');
+
+        try {
+            container.innerHTML = '<div class="loading">⏳ Firebase থেকে অর্ডার লোড হচ্ছে...</div>';
+
+            const res = await fetch(`${FIREBASE_URL}/Orders.json`);
+            const data = await res.json();
+
+            if (!data) {
+                container.innerHTML = `<div class="empty">📭 এখনো কোনো অর্ডার নেই।</div>`;
+                stats.innerHTML = `
+                    <div class="stat-card"><span>Total</span><strong>0</strong></div>
+                    <div class="stat-card"><span>Pending</span><strong>0</strong></div>
+                    <div class="stat-card"><span>Paid</span><strong>0</strong></div>
+                    <div class="stat-card"><span>Revenue</span><strong>৳0</strong></div>
+                `;
+                return;
+            }
+
+            allOrders = Object.keys(data).map(key => ({
+                firebaseKey: key,
+                ...data[key]
+            }));
+
+            allOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+            renderStats();
+            renderTable(filter);
+
+        } catch (err) {
+            console.error("Firebase error:", err);
+            container.innerHTML = `<div class="empty">❌ অর্ডার লোড করা যায়নি। Firebase Rules চেক করুন।</div>`;
+        }
+    }
+
+    function renderStats() {
+        const stats = document.getElementById('stats');
+        const total = allOrders.length;
+        const pending = allOrders.filter(o => o.status === 'pending' || o.status === 'pending_verification').length;
+        const paid = allOrders.filter(o => o.status === 'paid').length;
+        const failed = allOrders.filter(o => o.status === 'failed').length;
+        const totalAmount = allOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+
+        stats.innerHTML = `
+            <div class="stat-card"><span>Total</span><strong>${total}</strong></div>
+            <div class="stat-card"><span>Pending</span><strong style="color:#f39c12;">${pending}</strong></div>
+            <div class="stat-card"><span>Paid</span><strong style="color:#27ae60;">${paid}</strong></div>
+            <div class="stat-card"><span>Revenue</span><strong>৳${totalAmount}</strong></div>
+        `;
+    }
+
+    function renderTable(filter = 'all') {
+        const container = document.getElementById('ordersTable');
+        let filtered = allOrders;
+
+        if (filter === 'pending') filtered = allOrders.filter(o => o.status === 'pending' || o.status === 'pending_verification');
+        else if (filter === 'paid') filtered = allOrders.filter(o => o.status === 'paid');
+        else if (filter === 'failed') filtered = allOrders.filter(o => o.status === 'failed');
+
+        if (!filtered.length) {
+            container.innerHTML = `<div class="empty">📭 No orders found.</div>`;
+            return;
+        }
+
+        let html = `<table>
+            <tr><th>Order ID</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Payment</th><th>TrxID</th><th>Status</th><th>Action</th></tr>`;
+
+        filtered.forEach((order) => {
+            const key = order.firebaseKey;
+            const statusClass = `status-${order.status || 'pending'}`;
+            const itemsSummary = (order.items || [])
+                .map(i => `${i.name} (${i.size}) x${i.quantity}`)
+                .join('<br>');
+
+            html += `<tr>
+                <td><strong>${order.orderNumber || 'N/A'}</strong></td>
+                <td>${order.customer?.name || 'N/A'}<br><small>${order.delivery?.area || ''}</small></td>
+                <td>${order.customer?.phone || 'N/A'}</td>
+                <td><small>${itemsSummary || '-'}</small></td>
+                <td>৳${order.total || 0}</td>
+                <td>${order.payment || 'N/A'}</td>
+                <td>${order.trxId || '-'}</td>
+                <td><span class="status ${statusClass}">${(order.status || 'pending').toUpperCase()}</span></td>
+                <td>
+                    ${order.status !== 'paid' ? `<button class="btn btn-success" onclick="updateStatus('${key}', 'paid')">✅ Paid</button>` : ''}
+                    ${order.status !== 'failed' && order.status !== 'paid' ? `<button class="btn btn-danger" onclick="updateStatus('${key}', 'failed')">❌ Failed</button>` : ''}
+                    <button class="btn btn-info" onclick="viewOrder('${key}')">👁</button>
+                </td>
+            </tr>`;
+        });
+
+        html += '</table>';
+        container.innerHTML = html;
+    }
+
+    async function updateStatus(key, status) {
+        if (!confirm(`এই অর্ডারের স্ট্যাটাস "${status}" করতে চান?`)) return;
+
+        try {
+            await fetch(`${FIREBASE_URL}/Orders/${key}.json`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: status })
+            });
+            alert('✅ Status আপডেট হয়েছে!');
+            const active = document.querySelector('.filters .active')?.dataset?.filter || 'all';
+            loadOrders(active);
+        } catch (err) {
+            alert('❌ আপডেট করা যায়নি: ' + err.message);
+        }
+    }
+
+    function viewOrder(key) {
+        const o = allOrders.find(x => x.firebaseKey === key);
+        if (!o) return;
+
+        const itemsText = (o.items || [])
+            .map(i => `  • ${i.name} (${i.size}) x${i.quantity} — ৳${i.price}`)
+            .join('\n');
+
+        alert(
+            `📦 ORDER DETAILS\n\n` +
+            `Order: ${o.orderNumber}\n` +
+            `Customer: ${o.customer?.name}\n` +
+            `Phone: ${o.customer?.phone}\n` +
+            `Email: ${o.customer?.email || 'N/A'}\n` +
+            `Address: ${o.customer?.address}\n` +
+            `Delivery: ${o.delivery?.area} (৳${o.delivery?.charge})\n\n` +
+            `Items:\n${itemsText}\n\n` +
+            `Subtotal: ৳${o.subtotal}\n` +
+            `Total: ৳${o.total}\n` +
+            `Payment: ${o.payment}\n` +
+            `Sender: ${o.senderNumber || 'N/A'}\n` +
+            `TrxID: ${o.trxId || 'N/A'}\n` +
+            `Status: ${o.status}`
+        );
+    }
+
+    document.querySelectorAll('.filters button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            renderTable(this.dataset.filter);
+        });
+    });
+
+    loadOrders('all');
+</script>
+</body>
+</html>
