@@ -10,7 +10,7 @@ async function loadProductsFromFirebase() {
         const res = await fetch(`${FIREBASE_URL}/Products.json`);
         const data = await res.json();
         if (data) {
-            products = Object.values(data);
+            products = Object.values(data).filter(p => p && p.name && p.id);
             renderProducts();
         } else {
             console.warn("Firebase-এ কোনো প্রোডাক্ট নেই");
@@ -75,8 +75,8 @@ function renderProducts() {
             selectedCategory === "all" || product.category === selectedCategory;
 
         const matchesSearch =
-            product.name.toLowerCase().includes(searchTerm) ||
-            product.description.toLowerCase().includes(searchTerm);
+            (product.name || "").toLowerCase().includes(searchTerm) ||
+            (product.description || "").toLowerCase().includes(searchTerm);
 
         return matchesCategory && matchesSearch;
     });
@@ -100,7 +100,7 @@ function renderProducts() {
                 <div class="product-price">${money(product.price)}</div>
 
                 <div class="size-selector">
-                    ${product.sizes.map((size, index) => `
+                    ${(product.sizes || ["M", "L", "XL"]).map((size, index) => `
                         <button type="button"
                                 class="size-btn ${index === 0 ? "selected" : ""}"
                                 data-product="${product.id}"
@@ -228,7 +228,8 @@ productsGrid.addEventListener("click", event => {
         `.size-btn[data-product="${product.id}"].selected`
     );
 
-    const selectedSize = selectedSizeButton?.dataset.size || product.sizes[0];
+    const sizes = product.sizes || ["M", "L", "XL"];
+    const selectedSize = selectedSizeButton?.dataset.size || sizes[0];
     const cartId = `${product.id}-${selectedSize}`;
     const existingItem = cart.find(item => item.cartId === cartId);
 
