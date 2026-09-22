@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ARTistico Wear — carefully selected thrifted shirts with timeless style.">
+    <title>ARTistico | Curated Thrift Fashion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-container">
+            <a class="logo" href="#" aria-label="ARTistico Wear home">
+                <span class="logo-mark">A</span>
+                <span>ART<span>istico</span></span>
+            </a>
+
+            <nav class="nav-center" aria-label="Main navigation">
+                <a class="nav-link active" href="#products">Shop</a>
+                <a class="nav-link" href="#about">Our Story</a>
+                <a class="nav-link" href="#policies">Policies</a>
+                <a class="nav-link" href="#contact">Contact</a>
+            </nav>
+
+            <div class="nav-right">
+                <label class="search-box" for="searchInput">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="11" cy="11" r="6.5"></circle>
+                        <path d="m16 16 5 5"></path>
+                    </svg>
+                    <input id="searchInput" class="search-input" type="search" placeholder="Search collection..." aria-label="Search shirts">
+                </label>
+
+                <button id="cartButton" class="cart-icon" aria-label="Open shopping cart">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.5L20.5 7H6"></path>
+                        <circle cx="9" cy="20" r="1"></circle>
+                        <circle cx="18" cy="20" r="1"></circle>
+                    </svg>
+                    <span id="cartCount" class="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <p class="eyebrow">CURATED SECONDHAND STYLE</p>
+                <h1>Wear something<br><em>with a story.</em></h1>
+                <p class="hero-text">Unique thrifted shirts, thoughtfully selected for people who dress with intention.</p>
+                <a class="cta-button" href="#products">Explore collection <span>↗</span></a>
+            </div>
+            <div class="hero-badge">
+                <span>EST.</span>
+                <strong>2024</strong>
+                <small>Dhaka, Bangladesh</small>
+            </div>
+        </section>
+
+        <section class="filters-section" aria-label="Product filters">
+            <div class="filter-label">Browse by</div>
+            <button class="filter-btn active" data-category="all">All pieces</button>
+            <button class="filter-btn" data-category="mens">Men's</button>
+            <button class="filter-btn" data-category="boys">Boys</button>
+            <button class="filter-btn" data-category="womens">Women's</button>
+            <button class="filter-btn" data-category="unisex">Unisex</button>
+        </section>
+
+        <section id="products" class="container">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">THE EDIT</p>
+                    <h2 class="section-title">Featured collection</h2>
+                </div>
+                <p class="section-note">One-of-a-kind finds.<br>Limited quantities.</p>
+            </div>
+            <div id="productsGrid" class="products-grid"></div>
+        </section>
+
+        <section id="about" class="info-section">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">THE ARTISTICO STANDARD</p>
+                        <h2 class="section-title">Better style,<br>less waste.</h2>
+                    </div>
+                </div>
+                <div class="features">
+                    <article>
+                        <span class="feature-icon">01</span>
+                        <h3>Thoughtfully sourced</h3>
+                        <p>Every piece is handpicked for its quality, character, and lasting appeal.</p>
+                    </article>
+                    <article>
+                        <span class="feature-icon">02</span>
+                        <h3>Made for individuality</h3>
+                        <p>Discover rare finds that help you build a wardrobe that feels entirely yours.</p>
+                    </article>
+                    <article>
+                        <span class="feature-icon">03</span>
+                        <h3>Consciously delivered</h3>
+                        <p>Quality clothing gets a second life while we reduce fashion waste together.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="policies" class="policies-section">
+            <div class="container">
+                <p class="eyebrow">SHOP WITH CONFIDENCE</p>
+                <h2 class="section-title">Store policies</h2>
+
+                <div class="policy-grid">
+                    <article>
+                        <h3>Delivery policy</h3>
+                        <p>Inside Dhaka delivery costs ৳60. Outside Dhaka delivery costs ৳120. Delivery times are confirmed after your order is reviewed.</p>
+                    </article>
+                    <article>
+                        <h3>Returns and exchanges</h3>
+                        <p>Contact ARTistico within 48 hours of delivery if your item has a problem. Items must be unworn and returned in their original condition.</p>
+                    </article>
+                    <article>
+                        <h3>Payment policy</h3>
+                        <p>Visa payments must be completed through an approved secure gateway. bKash and Nagad payments require a valid merchant number and transaction verification.</p>
+                    </article>
+                    <article>
+                        <h3>Privacy policy</h3>
+                        <p>We use your contact and delivery details only to process orders, arrange delivery, and provide customer support. Never submit card numbers or CVV in this form.</p>
+                    </article>
+                    <article>
+                        <h3>Terms and conditions</h3>
+                        <p>Product availability is limited because our pieces are thrifted. An order is confirmed only after ARTistico verifies stock, delivery details, and payment.</p>
+                    </article>
+                    <article>
+                        <h3>Business information</h3>
+                        <p>ARTistico<br>Dhaka, Bangladesh<br>Email: artistico.org@gmail.com<br>Phone: <a href="tel:+8801636032218">01636032218</a></p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <p class="eyebrow">CUSTOMER SUPPORT</p>
+            <h2>Need assistance?</h2>
+            <p>Our support team is happy to help with orders, sizing, delivery, and returns.</p>
+
+            <div class="support-details">
+                <p>
+                    <strong>Email</strong><br>
+                    <a href="mailto:artistico.org@gmail.com">artistico.org@gmail.com</a>
+                </p>
+                <p>
+                    <strong>Phone</strong><br>
+                    <a href="tel:+8801636032218">01636032218</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <div id="cartModal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">YOUR SELECTION</p>
+                    <h2 id="cartTitle">Shopping bag</h2>
+                </div>
+                <button id="closeCartButton" class="close-btn" aria-label="Close cart">&times;</button>
+            </div>
+
+            <div id="cartItems"></div>
+
+            <div id="cartSummary" class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong id="cartSubtotal">৳0</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <strong id="deliveryCost">৳0</strong>
+                </div>
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <strong id="cartTotal">৳0</strong>
+                </div>
+
+                <div class="delivery-options">
+                    <h3>Delivery option</h3>
+                    <label class="delivery-option">
+                        <input type="radio" name="delivery" value="60" checked>
+                        <span>Inside Dhaka <b>৳60</b></span>
+                    </label>
+                    <label class="delivery-option">
+                        <input type="radio" name="delivery" value="120">
+                        <span>Outside Dhaka <b>৳120</b></span>
+                    </label>
+                </div>
+
+                <div class="delivery-options">
+                    <h3>Payment method</h3>
+                    <label class="delivery-option">
+                        <input type="radio" name="payment" value="Visa" checked>
+                        <span>Visa secure gateway</span>
+                    </label>
+                    <label class="delivery-option">
+                        <input type="radio" name="payment" value="bKash">
+                        <span>bKash merchant payment</span>
+                    </label>
+                    <label class="delivery-option">
+                        <input type="radio" name="payment" value="Nagad">
+                        <span>Nagad merchant payment</span>
+                    </label>
+                </div>
+<!-- bKash Payment Fields -->
+<div id="bkashFields" class="payment-fields" style="display: none; background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd;">
+    <h4 style="margin-bottom: 10px; color: #294d3b;">💳 বিকাশ পেমেন্ট তথ্য</h4>
+    <div style="background: #f0f9ff; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+        <p style="font-size: 13px; color: #0066cc;">
+            <strong>আমাদের বিকাশ নম্বর:</strong> ০১৬৩৬০৩২২১৮
+        </p>
+    </div>
+    <label for="bkashSender" style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px;">আপনার বিকাশ নম্বর</label>
+    <input id="bkashSender" name="bkashSender" type="tel" placeholder="০১XXXXXXXXX" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
+    
+    <label for="bkashTransactionId" style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px;">TrxID (পেমেন্টের রেফারেন্স)</label>
+    <input id="bkashTransactionId" name="bkashTransactionId" type="text" placeholder="যেমন: 8T5G7H2J" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 5px;">
+    
+    <p style="font-size: 12px; color: #d32f2f; margin-top: 5px;">⚠️ পেমেন্ট শেষে TrxID দিন। আমরা মিলিয়ে অর্ডার কনফার্ম করব।</p>
+</div>
+
+<!-- Nagad Payment Fields -->
+<div id="nagadFields" class="payment-fields" style="display: none; background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd;">
+    <h4 style="margin-bottom: 10px; color: #294d3b;">💳 নগদ পেমেন্ট তথ্য</h4>
+    <div style="background: #f0f9ff; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+        <p style="font-size: 13px; color: #0066cc;">
+            <strong>আমাদের নগদ নম্বর:</strong> ০১৬৩৬০৩২২১৮
+        </p>
+    </div>
+    <label for="nagadSender" style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px;">আপনার নগদ নম্বর</label>
+    <input id="nagadSender" name="nagadSender" type="tel" placeholder="০১XXXXXXXXX" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">
+    
+    <label for="nagadTransactionId" style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px;">TrxID (পেমেন্টের রেফারেন্স)</label>
+    <input id="nagadTransactionId" name="nagadTransactionId" type="text" placeholder="যেমন: 8T5G7H2J" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 5px;">
+    
+    <p style="font-size: 12px; color: #d32f2f; margin-top: 5px;">⚠️ পেমেন্ট শেষে TrxID দিন। আমরা মিলিয়ে অর্ডার কনফার্ম করব।</p>
+</div>
+                <button id="checkoutButton" class="checkout-button" type="button">
+                    Proceed to checkout <span>→</span>
+                </button>
+
+                <form id="checkoutForm" class="delivery-options" hidden>
+                    <h3>Delivery details</h3>
+
+                    <label for="customerName">Full name</label>
+                    <input id="customerName" name="customerName" type="text" required placeholder="Your full name">
+
+                    <label for="customerPhone">Phone number</label>
+                    <input id="customerPhone" name="customerPhone" type="tel" required placeholder="Your phone number">
+
+                    <label for="customerEmail">Email address</label>
+                    <input id="customerEmail" name="customerEmail" type="email" required placeholder="you@example.com">
+
+                    <label for="customerAddress">Delivery address</label>
+                    <textarea id="customerAddress" name="customerAddress" rows="3" required placeholder="House, road, area, city"></textarea>
+
+                    <div id="bkashPaymentFields" class="payment-fields" hidden>
+                        <h3>bKash payment details</h3>
+                        <p class="product-description">
+                            Send the total amount to bKash merchant number:
+                            <strong>01636032218</strong>
+                        </p>
+
+                        <label for="bkashSender">bKash sender number</label>
+                        <input
+                            id="bkashSender"
+                            name="bkashSender"
+                            type="tel"
+                            inputmode="numeric"
+                            pattern="01[3-9][0-9]{8}"
+                            placeholder="01XXXXXXXXX"
+                            title="Enter a valid 11-digit bKash number"
+                        >
+
+                        <label for="bkashTransactionId">bKash transaction ID</label>
+                        <input
+                            id="bkashTransactionId"
+                            name="bkashTransactionId"
+                            type="text"
+                            maxlength="30"
+                            placeholder="Example: 8A7B6C5D"
+                        >
+                    </div>
+
+                    <p id="paymentInstruction" class="product-description">
+                        Select a payment method to see instructions.
+                    </p>
+
+                    <label class="consent-option">
+                        <input id="policyConsent" name="policyConsent" type="checkbox" required>
+                        <span>I agree to the delivery, return, privacy, payment, and terms policies.</span>
+                    </label>
+
+                    <button type="submit" class="checkout-button">
+                        Submit order <span>✓</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <p>© 2024 ARTistico wear. Curated secondhand fashion from Dhaka.</p>
+        <p>Orders and bKash payments are confirmed only after manual verification.</p>
+    </footer>
+
+    <div id="toast" class="toast" role="status"></div>
+    <script src="script.js"></script>
+</body>
+</html>
