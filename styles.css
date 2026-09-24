@@ -742,7 +742,7 @@ button {
 }
 
 /* ============================================
-   🔴 Stock Out Badge & WhatsApp Button (নতুন)
+   🔴 Stock Out Badge & WhatsApp Button
    ============================================ */
 
 .stock-badge {
@@ -802,6 +802,491 @@ button {
 
 .btn-whatsapp svg {
     fill: white;
+}
+
+/* ============================================
+   ✨ PROFESSIONAL ANIMATIONS
+   ============================================ */
+
+/* Navbar Slide Down */
+@keyframes navbarSlide {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.navbar {
+    animation: navbarSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hero Content Stagger */
+@keyframes heroFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero .eyebrow {
+    animation: heroFade 0.8s ease-out 0.2s both;
+}
+
+.hero h1 {
+    animation: heroFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.hero-text {
+    animation: heroFade 0.9s ease-out 0.7s both;
+}
+
+.cta-button {
+    animation: heroFade 0.9s ease-out 0.9s both;
+}
+
+.hero-badge {
+    animation: heroFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both,
+               float 4s ease-in-out 2s infinite;
+}
+
+/* Product Card Entrance */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.product-card {
+    animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.product-card:nth-child(1) { animation-delay: 0.05s; }
+.product-card:nth-child(2) { animation-delay: 0.10s; }
+.product-card:nth-child(3) { animation-delay: 0.15s; }
+.product-card:nth-child(4) { animation-delay: 0.20s; }
+.product-card:nth-child(5) { animation-delay: 0.25s; }
+.product-card:nth-child(6) { animation-delay: 0.30s; }
+.product-card:nth-child(7) { animation-delay: 0.35s; }
+.product-card:nth-child(8) { animation-delay: 0.40s; }
+.product-card:nth-child(9) { animation-delay: 0.45s; }
+.product-card:nth-child(10) { animation-delay: 0.50s; }
+
+/* Glowing Badge */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(216, 117, 80, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(216, 117, 80, 0);
+    }
+}
+
+.product-badge {
+    animation: float 3s ease-in-out infinite, glow 2.5s ease-in-out infinite;
+}
+
+/* Cart Icon Bounce */
+@keyframes cartBounce {
+    0%, 100% { transform: scale(1) rotate(0); }
+    25% { transform: scale(1.3) rotate(-10deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+    75% { transform: scale(1.3) rotate(-5deg); }
+}
+
+.cart-icon.bump {
+    animation: cartBounce 0.6s ease-in-out;
+}
+
+/* Button Ripple Effect */
+.btn-add-cart,
+.cta-button,
+.checkout-button,
+.btn-whatsapp {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-add-cart::before,
+.cta-button::before,
+.checkout-button::before,
+.btn-whatsapp::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-add-cart:active::before,
+.cta-button:active::before,
+.checkout-button:active::before,
+.btn-whatsapp:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Smooth Image Reveal */
+@keyframes imageReveal {
+    from {
+        filter: blur(20px);
+        opacity: 0;
+        transform: scale(1.1);
+    }
+    to {
+        filter: blur(0);
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.product-image img {
+    animation: imageReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Success Checkmark */
+@keyframes checkmark {
+    0% {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(-45deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+.toast.show::after {
+    content: '✓';
+    display: inline-block;
+    font-weight: 800;
+    margin-left: 10px;
+    animation: checkmark 0.5s ease-out;
+}
+
+/* Scroll Reveal */
+@keyframes scrollReveal {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-heading {
+    animation: scrollReveal 0.8s ease-out both;
+}
+
+.info-section .features article {
+    animation: scrollReveal 0.8s ease-out both;
+}
+
+.info-section .features article:nth-child(1) { animation-delay: 0.1s; }
+.info-section .features article:nth-child(2) { animation-delay: 0.2s; }
+.info-section .features article:nth-child(3) { animation-delay: 0.3s; }
+
+.contact-section {
+    animation: scrollReveal 1s ease-out both;
+}
+
+/* Loading Shimmer */
+@keyframes shimmerMove {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.products-grid:empty::before {
+    content: 'প্রোডাক্ট লোড হচ্ছে...';
+    display: block;
+    grid-column: 1 / -1;
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(220, 232, 223, 0.6) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmerMove 2s infinite;
+}
+
+/* Smooth Cart Modal */
+@keyframes modalBackdrop {
+    from {
+        background: rgba(18, 30, 24, 0);
+    }
+    to {
+        background: rgba(18, 30, 24, 0.55);
+    }
+}
+
+.modal.active {
+    animation: modalBackdrop 0.3s ease-out;
+}
+
+/* Size Button Pop */
+@keyframes sizePop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.size-btn.selected {
+    animation: sizePop 0.3s ease-out;
+}
+
+/* Quantity Change Pulse */
+@keyframes quantityPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); background: var(--accent); color: white; }
+    100% { transform: scale(1); }
+}
+
+.quantity-btn:active {
+    animation: quantityPulse 0.3s ease-out;
+}
+
+/* Filter Button Slide */
+@keyframes filterSlide {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.filter-btn {
+    animation: filterSlide 0.5s ease-out both;
+}
+
+.filter-btn:nth-child(2) { animation-delay: 0.05s; }
+.filter-btn:nth-child(3) { animation-delay: 0.10s; }
+.filter-btn:nth-child(4) { animation-delay: 0.15s; }
+.filter-btn:nth-child(5) { animation-delay: 0.20s; }
+.filter-btn:nth-child(6) { animation-delay: 0.25s; }
+
+/* Shimmer on Price */
+@keyframes priceShine {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.product-price {
+    background: linear-gradient(
+        90deg,
+        var(--ink) 0%,
+        var(--accent) 50%,
+        var(--ink) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: priceShine 3s infinite;
+}
+
+/* WhatsApp Hover Glow */
+.btn-whatsapp {
+    position: relative;
+}
+
+.btn-whatsapp::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0);
+    transition: box-shadow 0.3s ease;
+    pointer-events: none;
+}
+
+.btn-whatsapp:hover::after {
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+}
+
+/* Smooth Section Fade */
+@keyframes sectionFade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+section {
+    animation: sectionFade 0.6s ease-out both;
+}
+
+/* Image Lazy Load Blur */
+.product-image {
+    background: linear-gradient(
+        135deg,
+        #e7ece7 0%,
+        #dce8df 50%,
+        #e7ece7 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmerMove 3s infinite;
+}
+
+/* Floating Badge */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Button Pulse */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.btn-add-cart:hover {
+    animation: pulse 0.6s ease;
+    background: var(--green);
+    color: white;
+}
+
+.checkout-button:hover {
+    animation: pulse 0.6s ease;
+}
+
+/* Cart Modal Slide In */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal.active .modal-content {
+    animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Toast Notification Slide */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.toast.show {
+    animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Cart Item Stagger */
+.cart-item {
+    opacity: 0;
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.cart-item:nth-child(1) { animation-delay: 0.05s; }
+.cart-item:nth-child(2) { animation-delay: 0.10s; }
+.cart-item:nth-child(3) { animation-delay: 0.15s; }
+.cart-item:nth-child(4) { animation-delay: 0.20s; }
+.cart-item:nth-child(5) { animation-delay: 0.25s; }
+.cart-item:nth-child(6) { animation-delay: 0.30s; }
+
+/* Page Load Fade In */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Navbar Link Underline */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--green);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Logo Hover */
+.logo {
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+/* Cart Count Bounce */
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+}
+
+.cart-count.bounce {
+    animation: bounce 0.3s ease;
 }
 
 /* ============================================
@@ -905,204 +1390,11 @@ button {
     }
 }
 
-/* ============================================
-   🎬 ANIMATIONS
-   ============================================ */
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-body {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-.product-card {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-}
-
-.product-image img {
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.product-card:hover .product-image img {
-    transform: scale(1.08);
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-}
-
-.btn-add-cart:hover {
-    animation: pulse 0.6s ease;
-    background: var(--green);
-    color: white;
-}
-
-.checkout-button:hover {
-    animation: pulse 0.6s ease;
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal.active .modal-content {
-    animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes slideInDown {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
-}
-
-.toast.show {
-    animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.cart-item {
-    opacity: 0;
-    animation: fadeInUp 0.4s ease forwards;
-}
-
-.cart-item:nth-child(1) { animation-delay: 0.05s; }
-.cart-item:nth-child(2) { animation-delay: 0.10s; }
-.cart-item:nth-child(3) { animation-delay: 0.15s; }
-.cart-item:nth-child(4) { animation-delay: 0.20s; }
-.cart-item:nth-child(5) { animation-delay: 0.25s; }
-.cart-item:nth-child(6) { animation-delay: 0.30s; }
-
-.filter-btn {
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.filter-btn.active {
-    transform: scale(1.05);
-}
-
-@keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
-}
-
-.hero h1 em {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid var(--accent);
-    animation: typing 2s steps(15) 0.5s forwards;
-    max-width: 0;
-    padding-right: 4px;
-}
-
-@keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-}
-
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-    100% { transform: translateY(0px); }
-}
-
-.product-badge {
-    animation: float 3s ease-in-out infinite;
-}
-
-.payment-fields {
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-.payment-fields:not([hidden]) {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.delivery-option {
-    transition: all 0.3s ease;
-}
-
-.delivery-option:hover {
-    transform: translateX(4px);
-    border-color: var(--green);
-}
-
-.nav-link {
-    position: relative;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--green);
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-    width: 100%;
-}
-
-.logo {
-    transition: transform 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.02);
-}
-
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-}
-
-.cart-count.bounce {
-    animation: bounce 0.3s ease;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-    * {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
+        transition-duration: 
