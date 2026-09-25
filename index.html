@@ -28,6 +28,7 @@
     <!-- ✅ PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#294d3b">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="ARTistico">
@@ -465,6 +466,11 @@
         <p class="footer-track">
             <a href="track.html">📦 Track Your Order</a>
         </p>
+        <p class="footer-install">
+            <button id="installAppButton" class="footer-install-btn" style="display: none;">
+                📲 Install App
+            </button>
+        </p>
         <p class="footer-social">
             <a href="https://www.facebook.com/artisticowear/" target="_blank" rel="noopener">
                 📘 Follow us on Facebook
@@ -485,7 +491,6 @@
     <div id="toast" class="toast" role="status"></div>
     <script src="script.js"></script>
 
-    <!-- ✅ PWA Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
