@@ -1,0 +1,35 @@
+{
+  "name": "ARTistico Wear - Curated Thrift Fashion",
+  "short_name": "ARTistico",
+  "description": "Unique thrifted shirts, thoughtfully selected from Dhaka.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f5ef",
+  "theme_color": "#294d3b",
+  "orientation": "portrait",
+  "lang": "bn",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/sqz4fxak/image/upload/v1790069837/800422297_122107940667470957_2877061161480052652_n.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/sqz4fxak/image/upload/v1790069837/800422297_122107940667470957_2877061161480052652_n.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "fashion", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Track Order",
+      "short_name": "Track",
+      "url": "/track.html",
+      "description": "আপনার অর্ডার ট্র্যাক করুন"
+    }
+  ]
+}
