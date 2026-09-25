@@ -1165,3 +1165,42 @@ section { animation: sectionFade 0.6s ease-out both; }
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* ============================================
+   📦 Track Order Footer Link
+   ============================================ */
+.footer-track {
+    margin-top: 12px;
+}
+
+.footer-track a {
+    align-items: center;
+    background: var(--green);
+    border-radius: 30px;
+    color: white;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 700;
+    gap: 6px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.footer-track a:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(216, 117, 80, 0.3);
+}
+
+body.dark-mode .footer-track a {
+    color: #0f1a16;
+}
+
+/* Mobile-এ ছোট */
+@media (max-width: 560px) {
+    .footer-track a {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
