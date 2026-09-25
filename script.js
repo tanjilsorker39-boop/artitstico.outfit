@@ -4,7 +4,7 @@
 let products = [];
 
 const FIREBASE_URL = "https://artistico-c3a5e-default-rtdb.asia-southeast1.firebasedatabase.app";
-const WHATSAPP_NUMBER = "8801636032218"; // আপনার WhatsApp নম্বর
+const WHATSAPP_NUMBER = "8801636032218";
 
 async function loadProductsFromFirebase() {
     try {
@@ -39,6 +39,10 @@ const checkoutForm = document.getElementById("checkoutForm");
 const paymentInstruction = document.getElementById("paymentInstruction");
 const toast = document.getElementById("toast");
 
+// ✅ Size Chart Modal
+const sizeChartModal = document.getElementById("sizeChartModal");
+const closeSizeChart = document.getElementById("closeSizeChart");
+
 const bkashMerchantNumber = "01636032218";
 const nagadMerchantNumber = "01636032218";
 
@@ -66,6 +70,17 @@ function getSelectedPayment() {
 
 function getSubtotal() {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+}
+
+// ✅ Size Chart খোলা/বন্ধ
+function openSizeChart() {
+    sizeChartModal.classList.add("active");
+    sizeChartModal.setAttribute("aria-hidden", "false");
+}
+
+function closeSizeChartModal() {
+    sizeChartModal.classList.remove("active");
+    sizeChartModal.setAttribute("aria-hidden", "true");
 }
 
 function renderProducts() {
@@ -118,6 +133,10 @@ function renderProducts() {
                         </button>
                     `).join("")}
                 </div>
+
+                <button type="button" class="btn-size-guide" onclick="openSizeChart()">
+                    📏 Size Guide
+                </button>
 
                 <button type="button" 
                         class="btn-add-cart ${isOutOfStock ? "disabled" : ""}" 
@@ -312,6 +331,19 @@ cartModal.addEventListener("click", event => {
         closeCart();
     }
 });
+
+// ✅ Size Chart Modal Events
+if (closeSizeChart) {
+    closeSizeChart.addEventListener("click", closeSizeChartModal);
+}
+
+if (sizeChartModal) {
+    sizeChartModal.addEventListener("click", event => {
+        if (event.target === sizeChartModal) {
+            closeSizeChartModal();
+        }
+    });
+}
 
 checkoutButton.addEventListener("click", () => {
     if (cart.length === 0) {
