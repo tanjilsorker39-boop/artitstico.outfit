@@ -415,6 +415,43 @@
         </div>
     </div>
 
+    <!-- ✅ Review Modal -->
+    <div id="reviewModal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div>
+                    <p class="eyebrow">CUSTOMER REVIEWS</p>
+                    <h2 id="reviewModalTitle">রিভিউ</h2>
+                </div>
+                <button id="closeReview" class="close-btn" aria-label="Close">&times;</button>
+            </div>
+
+            <div id="reviewList" class="review-list"></div>
+
+            <form id="reviewForm" class="review-form">
+                <h3>আপনার মতামত দিন</h3>
+
+                <label for="reviewerName">আপনার নাম</label>
+                <input id="reviewerName" name="reviewerName" type="text" required placeholder="যেমন: করিম" maxlength="40">
+
+                <label>রেটিং দিন</label>
+                <div class="star-rating-input" id="starRatingInput">
+                    <button type="button" data-star="1" class="star-btn">★</button>
+                    <button type="button" data-star="2" class="star-btn">★</button>
+                    <button type="button" data-star="3" class="star-btn">★</button>
+                    <button type="button" data-star="4" class="star-btn">★</button>
+                    <button type="button" data-star="5" class="star-btn">★</button>
+                </div>
+                <input type="hidden" id="ratingValue" name="rating" value="0">
+
+                <label for="reviewComment">মন্তব্য</label>
+                <textarea id="reviewComment" name="reviewComment" rows="3" required placeholder="কেমন ছিল শার্টটি? (ন্যূনতম ৫ অক্ষর)" maxlength="300"></textarea>
+
+                <button type="submit" class="review-submit">রিভিউ জমা দিন</button>
+            </form>
+        </div>
+    </div>
+
     <footer class="site-footer">
         <p>© 2024 ARTistico wear. Curated secondhand fashion from Dhaka.</p>
         <p>Orders and bKash payments are confirmed only after manual verification.</p>
