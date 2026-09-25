@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track your ARTistico order status">
+    <title>Track Your Order | ARTistico Wear</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="track.css">
+</head>
+<body>
+
+<header class="track-navbar">
+    <div class="track-navbar-container">
+        <a class="track-logo" href="index.html">
+            <span class="track-logo-mark">A</span>
+            <span>ART<span class="track-logo-accent">istico</span></span>
+        </a>
+        <a href="index.html" class="track-back-link">← Back to Shop</a>
+    </div>
+</header>
+
+<main class="track-main">
+    <div class="track-container">
+        <div class="track-header">
+            <p class="track-eyebrow">ORDER TRACKING</p>
+            <h1 class="track-title">আপনার অর্ডার ট্র্যাক করুন</h1>
+            <p class="track-subtitle">আপনার অর্ডার নম্বরটি নিচে লিখুন — যেমন: <code>ART-123456</code></p>
+        </div>
+
+        <div class="track-search-box">
+            <input type="text" id="orderNumberInput" class="track-input" placeholder="ART-XXXXXX লিখুন..." autocomplete="off">
+            <button id="trackButton" class="track-button">
+                <span>Track Order</span>
+                <span>→</span>
+            </button>
+        </div>
+
+        <div id="loadingState" class="track-loading" style="display: none;">
+            <div class="track-spinner"></div>
+            <p>অর্ডার খোঁজা হচ্ছে...</p>
+        </div>
+
+        <div id="errorState" class="track-error" style="display: none;">
+            <span class="track-error-icon">❌</span>
+            <h2>অর্ডার পাওয়া যায়নি</h2>
+            <p id="errorMessage">দয়া করে অর্ডার নম্বরটি চেক করুন।</p>
+        </div>
+
+        <div id="resultContainer" class="track-result" style="display: none;">
+            <div class="track-result-header">
+                <div>
+                    <p class="track-eyebrow">ORDER FOUND ✅</p>
+                    <h2 id="resultOrderNumber">ART-XXXXXX</h2>
+                </div>
+                <span id="resultStatusBadge" class="track-status-badge">PENDING</span>
+            </div>
+
+            <div class="track-timeline" id="trackTimeline">
+                <div class="track-step" data-step="placed">
+                    <div class="track-step-icon">📝</div>
+                    <div class="track-step-info">
+                        <h3>অর্ডার প্লেসড</h3>
+                        <p>আপনার অর্ডার গ্রহণ করা হয়েছে</p>
+                    </div>
+                </div>
+                <div class="track-step" data-step="verified">
+                    <div class="track-step-icon">✅</div>
+                    <div class="track-step-info">
+                        <h3>পেমেন্ট ভেরিফাইড</h3>
+                        <p>পেমেন্ট কনফার্ম করা হয়েছে</p>
+                    </div>
+                </div>
+                <div class="track-step" data-step="shipped">
+                    <div class="track-step-icon">🚚</div>
+                    <div class="track-step-info">
+                        <h3>শিপড</h3>
+                        <p>আপনার অর্ডার পাঠানো হয়েছে</p>
+                    </div>
+                </div>
+                <div class="track-step" data-step="delivered">
+                    <div class="track-step-icon">📦</div>
+                    <div class="track-step-info">
+                        <h3>ডেলিভারড</h3>
+                        <p>সফলভাবে ডেলিভার হয়েছে</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="track-details">
+                <h3>Order Details</h3>
+                <div class="track-detail-row">
+                    <span>কাস্টমার:</span>
+                    <strong id="resultCustomer">-</strong>
+                </div>
+                <div class="track-detail-row">
+                    <span>ফোন:</span>
+                    <strong id="resultPhone">-</strong>
+                </div>
+                <div class="track-detail-row">
+                    <span>ডেলিভারি:</span>
+                    <strong id="resultDelivery">-</strong>
+                </div>
+                <div class="track-detail-row">
+                    <span>পেমেন্ট:</span>
+                    <strong id="resultPayment">-</strong>
+                </div>
+                <div class="track-detail-row">
+                    <span>TrxID:</span>
+                    <strong id="resultTrx">-</strong>
+                </div>
+                <div class="track-detail-row track-total-row">
+                    <span>মোট:</span>
+                    <strong id="resultTotal">৳0</strong>
+                </div>
+            </div>
+
+            <div class="track-items">
+                <h3>Items</h3>
+                <div id="resultItems"></div>
+            </div>
+        </div>
+
+        <div class="track-help">
+            <p>💬 সহায়তা দরকার? <a href="https://wa.me/8801636032218" target="_blank">WhatsApp-এ যোগাযোগ করুন</a></p>
+        </div>
+    </div>
+</main>
+
+<footer class="track-footer">
+    <p>© 2024 ARTistico Wear. All rights reserved.</p>
+</footer>
+
+<script src="track.js"></script>
+</body>
+</html>
