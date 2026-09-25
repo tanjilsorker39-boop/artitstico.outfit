@@ -1166,7 +1166,7 @@ body.dark-mode .footer-track a { color: #0f1a16; }
     .size-chart-table { font-size: 12px; }
     .size-chart-table thead th, .size-chart-table tbody td { padding: 8px 6px; }
     .breadcrumb { font-size: 12px; padding: 14px 20px 0; }
-    .whatsapp-float { bottom: 90px; padding: 12px; right: 18px; }
+    .whatsapp-float { bottom: 20px; padding: 12px; right: 18px; }
     .live-chat-btn { bottom: 20px; padding: 12px; right: 18px; }
     .live-chat-btn svg { height: 24px; width: 24px; }
     .wishlist-image { height: 55px; width: 55px; }
