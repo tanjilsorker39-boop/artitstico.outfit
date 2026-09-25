@@ -1130,7 +1130,7 @@ body.dark-mode .footer-track a { color: #0f1a16; }
     .search-box { width: 130px; }
     .products-grid, .features { grid-template-columns: repeat(2, 1fr); }
     .hero-badge { opacity: .65; right: 8%; }
-    .whatsapp-float { bottom: 18px; padding: 12px; right: 80px; }
+    .whatsapp-float { bottom: 18px; padding: 12px; right: 18px; }
     .whatsapp-float-text, .live-chat-text { display: none; }
     .whatsapp-float svg { height: 26px; width: 26px; }
     .trust-badges { gap: 15px; grid-template-columns: repeat(2, 1fr); padding: 25px 20px; }
