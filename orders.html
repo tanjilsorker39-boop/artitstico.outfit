@@ -3,13 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARTistico Wear - Orders</title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>ARTistico Admin — Orders</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'DM Sans', Arial, sans-serif; background: #f7f5ef; padding: 30px; }
+        body { font-family: 'DM Sans', Arial, sans-serif; background: #f7f5ef; padding: 30px; min-height: 100vh; }
         .container { max-width: 1200px; margin: 0 auto; }
+
+        .login-screen {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .login-box {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            max-width: 420px;
+            padding: 40px 32px;
+            width: 100%;
+        }
+        .login-logo {
+            align-items: center;
+            display: flex;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 800;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .login-logo-mark {
+            align-items: center;
+            background: #294d3b;
+            border-radius: 50%;
+            color: white;
+            display: inline-flex;
+            font-size: 17px;
+            height: 34px;
+            justify-content: center;
+            width: 34px;
+        }
+        .login-logo-accent { color: #d87550; }
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .login-subtitle {
+            color: #718078;
+            font-size: 13px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        .login-label {
+            color: #17231f;
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            margin-top: 16px;
+        }
+        .login-input {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            padding: 12px 14px;
+            transition: border-color 0.3s;
+            width: 100%;
+        }
+        .login-input:focus {
+            border-color: #294d3b;
+            box-shadow: 0 0 0 3px rgba(41, 77, 59, 0.1);
+            outline: none;
+        }
+        .login-btn {
+            background: #294d3b;
+            border: 0;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 24px;
+            padding: 14px;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        .login-btn:hover { background: #17231f; transform: translateY(-2px); }
+        .login-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .login-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #dc2626;
+            display: none;
+            font-size: 13px;
+            margin-top: 16px;
+            padding: 10px 14px;
+            text-align: center;
+        }
+
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
         h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: #294d3b; }
         .subtitle { color: #718078; margin-bottom: 20px; }
+        .header-row {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .user-info { align-items: center; display: flex; gap: 12px; }
+        .user-email { color: #718078; font-size: 13px; font-weight: 500; }
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            color: #718078;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 6px 14px;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover { background: #fee; border-color: #f88; color: #c00; }
+
         .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .stat-card span { font-size: 12px; color: #888; text-transform: uppercase; }
@@ -38,78 +163,162 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>📦 Order Management</h1>
-    <p class="subtitle">ARTistico Wear — Track and confirm orders</p>
 
-    <div class="stats" id="stats"></div>
+<div id="loginScreen" class="login-screen">
+    <div class="login-box">
+        <div class="login-logo">
+            <span class="login-logo-mark">A</span>
+            <span>ART<span class="login-logo-accent">istico</span></span>
+        </div>
+        <h1 class="login-title">Admin Login</h1>
+        <p class="login-subtitle">শুধুমাত্র অ্যাডমিন অ্যাক্সেসের জন্য</p>
 
-    <div class="filters">
-        <button class="active" data-filter="all">All</button>
-        <button data-filter="pending">⏳ Pending</button>
-        <button data-filter="paid">✅ Paid</button>
-        <button data-filter="failed">❌ Failed</button>
+        <form id="loginForm">
+            <label class="login-label" for="emailInput">Email</label>
+            <input id="emailInput" class="login-input" type="email" required placeholder="your@email.com" autocomplete="email">
+
+            <label class="login-label" for="passwordInput">Password</label>
+            <input id="passwordInput" class="login-input" type="password" required placeholder="••••••••" autocomplete="current-password">
+
+            <button type="submit" id="loginBtn" class="login-btn">Login</button>
+        </form>
+
+        <div id="loginError" class="login-error"></div>
     </div>
-
-    <div class="table-wrapper">
-        <div id="ordersTable"><div class="loading">⏳ Firebase থেকে অর্ডার লোড হচ্ছে...</div></div>
-    </div>
-
-    <a href="index.html" class="back-btn">← Back to Shop</a>
 </div>
 
-<script>
-    // 🔐 পাসওয়ার্ড প্রোটেকশন
-    var correctPassword = "115631";
-    var userPassword = prompt("🔐 অর্ডার পেজ দেখতে পাসওয়ার্ড দিন:");
-    if (userPassword !== correctPassword) {
-        document.body.innerHTML = `
-            <div style="text-align: center; margin-top: 100px; font-family: Arial, sans-serif;">
-                <h1 style="color: #d32f2f;">⛔ ভুল পাসওয়ার্ড!</h1>
-                <p style="color: #666;">আপনার সঠিক পাসওয়ার্ড দিন।</p>
-                <button onclick="location.reload()" style="padding: 10px 20px; background: #294d3b; color: white; border: none; border-radius: 5px; cursor: pointer;">আবার চেষ্টা করুন</button>
+<div id="dashboard" class="dashboard">
+    <div class="container">
+        <div class="header-row">
+            <div>
+                <h1>📦 Order Management</h1>
+                <p class="subtitle">ARTistico Wear — Track and confirm orders</p>
             </div>
-        `;
-        throw new Error("Wrong password");
-    }
+            <div class="user-info">
+                <span id="userEmail" class="user-email"></span>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+        </div>
 
+        <div class="stats" id="stats"></div>
+
+        <div class="filters">
+            <button class="active" data-filter="all">All</button>
+            <button data-filter="pending">⏳ Pending</button>
+            <button data-filter="paid">✅ Paid</button>
+            <button data-filter="failed">❌ Failed</button>
+        </div>
+
+        <div class="table-wrapper">
+            <div id="ordersTable"><div class="loading">⏳ Firebase থেকে অর্ডার লোড হচ্ছে...</div></div>
+        </div>
+
+        <a href="index.html" class="back-btn">← Back to Shop</a>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAOSjDnj0B3ohYch3qtUN6DJLKCUzILSJ0",
+        authDomain: "artistico-c3a5e.firebaseapp.com",
+        databaseURL: "https://artistico-c3a5e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "artistico-c3a5e",
+        storageBucket: "artistico-c3a5e.firebasestorage.app",
+        messagingSenderId: "413843983195",
+        appId: "1:413843983195:web:a38d4e7407bb310f62e87e"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const FIREBASE_URL = "https://artistico-c3a5e-default-rtdb.asia-southeast1.firebasedatabase.app";
+
+    const loginScreen = document.getElementById("loginScreen");
+    const dashboard = document.getElementById("dashboard");
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
+    const userEmail = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logoutBtn");
+
     let allOrders = [];
+
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        loginError.style.display = "none";
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Logging in...";
+        try {
+            await signInWithEmailAndPassword(auth, emailInput.value.trim(), passwordInput.value);
+        } catch (err) {
+            console.error("Login error:", err);
+            let msg = "লগইন ব্যর্থ হয়েছে।";
+            if (err.code === "auth/invalid-credential" || err.code === "auth/wrong-password" || err.code === "auth/user-not-found") {
+                msg = "ইমেইল বা পাসওয়ার্ড ভুল।";
+            } else if (err.code === "auth/invalid-email") {
+                msg = "সঠিক ইমেইল দিন।";
+            } else if (err.code === "auth/too-many-requests") {
+                msg = "অনেকবার ভুল হয়েছে। কিছুক্ষণ পর চেষ্টা করুন।";
+            }
+            loginError.textContent = msg;
+            loginError.style.display = "block";
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Login";
+        }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+        if (user && user.email === "info.artisticowear@gmail.com") {
+            loginScreen.style.display = "none";
+            dashboard.classList.add("active");
+            userEmail.textContent = user.email;
+            passwordInput.value = "";
+            await loadOrders("all");
+        } else if (user) {
+            await signOut(auth);
+            loginError.textContent = "আপনি অনুমোদিত অ্যাডমিন নন।";
+            loginError.style.display = "block";
+        } else {
+            loginScreen.style.display = "flex";
+            dashboard.classList.remove("active");
+        }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+        if (confirm("লগআউট করতে চান?")) await signOut(auth);
+    });
 
     async function loadOrders(filter = 'all') {
         const container = document.getElementById('ordersTable');
         const stats = document.getElementById('stats');
-
         try {
             container.innerHTML = '<div class="loading">⏳ Firebase থেকে অর্ডার লোড হচ্ছে...</div>';
-
-            const res = await fetch(`${FIREBASE_URL}/Orders.json`);
+            const user = auth.currentUser;
+            if (!user) throw new Error("Not logged in");
+            const token = await user.getIdToken();
+            const res = await fetch(`${FIREBASE_URL}/Orders.json?auth=${token}`);
             const data = await res.json();
-
             if (!data) {
                 container.innerHTML = `<div class="empty">📭 এখনো কোনো অর্ডার নেই।</div>`;
                 stats.innerHTML = `
                     <div class="stat-card"><span>Total</span><strong>0</strong></div>
                     <div class="stat-card"><span>Pending</span><strong>0</strong></div>
                     <div class="stat-card"><span>Paid</span><strong>0</strong></div>
-                    <div class="stat-card"><span>Revenue</span><strong>৳0</strong></div>
-                `;
+                    <div class="stat-card"><span>Revenue</span><strong>৳0</strong></div>`;
                 return;
             }
-
-            allOrders = Object.keys(data).map(key => ({
-                firebaseKey: key,
-                ...data[key]
-            }));
-
+            allOrders = Object.keys(data).map(key => ({ firebaseKey: key, ...data[key] }));
             allOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-
             renderStats();
             renderTable(filter);
-
         } catch (err) {
             console.error("Firebase error:", err);
-            container.innerHTML = `<div class="empty">❌ অর্ডার লোড করা যায়নি। Firebase Rules চেক করুন।</div>`;
+            container.innerHTML = `<div class="empty">❌ অর্ডার লোড করা যায়নি।</div>`;
         }
     }
 
@@ -118,21 +327,17 @@
         const total = allOrders.length;
         const pending = allOrders.filter(o => o.status === 'pending' || o.status === 'pending_verification').length;
         const paid = allOrders.filter(o => o.status === 'paid').length;
-        const failed = allOrders.filter(o => o.status === 'failed').length;
         const totalAmount = allOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
-
         stats.innerHTML = `
             <div class="stat-card"><span>Total</span><strong>${total}</strong></div>
             <div class="stat-card"><span>Pending</span><strong style="color:#f39c12;">${pending}</strong></div>
             <div class="stat-card"><span>Paid</span><strong style="color:#27ae60;">${paid}</strong></div>
-            <div class="stat-card"><span>Revenue</span><strong>৳${totalAmount}</strong></div>
-        `;
+            <div class="stat-card"><span>Revenue</span><strong>৳${totalAmount}</strong></div>`;
     }
 
     function renderTable(filter = 'all') {
         const container = document.getElementById('ordersTable');
         let filtered = allOrders;
-
         if (filter === 'pending') filtered = allOrders.filter(o => o.status === 'pending' || o.status === 'pending_verification');
         else if (filter === 'paid') filtered = allOrders.filter(o => o.status === 'paid');
         else if (filter === 'failed') filtered = allOrders.filter(o => o.status === 'failed');
@@ -148,10 +353,7 @@
         filtered.forEach((order) => {
             const key = order.firebaseKey;
             const statusClass = `status-${order.status || 'pending'}`;
-            const itemsSummary = (order.items || [])
-                .map(i => `${i.name} (${i.size}) x${i.quantity}`)
-                .join('<br>');
-
+            const itemsSummary = (order.items || []).map(i => `${i.name} (${i.size}) x${i.quantity}`).join('<br>');
             html += `<tr>
                 <td><strong>${order.orderNumber || 'N/A'}</strong></td>
                 <td>${order.customer?.name || 'N/A'}<br><small>${order.delivery?.area || ''}</small></td>
@@ -168,16 +370,16 @@
                 </td>
             </tr>`;
         });
-
         html += '</table>';
         container.innerHTML = html;
     }
 
-    async function updateStatus(key, status) {
+    window.updateStatus = async function(key, status) {
         if (!confirm(`এই অর্ডারের স্ট্যাটাস "${status}" করতে চান?`)) return;
-
         try {
-            await fetch(`${FIREBASE_URL}/Orders/${key}.json`, {
+            const user = auth.currentUser;
+            const token = await user.getIdToken();
+            await fetch(`${FIREBASE_URL}/Orders/${key}.json?auth=${token}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: status })
@@ -188,16 +390,12 @@
         } catch (err) {
             alert('❌ আপডেট করা যায়নি: ' + err.message);
         }
-    }
+    };
 
-    function viewOrder(key) {
+    window.viewOrder = function(key) {
         const o = allOrders.find(x => x.firebaseKey === key);
         if (!o) return;
-
-        const itemsText = (o.items || [])
-            .map(i => `  • ${i.name} (${i.size}) x${i.quantity} — ৳${i.price}`)
-            .join('\n');
-
+        const itemsText = (o.items || []).map(i => `  • ${i.name} (${i.size}) x${i.quantity} — ৳${i.price}`).join('\n');
         alert(
             `📦 ORDER DETAILS\n\n` +
             `Order: ${o.orderNumber}\n` +
@@ -210,11 +408,10 @@
             `Subtotal: ৳${o.subtotal}\n` +
             `Total: ৳${o.total}\n` +
             `Payment: ${o.payment}\n` +
-            `Sender: ${o.senderNumber || 'N/A'}\n` +
             `TrxID: ${o.trxId || 'N/A'}\n` +
             `Status: ${o.status}`
         );
-    }
+    };
 
     document.querySelectorAll('.filters button').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -223,8 +420,6 @@
             renderTable(this.dataset.filter);
         });
     });
-
-    loadOrders('all');
 </script>
 </body>
 </html>
