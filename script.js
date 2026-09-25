@@ -1087,3 +1087,58 @@ window.toggleWishlist = toggleWishlist;
 initReviews();
 
 console.log("✅ Review/Rating System initialized");
+
+
+// =============================================
+// 📲 PWA INSTALL APP BUTTON
+// =============================================
+
+let deferredPrompt = null;
+const installAppButton = document.getElementById("installAppButton");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installAppButton) {
+        installAppButton.style.display = "inline-flex";
+    }
+    console.log("📲 Install prompt ready");
+});
+
+if (installAppButton) {
+    installAppButton.addEventListener("click", async () => {
+        if (!deferredPrompt) {
+            showToast("আপনার ব্রাউজার ইনস্টল সাপোর্ট করছে না।");
+            return;
+        }
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log("Install outcome:", outcome);
+        if (outcome === "accepted") {
+            showToast("✅ ARTistico অ্যাপ ইনস্টল হয়েছে!");
+        } else {
+            showToast("আপনি ইনস্টল বাতিল করেছেন।");
+        }
+        deferredPrompt = null;
+        if (installAppButton) {
+            installAppButton.style.display = "none";
+        }
+    });
+}
+
+window.addEventListener("appinstalled", () => {
+    console.log("✅ PWA installed");
+    showToast("🎉 ARTistico অ্যাপ ইনস্টল হয়েছে!");
+    if (installAppButton) {
+        installAppButton.style.display = "none";
+    }
+    deferredPrompt = null;
+});
+
+if (window.matchMedia("(display-mode: standalone)").matches) {
+    if (installAppButton) {
+        installAppButton.style.display = "none";
+    }
+}
+
+console.log("✅ Install App button initialized");
