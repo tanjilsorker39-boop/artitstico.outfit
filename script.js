@@ -808,3 +808,282 @@ loadProductsFromFirebase();
 renderCart();
 
 console.log("✅ ARTistico initialized with all features");
+
+
+// =============================================
+// ⭐ REVIEW / RATING SYSTEM
+// =============================================
+
+const reviewModal = document.getElementById("reviewModal");
+const closeReview = document.getElementById("closeReview");
+const reviewList = document.getElementById("reviewList");
+const reviewForm = document.getElementById("reviewForm");
+const reviewModalTitle = document.getElementById("reviewModalTitle");
+const starRatingInput = document.getElementById("starRatingInput");
+const ratingValue = document.getElementById("ratingValue");
+
+let currentReviewProductId = null;
+let currentRating = 0;
+let reviewsCache = {};
+
+function normalizeRating(val) {
+    const n = Number(val);
+    if (isNaN(n)) return 0;
+    return Math.max(1, Math.min(5, Math.round(n)));
+}
+
+async function loadAllReviews() {
+    try {
+        const res = await fetch(`${FIREBASE_URL}/Reviews.json`);
+        const data = await res.json();
+        reviewsCache = data || {};
+    } catch (err) {
+        console.error("Reviews load হয়নি:", err);
+        reviewsCache = {};
+    }
+}
+
+function getProductReviews(productId) {
+    if (!reviewsCache[productId]) return [];
+    return Object.values(reviewsCache[productId]).filter(r => r && r.name);
+}
+
+function getAverageRating(productId) {
+    const reviews = getProductReviews(productId);
+    if (reviews.length === 0) return { avg: 0, count: 0 };
+    const sum = reviews.reduce((s, r) => s + normalizeRating(r.rating), 0);
+    return {
+        avg: (sum / reviews.length).toFixed(1),
+        count: reviews.length
+    };
+}
+
+async function openReviews(productId) {
+    currentReviewProductId = productId;
+    const product = products.find(p => p.id === Number(productId));
+    if (!product) return;
+
+    if (reviewModalTitle) {
+        reviewModalTitle.textContent = product.name + " — রিভিউ";
+    }
+
+    if (reviewList) {
+        reviewList.innerHTML = '<p style="color: var(--muted); padding: 20px 0; text-align: center;">রিভিউ লোড হচ্ছে...</p>';
+    }
+
+    if (reviewModal) {
+        reviewModal.classList.add("active");
+        reviewModal.setAttribute("aria-hidden", "false");
+    }
+
+    await loadAllReviews();
+    renderReviewList(productId);
+}
+
+function renderReviewList(productId) {
+    if (!reviewList) return;
+
+    const reviews = getProductReviews(productId);
+
+    if (reviews.length === 0) {
+        reviewList.innerHTML = '<p style="color: var(--muted); padding: 20px 0; text-align: center;">এখনো কোনো রিভিউ নেই। প্রথম রিভিউ আপনিই দিন! ⭐</p>';
+        return;
+    }
+
+    reviews.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+    reviewList.innerHTML = reviews.map(r => {
+        const rating = normalizeRating(r.rating);
+        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        const date = r.createdAt ? new Date(r.createdAt).toLocaleDateString('bn-BD') : '';
+
+        return `
+            <div class="review-item">
+                <div class="review-header">
+                    <strong class="review-name">${escapeHtml(r.name)}</strong>
+                    <span class="review-date">${date}</span>
+                </div>
+                <div class="review-stars">${stars}</div>
+                <p class="review-comment">${escapeHtml(r.comment)}</p>
+            </div>
+        `;
+    }).join("");
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function closeReviewModal() {
+    if (!reviewModal) return;
+    reviewModal.classList.remove("active");
+    reviewModal.setAttribute("aria-hidden", "true");
+    currentReviewProductId = null;
+    currentRating = 0;
+    if (ratingValue) ratingValue.value = "0";
+    if (starRatingInput) {
+        starRatingInput.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
+    }
+    if (reviewForm) reviewForm.reset();
+}
+
+if (starRatingInput) {
+    starRatingInput.querySelectorAll('.star-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const star = Number(btn.dataset.star);
+            currentRating = star;
+            if (ratingValue) ratingValue.value = star;
+
+            starRatingInput.querySelectorAll('.star-btn').forEach(s => {
+                const sVal = Number(s.dataset.star);
+                s.classList.toggle('active', sVal <= star);
+            });
+        });
+
+        btn.addEventListener('mouseenter', () => {
+            const star = Number(btn.dataset.star);
+            starRatingInput.querySelectorAll('.star-btn').forEach(s => {
+                const sVal = Number(s.dataset.star);
+                s.classList.toggle('hover', sVal <= star);
+            });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            starRatingInput.querySelectorAll('.star-btn').forEach(s => s.classList.remove('hover'));
+        });
+    });
+}
+
+if (reviewForm) {
+    reviewForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!currentReviewProductId) {
+            showToast("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+            return;
+        }
+
+        const name = document.getElementById('reviewerName')?.value.trim();
+        const comment = document.getElementById('reviewComment')?.value.trim();
+        const rating = Number(ratingValue?.value || 0);
+
+        if (!name || name.length < 2) {
+            showToast("সঠিক নাম লিখুন (ন্যূনতম ২ অক্ষর)।");
+            return;
+        }
+        if (rating < 1 || rating > 5) {
+            showToast("দয়া করে ১ থেকে ৫ স্টার রেটিং দিন।");
+            return;
+        }
+        if (!comment || comment.length < 5) {
+            showToast("মন্তব্য লিখুন (ন্যূনতম ৫ অক্ষর)।");
+            return;
+        }
+
+        const submitBtn = reviewForm.querySelector('.review-submit');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "জমা হচ্ছে...";
+        }
+
+        try {
+            const reviewData = {
+                name: name,
+                rating: rating,
+                comment: comment,
+                createdAt: new Date().toISOString()
+            };
+
+            const res = await fetch(`${FIREBASE_URL}/Reviews/${currentReviewProductId}.json`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(reviewData)
+            });
+
+            if (!res.ok) throw new Error("Submit failed");
+
+            showToast("✅ আপনার রিভিউ জমা হয়েছে!");
+
+            await loadAllReviews();
+            renderReviewList(currentReviewProductId);
+
+            reviewForm.reset();
+            currentRating = 0;
+            if (ratingValue) ratingValue.value = "0";
+            starRatingInput.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
+
+        } catch (err) {
+            console.error("Review submit error:", err);
+            showToast("❌ রিভিউ জমা হয়নি। আবার চেষ্টা করুন।");
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "রিভিউ জমা দিন";
+            }
+        }
+    });
+}
+
+if (closeReview) closeReview.addEventListener("click", closeReviewModal);
+
+if (reviewModal) {
+    reviewModal.addEventListener("click", (e) => {
+        if (e.target === reviewModal) closeReviewModal();
+    });
+}
+
+function buildRatingHTML(productId) {
+    const { avg, count } = getAverageRating(productId);
+    if (count === 0) {
+        return `<button type="button" class="btn-review-empty" onclick="openReviews(${productId})">⭐ প্রথম রিভিউ দিন</button>`;
+    }
+    const stars = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+    return `
+        <button type="button" class="btn-review" onclick="openReviews(${productId})">
+            <span class="review-stars-small">${stars}</span>
+            <span class="review-info-small">${avg} (${count})</span>
+        </button>
+    `;
+}
+
+function injectReviewButtons() {
+    document.querySelectorAll('.product-card').forEach(card => {
+        if (card.querySelector('.btn-review') || card.querySelector('.btn-review-empty')) return;
+
+        const productId = card.querySelector('.btn-add-cart')?.dataset.product;
+        if (!productId) return;
+
+        const priceEl = card.querySelector('.product-price');
+        if (!priceEl) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'review-wrapper';
+        wrapper.innerHTML = buildRatingHTML(Number(productId));
+
+        priceEl.parentNode.insertBefore(wrapper, priceEl.nextSibling);
+    });
+}
+
+const _originalRenderProducts = renderProducts;
+renderProducts = function() {
+    _originalRenderProducts();
+    setTimeout(injectReviewButtons, 100);
+};
+
+async function initReviews() {
+    await loadAllReviews();
+    injectReviewButtons();
+}
+
+window.openReviews = openReviews;
+window.toggleWishlist = toggleWishlist;
+
+initReviews();
+
+console.log("✅ Review/Rating System initialized");
