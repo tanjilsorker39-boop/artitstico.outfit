@@ -24,6 +24,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- ✅ PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#294d3b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ARTistico">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/sqz4fxak/image/upload/v1790069837/800422297_122107940667470957_2877061161480052652_n.jpg">
 </head>
 <body>
     <header class="navbar">
@@ -415,7 +423,6 @@
         </div>
     </div>
 
-    <!-- ✅ Review Modal -->
     <div id="reviewModal" class="modal" aria-hidden="true">
         <div class="modal-content" role="dialog" aria-modal="true">
             <div class="modal-header">
@@ -484,5 +491,20 @@
 
     <div id="toast" class="toast" role="status"></div>
     <script src="script.js"></script>
+
+    <!-- ✅ PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registered:', registration.scope);
+                    })
+                    .catch((err) => {
+                        console.log('❌ Service Worker registration failed:', err);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
