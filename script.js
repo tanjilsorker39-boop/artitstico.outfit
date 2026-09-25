@@ -14,6 +14,8 @@ async function loadProductsFromFirebase() {
         if (data) {
             products = Object.values(data).filter(p => p && p.name && p.id);
             renderProducts();
+            renderRecentlyViewed();
+            renderWishlist();
         } else {
             console.warn("Firebase-এ কোনো প্রোডাক্ট নেই");
         }
@@ -24,6 +26,8 @@ async function loadProductsFromFirebase() {
 
 let cart = [];
 let selectedCategory = "all";
+let wishlist = JSON.parse(localStorage.getItem('artisticoWishlist') || '[]');
+let recentlyViewed = JSON.parse(localStorage.getItem('artisticoRecentlyViewed') || '[]');
 
 const productsGrid = document.getElementById("productsGrid");
 const searchInput = document.getElementById("searchInput");
@@ -47,6 +51,17 @@ const darkModeToggle = document.getElementById("darkModeToggle");
 const themeIcon = darkModeToggle?.querySelector(".theme-icon");
 const liveChatButton = document.getElementById("liveChatButton");
 const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
+
+// ✅ Wishlist Elements
+const wishlistButton = document.getElementById("wishlistButton");
+const wishlistModal = document.getElementById("wishlistModal");
+const closeWishlist = document.getElementById("closeWishlist");
+const wishlistItems = document.getElementById("wishlistItems");
+const wishlistCount = document.getElementById("wishlistCount");
+
+// ✅ Recently Viewed Elements
+const recentlyViewedSection = document.getElementById("recentlyViewed");
+const recentlyViewedGrid = document.getElementById("recentlyViewedGrid");
 
 const bkashMerchantNumber = "01636032218";
 const nagadMerchantNumber = "01636032218";
@@ -77,7 +92,7 @@ function getSubtotal() {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
-// ✅ Size Chart Modal
+// ✅ Size Chart
 function openSizeChart() {
     if (!sizeChartModal) return;
     sizeChartModal.classList.add("active");
@@ -128,6 +143,125 @@ function updateBreadcrumb(categoryName) {
     }
 }
 
+// ✅ Recently Viewed
+function addToRecentlyViewed(productId) {
+    recentlyViewed = recentlyViewed.filter(id => id !== productId);
+    recentlyViewed.unshift(productId);
+    recentlyViewed = recentlyViewed.slice(0, 4);
+    localStorage.setItem('artisticoRecentlyViewed', JSON.stringify(recentlyViewed));
+}
+
+function renderRecentlyViewed() {
+    if (!recentlyViewedSection || !recentlyViewedGrid) return;
+    
+    if (recentlyViewed.length === 0) {
+        recentlyViewedSection.style.display = 'none';
+        return;
+    }
+    
+    const recentProducts = recentlyViewed
+        .map(id => products.find(p => p.id === Number(id)))
+        .filter(p => p);
+    
+    if (recentProducts.length === 0) {
+        recentlyViewedSection.style.display = 'none';
+        return;
+    }
+    
+    recentlyViewedSection.style.display = 'block';
+    
+    recentlyViewedGrid.innerHTML = recentProducts.map(product => {
+        const productName = product.name || "Product";
+        return `
+        <article class="product-card" onclick="scrollToProduct(${product.id})">
+            <div class="product-image">
+                <span class="product-badge">দেখেছেন</span>
+                <img src="${product.image}" alt="${productName}" loading="lazy"
+                     onerror="this.src='https://placehold.co/600x600/e0f7ff/003d7a?text=ARTistico'">
+            </div>
+            <div class="product-info">
+                <div class="product-category">${product.category}</div>
+                <h3 class="product-name">${productName}</h3>
+                <div class="product-price">${money(product.price)}</div>
+            </div>
+        </article>
+        `;
+    }).join("");
+}
+
+function scrollToProduct(id) {
+    const element = document.querySelector(`.btn-add-cart[data-product="${id}"]`);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+// ✅ Wishlist
+function toggleWishlist(productId) {
+    const id = Number(productId);
+    const index = wishlist.indexOf(id);
+    
+    if (index > -1) {
+        wishlist.splice(index, 1);
+        showToast("Wishlist থেকে সরানো হয়েছে");
+    } else {
+        wishlist.push(id);
+        showToast("❤️ Wishlist-এ যোগ হয়েছে");
+    }
+    
+    localStorage.setItem('artisticoWishlist', JSON.stringify(wishlist));
+    updateWishlistCount();
+    renderProducts();
+    renderWishlist();
+}
+
+function updateWishlistCount() {
+    if (wishlistCount) {
+        wishlistCount.textContent = wishlist.length;
+    }
+}
+
+function renderWishlist() {
+    if (!wishlistItems) return;
+    
+    if (wishlist.length === 0) {
+        wishlistItems.innerHTML = `<div class="empty-cart">আপনার wishlist খালি। ❤️ যোগ করুন।</div>`;
+        return;
+    }
+    
+    const wishProducts = wishlist
+        .map(id => products.find(p => p.id === Number(id)))
+        .filter(p => p);
+    
+    wishlistItems.innerHTML = wishProducts.map(product => {
+        const productName = product.name || "Product";
+        return `
+        <div class="wishlist-item">
+            <img src="${product.image}" alt="${productName}" class="wishlist-image">
+            <div class="wishlist-info">
+                <h3>${productName}</h3>
+                <p>${money(product.price)}</p>
+            </div>
+            <button type="button" class="wishlist-remove" onclick="toggleWishlist(${product.id})">❌</button>
+        </div>
+        `;
+    }).join("");
+}
+
+function openWishlist() {
+    if (!wishlistModal) return;
+    renderWishlist();
+    wishlistModal.classList.add("active");
+    wishlistModal.setAttribute("aria-hidden", "false");
+}
+
+function closeWishlistModal() {
+    if (!wishlistModal) return;
+    wishlistModal.classList.remove("active");
+    wishlistModal.setAttribute("aria-hidden", "true");
+}
+
+// ✅ Products
 function renderProducts() {
     if (!productsGrid) return;
 
@@ -153,20 +287,27 @@ function renderProducts() {
         const stock = product.stock !== undefined ? Number(product.stock) : 10;
         const isOutOfStock = stock <= 0;
         const productName = product.name || "Product";
+        const isWishlisted = wishlist.includes(product.id);
         const whatsappMsg = encodeURIComponent(`আসসালামু আলাইকুম, আমি "${productName}" (৳${product.price}) সম্পর্কে জানতে চাই।`);
         const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMsg}`;
         const shareMsg = encodeURIComponent(`ARTistico-তে দেখুন: ${productName} — ৳${product.price}`);
         const shareUrl = encodeURIComponent("https://artisticooutfit.vercel.app");
 
         return `
-        <article class="product-card">
+        <article class="product-card" data-product-id="${product.id}">
             <div class="product-image">
                 <span class="product-badge">থ্রিফটেড</span>
                 ${isOutOfStock ? '<span class="stock-badge">STOCK OUT</span>' : ''}
                 <img src="${product.image}" alt="${productName}" loading="lazy"
                      onerror="this.src='https://placehold.co/600x600/e0f7ff/003d7a?text=ARTistico'">
                 
-                <!-- ✅ Social Share -->
+                <button type="button" 
+                        class="wishlist-heart ${isWishlisted ? 'active' : ''}" 
+                        onclick="event.stopPropagation(); toggleWishlist(${product.id})"
+                        aria-label="Wishlist">
+                    ${isWishlisted ? '❤️' : '🤍'}
+                </button>
+                
                 <div class="share-buttons">
                     <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" 
                        target="_blank" class="share-btn share-fb" title="Share on Facebook" aria-label="Share on Facebook">
@@ -222,6 +363,7 @@ function renderProducts() {
     }).join("");
 }
 
+// ✅ Cart
 function renderCart() {
     if (!cartCount) return;
 
@@ -314,18 +456,22 @@ function closeCart() {
     cartModal.setAttribute("aria-hidden", "true");
 }
 
-// Product card এ ক্লিক করলে size এবং add to cart handle
+function bumpCartIcon() {
+    if (!cartButton) return;
+    cartButton.classList.add("bump");
+    setTimeout(() => cartButton.classList.remove("bump"), 600);
+}
+
+// ✅ Event Listeners
 if (productsGrid) {
     productsGrid.addEventListener("click", event => {
         const sizeButton = event.target.closest(".size-btn");
 
         if (sizeButton) {
             const productId = sizeButton.dataset.product;
-
             document
                 .querySelectorAll(`.size-btn[data-product="${productId}"]`)
                 .forEach(button => button.classList.remove("selected"));
-
             sizeButton.classList.add("selected");
             return;
         }
@@ -339,6 +485,9 @@ if (productsGrid) {
         );
 
         if (!product) return;
+
+        // Recently Viewed-এ যোগ
+        addToRecentlyViewed(product.id);
 
         const selectedSizeButton = document.querySelector(
             `.size-btn[data-product="${product.id}"].selected`
@@ -366,12 +515,6 @@ if (productsGrid) {
         bumpCartIcon();
         showToast(`${product.name} কার্টে যোগ হয়েছে`);
     });
-}
-
-function bumpCartIcon() {
-    if (!cartButton) return;
-    cartButton.classList.add("bump");
-    setTimeout(() => cartButton.classList.remove("bump"), 600);
 }
 
 if (cartItems) {
@@ -446,6 +589,18 @@ if (sizeChartModal) {
     });
 }
 
+// ✅ Wishlist Events
+if (wishlistButton) wishlistButton.addEventListener("click", openWishlist);
+if (closeWishlist) closeWishlist.addEventListener("click", closeWishlistModal);
+
+if (wishlistModal) {
+    wishlistModal.addEventListener("click", event => {
+        if (event.target === wishlistModal) {
+            closeWishlistModal();
+        }
+    });
+}
+
 if (checkoutButton) {
     checkoutButton.addEventListener("click", () => {
         if (cart.length === 0) {
@@ -463,9 +618,7 @@ if (checkoutButton) {
     });
 }
 
-// =============================================
-// ✨ DARK MODE
-// =============================================
+// ✅ Dark Mode
 function loadTheme() {
     const savedTheme = localStorage.getItem("artisticoTheme") || "light";
     if (savedTheme === "dark") {
@@ -488,9 +641,7 @@ if (darkModeToggle) {
 
 loadTheme();
 
-// =============================================
-// ✨ LIVE CHAT
-// =============================================
+// ✅ Live Chat
 if (liveChatButton) {
     liveChatButton.addEventListener("click", () => {
         const msg = encodeURIComponent("আসসালামু আলাইকুম, ARTistico থেকে সহায়তা চাই।");
@@ -498,9 +649,7 @@ if (liveChatButton) {
     });
 }
 
-// =============================================
-// 📝 ORDER SUBMIT
-// =============================================
+// ✅ Order Submit
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", event => {
         event.preventDefault();
@@ -652,11 +801,10 @@ if (checkoutForm) {
     });
 }
 
-// =============================================
-// 🚀 START
-// =============================================
+// ✅ START
 updatePaymentInstruction();
+updateWishlistCount();
 loadProductsFromFirebase();
 renderCart();
 
-console.log("✅ ARTistico initialized with Dark Mode, Breadcrumb, Live Chat, Social Share, Skeleton Loading");
+console.log("✅ ARTistico initialized with all features");
