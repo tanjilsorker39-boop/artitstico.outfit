@@ -264,6 +264,45 @@ button {
     margin-top: 5px;
 }
 
+/* ✅ Trust Badges */
+.trust-badges {
+    align-items: center;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 auto;
+    max-width: 1240px;
+    padding: 30px 28px;
+    text-align: center;
+}
+
+.badge-item {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.badge-icon {
+    align-items: center;
+    background: var(--sage);
+    border-radius: 50%;
+    display: flex;
+    font-size: 22px;
+    height: 50px;
+    justify-content: center;
+    width: 50px;
+}
+
+.badge-item p {
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+}
+
 .filters-section, .container {
     margin: auto;
     max-width: 1240px;
@@ -422,6 +461,27 @@ button {
     color: white;
 }
 
+.btn-size-guide {
+    background: transparent;
+    border: 1px dashed var(--line);
+    color: var(--muted);
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    padding: 8px;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-size-guide:hover {
+    background: var(--sage);
+    border-color: var(--green);
+    color: var(--green);
+}
+
 .btn-add-cart {
     background: transparent;
     border: 1px solid var(--green);
@@ -474,6 +534,79 @@ button {
     color: #c5d5ca;
     font-size: 13px;
     max-width: 270px;
+}
+
+/* ✅ FAQ Section */
+.faq-section {
+    background: var(--cream);
+    padding: 85px 28px;
+}
+
+.faq-list {
+    margin-top: 30px;
+    max-width: 800px;
+}
+
+.faq-item {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--green);
+    box-shadow: 0 4px 14px rgba(41, 77, 59, 0.08);
+}
+
+.faq-item[open] {
+    border-color: var(--green);
+}
+
+.faq-item summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: "Playfair Display", serif;
+    font-size: 17px;
+    font-weight: 700;
+    list-style: none;
+    padding: 18px 22px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    color: var(--accent);
+    content: '+';
+    font-size: 24px;
+    font-weight: 400;
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::after {
+    content: '−';
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.faq-item summary:hover {
+    background: #f5f8f5;
+}
+
+.faq-item p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    padding: 0 22px 20px;
 }
 
 .contact-section {
@@ -539,6 +672,39 @@ button {
     color: var(--muted);
     font-size: 32px;
     line-height: 1;
+}
+
+.size-chart-table {
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.size-chart-table thead th {
+    background: var(--green);
+    color: white;
+    font-weight: 700;
+    padding: 12px 10px;
+    text-align: left;
+}
+
+.size-chart-table tbody td {
+    border-bottom: 1px solid var(--line);
+    padding: 10px;
+}
+
+.size-chart-table tbody tr:hover {
+    background: #f5f8f5;
+}
+
+.size-chart-note {
+    background: #fff8e6;
+    border-left: 3px solid var(--accent);
+    color: #8a6d3b;
+    font-size: 12px;
+    margin-top: 15px;
+    padding: 10px 12px;
 }
 
 .cart-item {
@@ -669,82 +835,63 @@ button {
     transform: translate(-50%, 0);
 }
 
-/* ============================================
-   🔴 Payment Fields Styling
-   ============================================ */
-
 .payment-fields {
     background: #f9f9f9;
-    padding: 18px;
     border-radius: 10px;
-    margin: 12px 0;
     border: 1px solid #e0e0e0;
+    margin: 12px 0;
+    padding: 18px;
     transition: all 0.3s ease;
 }
 
 .payment-fields h4 {
     color: #294d3b;
     font-size: 16px;
-    margin-bottom: 12px;
     font-weight: 700;
+    margin-bottom: 12px;
 }
 
 .payment-fields label {
+    color: #333;
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: #333;
     margin-bottom: 4px;
     margin-top: 10px;
 }
 
 .payment-fields input {
-    width: 100%;
-    padding: 10px 12px;
+    background: white;
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 14px;
+    padding: 10px 12px;
     transition: border-color 0.3s;
-    background: white;
+    width: 100%;
 }
 
 .payment-fields input:focus {
-    outline: none;
     border-color: #294d3b;
     box-shadow: 0 0 0 3px rgba(41, 77, 59, 0.1);
-}
-
-.payment-fields input::placeholder {
-    color: #aaa;
-    font-size: 13px;
-}
-
-.payment-fields .warning-text {
-    font-size: 12px;
-    color: #d32f2f;
-    margin-top: 6px;
-    font-weight: 500;
+    outline: none;
 }
 
 .delivery-option:has(input[value="bKash"]:checked) {
-    border-color: #0066cc;
     background: #f0f9ff;
+    border-color: #0066cc;
 }
 
 .delivery-option:has(input[value="Nagad"]:checked) {
-    border-color: #e67e22;
     background: #fef9e7;
+    border-color: #e67e22;
 }
 
 .delivery-option:has(input[value="Visa"]:checked) {
-    border-color: #1a237e;
     background: #e8eaf6;
+    border-color: #1a237e;
 }
 
-/* ============================================
-   🔴 Stock Out Badge & WhatsApp Button
-   ============================================ */
-
+/* ✅ Stock Out Badge */
 .stock-badge {
     background: #d32f2f;
     color: white;
@@ -754,9 +901,9 @@ button {
     padding: 6px 10px;
     position: absolute;
     right: 14px;
+    text-transform: uppercase;
     top: 14px;
     z-index: 2;
-    text-transform: uppercase;
 }
 
 .btn-add-cart.disabled,
@@ -770,9 +917,9 @@ button {
 
 .btn-add-cart.disabled:hover,
 .btn-add-cart:disabled:hover {
+    animation: none;
     background: #ccc;
     color: #666;
-    animation: none;
     transform: none;
 }
 
@@ -804,73 +951,76 @@ button {
     fill: white;
 }
 
+/* ✅ WhatsApp Floating Button */
+.whatsapp-float {
+    align-items: center;
+    animation: whatsappPulse 2.5s infinite;
+    background: #25D366;
+    border-radius: 50px;
+    bottom: 25px;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    color: white;
+    display: flex;
+    font-size: 14px;
+    font-weight: 700;
+    gap: 10px;
+    padding: 14px 20px;
+    position: fixed;
+    right: 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.whatsapp-float:hover {
+    background: #1da851;
+    box-shadow: 0 8px 28px rgba(37, 211, 102, 0.6);
+    transform: translateY(-3px) scale(1.05);
+}
+
+.whatsapp-float svg {
+    fill: white;
+    height: 24px;
+    width: 24px;
+}
+
+@keyframes whatsappPulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
 /* ============================================
-   ✨ PROFESSIONAL ANIMATIONS
+   🎬 ANIMATIONS
    ============================================ */
 
-/* Navbar Slide Down */
 @keyframes navbarSlide {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .navbar {
     animation: navbarSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Hero Content Stagger */
 @keyframes heroFade {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.hero .eyebrow {
-    animation: heroFade 0.8s ease-out 0.2s both;
-}
+.hero .eyebrow { animation: heroFade 0.8s ease-out 0.2s both; }
+.hero h1 { animation: heroFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+.hero-text { animation: heroFade 0.9s ease-out 0.7s both; }
+.cta-button { animation: heroFade 0.9s ease-out 0.9s both; }
 
-.hero h1 {
-    animation: heroFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
-}
-
-.hero-text {
-    animation: heroFade 0.9s ease-out 0.7s both;
-}
-
-.cta-button {
-    animation: heroFade 0.9s ease-out 0.9s both;
-}
-
-.hero-badge {
-    animation: heroFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both,
-               float 4s ease-in-out 2s infinite;
-}
-
-/* Product Card Entrance */
 @keyframes cardEntrance {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .product-card {
     animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
 
 .product-card:nth-child(1) { animation-delay: 0.05s; }
@@ -884,97 +1034,39 @@ button {
 .product-card:nth-child(9) { animation-delay: 0.45s; }
 .product-card:nth-child(10) { animation-delay: 0.50s; }
 
-/* Glowing Badge */
+.product-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
 @keyframes glow {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(216, 117, 80, 0.6);
-    }
-    50% {
-        box-shadow: 0 0 0 8px rgba(216, 117, 80, 0);
-    }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(216, 117, 80, 0.6); }
+    50% { box-shadow: 0 0 0 8px rgba(216, 117, 80, 0); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
 }
 
 .product-badge {
     animation: float 3s ease-in-out infinite, glow 2.5s ease-in-out infinite;
 }
 
-/* Cart Icon Bounce */
-@keyframes cartBounce {
-    0%, 100% { transform: scale(1) rotate(0); }
-    25% { transform: scale(1.3) rotate(-10deg); }
-    50% { transform: scale(1.2) rotate(10deg); }
-    75% { transform: scale(1.3) rotate(-5deg); }
-}
-
-.cart-icon.bump {
-    animation: cartBounce 0.6s ease-in-out;
-}
-
-/* Button Ripple Effect */
-.btn-add-cart,
-.cta-button,
-.checkout-button,
-.btn-whatsapp {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-add-cart::before,
-.cta-button::before,
-.checkout-button::before,
-.btn-whatsapp::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.btn-add-cart:active::before,
-.cta-button:active::before,
-.checkout-button:active::before,
-.btn-whatsapp:active::before {
-    width: 300px;
-    height: 300px;
-}
-
-/* Smooth Image Reveal */
 @keyframes imageReveal {
-    from {
-        filter: blur(20px);
-        opacity: 0;
-        transform: scale(1.1);
-    }
-    to {
-        filter: blur(0);
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { filter: blur(20px); opacity: 0; transform: scale(1.1); }
+    to { filter: blur(0); opacity: 1; transform: scale(1); }
 }
 
 .product-image img {
     animation: imageReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Success Checkmark */
 @keyframes checkmark {
-    0% {
-        transform: scale(0) rotate(-45deg);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.2) rotate(-45deg);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1) rotate(0);
-        opacity: 1;
-    }
+    0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+    50% { transform: scale(1.2) rotate(-45deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
 }
 
 .toast.show::after {
@@ -985,35 +1077,18 @@ button {
     animation: checkmark 0.5s ease-out;
 }
 
-/* Scroll Reveal */
 @keyframes scrollReveal {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.section-heading {
-    animation: scrollReveal 0.8s ease-out both;
-}
-
-.info-section .features article {
-    animation: scrollReveal 0.8s ease-out both;
-}
-
+.section-heading { animation: scrollReveal 0.8s ease-out both; }
+.info-section .features article { animation: scrollReveal 0.8s ease-out both; }
 .info-section .features article:nth-child(1) { animation-delay: 0.1s; }
 .info-section .features article:nth-child(2) { animation-delay: 0.2s; }
 .info-section .features article:nth-child(3) { animation-delay: 0.3s; }
+.contact-section { animation: scrollReveal 1s ease-out both; }
 
-.contact-section {
-    animation: scrollReveal 1s ease-out both;
-}
-
-/* Loading Shimmer */
 @keyframes shimmerMove {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
@@ -1027,91 +1102,53 @@ button {
     text-align: center;
     color: var(--muted);
     font-size: 14px;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(220, 232, 223, 0.6) 50%,
-        transparent 100%
-    );
+    background: linear-gradient(90deg, transparent 0%, rgba(220, 232, 223, 0.6) 50%, transparent 100%);
     background-size: 200% 100%;
     animation: shimmerMove 2s infinite;
 }
 
-/* Smooth Cart Modal */
 @keyframes modalBackdrop {
-    from {
-        background: rgba(18, 30, 24, 0);
-    }
-    to {
-        background: rgba(18, 30, 24, 0.55);
-    }
+    from { background: rgba(18, 30, 24, 0); }
+    to { background: rgba(18, 30, 24, 0.55); }
 }
 
-.modal.active {
-    animation: modalBackdrop 0.3s ease-out;
-}
+.modal.active { animation: modalBackdrop 0.3s ease-out; }
 
-/* Size Button Pop */
 @keyframes sizePop {
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
     100% { transform: scale(1); }
 }
 
-.size-btn.selected {
-    animation: sizePop 0.3s ease-out;
-}
+.size-btn.selected { animation: sizePop 0.3s ease-out; }
 
-/* Quantity Change Pulse */
 @keyframes quantityPulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.2); background: var(--accent); color: white; }
     100% { transform: scale(1); }
 }
 
-.quantity-btn:active {
-    animation: quantityPulse 0.3s ease-out;
-}
+.quantity-btn:active { animation: quantityPulse 0.3s ease-out; }
 
-/* Filter Button Slide */
 @keyframes filterSlide {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
-.filter-btn {
-    animation: filterSlide 0.5s ease-out both;
-}
-
+.filter-btn { animation: filterSlide 0.5s ease-out both; }
 .filter-btn:nth-child(2) { animation-delay: 0.05s; }
 .filter-btn:nth-child(3) { animation-delay: 0.10s; }
 .filter-btn:nth-child(4) { animation-delay: 0.15s; }
 .filter-btn:nth-child(5) { animation-delay: 0.20s; }
 .filter-btn:nth-child(6) { animation-delay: 0.25s; }
 
-/* Shimmer on Price */
 @keyframes priceShine {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
 }
 
 .product-price {
-    background: linear-gradient(
-        90deg,
-        var(--ink) 0%,
-        var(--accent) 50%,
-        var(--ink) 100%
-    );
+    background: linear-gradient(90deg, var(--ink) 0%, var(--accent) 50%, var(--ink) 100%);
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -1119,140 +1156,60 @@ button {
     animation: priceShine 3s infinite;
 }
 
-/* WhatsApp Hover Glow */
-.btn-whatsapp {
-    position: relative;
-}
-
-.btn-whatsapp::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 0;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0);
-    transition: box-shadow 0.3s ease;
-    pointer-events: none;
-}
-
-.btn-whatsapp:hover::after {
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
-}
-
-/* Smooth Section Fade */
 @keyframes sectionFade {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-section {
-    animation: sectionFade 0.6s ease-out both;
+section { animation: sectionFade 0.6s ease-out both; }
+
+@keyframes trustBadgeFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Image Lazy Load Blur */
-.product-image {
-    background: linear-gradient(
-        135deg,
-        #e7ece7 0%,
-        #dce8df 50%,
-        #e7ece7 100%
-    );
-    background-size: 200% 200%;
-    animation: shimmerMove 3s infinite;
+.badge-item { animation: trustBadgeFadeIn 0.6s ease-out both; }
+.badge-item:nth-child(1) { animation-delay: 0.05s; }
+.badge-item:nth-child(2) { animation-delay: 0.15s; }
+.badge-item:nth-child(3) { animation-delay: 0.25s; }
+.badge-item:nth-child(4) { animation-delay: 0.35s; }
+
+@keyframes faqFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Floating Badge */
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-    100% { transform: translateY(0px); }
-}
+.faq-item { animation: faqFadeIn 0.5s ease-out both; }
+.faq-item:nth-child(1) { animation-delay: 0.05s; }
+.faq-item:nth-child(2) { animation-delay: 0.10s; }
+.faq-item:nth-child(3) { animation-delay: 0.15s; }
+.faq-item:nth-child(4) { animation-delay: 0.20s; }
+.faq-item:nth-child(5) { animation-delay: 0.25s; }
 
-/* Button Pulse */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-}
-
-.btn-add-cart:hover {
-    animation: pulse 0.6s ease;
-    background: var(--green);
-    color: white;
-}
-
-.checkout-button:hover {
-    animation: pulse 0.6s ease;
-}
-
-/* Cart Modal Slide In */
 @keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .modal.active .modal-content {
     animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Toast Notification Slide */
 @keyframes slideInDown {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
+    from { opacity: 0; transform: translate(-50%, -20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
 
-.toast.show {
-    animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+.toast.show { animation: slideInDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-/* Cart Item Stagger */
-.cart-item {
-    opacity: 0;
-    animation: fadeInUp 0.4s ease forwards;
-}
-
-.cart-item:nth-child(1) { animation-delay: 0.05s; }
-.cart-item:nth-child(2) { animation-delay: 0.10s; }
-.cart-item:nth-child(3) { animation-delay: 0.15s; }
-.cart-item:nth-child(4) { animation-delay: 0.20s; }
-.cart-item:nth-child(5) { animation-delay: 0.25s; }
-.cart-item:nth-child(6) { animation-delay: 0.30s; }
-
-/* Page Load Fade In */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-body {
-    animation: fadeInUp 0.6s ease-out;
-}
+body { animation: fadeInUp 0.6s ease-out; }
 
-/* Navbar Link Underline */
-.nav-link {
-    position: relative;
-}
+.nav-link { position: relative; }
 
 .nav-link::after {
     content: '';
@@ -1261,140 +1218,4 @@ body {
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--green);
-    transition: width 0.3s ease;
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-    width: 100%;
-}
-
-/* Logo Hover */
-.logo {
-    transition: transform 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.02);
-}
-
-/* Cart Count Bounce */
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-}
-
-.cart-count.bounce {
-    animation: bounce 0.3s ease;
-}
-
-/* ============================================
-   📱 Mobile Responsive
-   ============================================ */
-
-@media (max-width: 800px) {
-    .nav-center {
-        display: none;
-    }
-
-    .search-box {
-        width: 145px;
-    }
-
-    .products-grid, .features {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .hero-badge {
-        opacity: .65;
-        right: 8%;
-    }
-}
-
-@media (max-width: 560px) {
-    .navbar-container {
-        gap: 12px;
-        padding: 0 18px;
-    }
-
-    .logo {
-        font-size: 20px;
-    }
-
-    .search-box {
-        width: 105px;
-    }
-
-    .hero {
-        min-height: 500px;
-        padding: 70px 24px;
-    }
-
-    .hero::after {
-        height: 300px;
-        right: -100px;
-        width: 300px;
-    }
-
-    .hero-badge {
-        bottom: 30px;
-        right: 25px;
-        top: auto;
-        transform: scale(.75);
-    }
-
-    .filters-section {
-        align-items: flex-start;
-        flex-wrap: wrap;
-        padding-top: 30px;
-    }
-
-    .filter-label {
-        flex-basis: 100%;
-    }
-
-    .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .section-note {
-        text-align: left;
-    }
-
-    .products-grid, .features {
-        grid-template-columns: 1fr;
-    }
-
-    .product-image {
-        height: 360px;
-    }
-
-    .info-section {
-        margin-top: 65px;
-    }
-
-    .modal-content {
-        padding: 22px;
-    }
-
-    .payment-fields {
-        padding: 14px;
-    }
-
-    .payment-fields input {
-        padding: 8px 10px;
-        font-size: 13px;
-    }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 
+    background: var(--green
