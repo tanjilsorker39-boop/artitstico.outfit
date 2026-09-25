@@ -59,8 +59,7 @@
                     </svg>
                 </a>
 
-                <!-- ✅ Wishlist Icon (Heart) -->
-                <button id="wishlistButton" class="social-icon wishlist-icon" aria-label="Wishlist" title="My Wishlist">
+                <button id="wishlistButton" class="wishlist-icon" aria-label="Wishlist" title="My Wishlist">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
@@ -145,7 +144,6 @@
             <div id="productsGrid" class="products-grid"></div>
         </section>
 
-        <!-- ✅ Recently Viewed Section -->
         <section id="recentlyViewed" class="container recently-viewed-section" style="display: none;">
             <div class="section-heading">
                 <div>
@@ -244,6 +242,10 @@
                     <details class="faq-item">
                         <summary>সাইজ কীভাবে বুঝব?</summary>
                         <p>প্রতিটা প্রোডাক্টে "Size Guide" বাটন আছে — ক্লিক করলে বিস্তারিত মাপ দেখতে পাবেন।</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>অর্ডার ট্র্যাক কীভাবে করব?</summary>
+                        <p>অর্ডার করার পর আপনি একটা অর্ডার নম্বর পাবেন (যেমন: ART-123456)। <a href="track.html" style="color: var(--accent); font-weight: 700;">Track Your Order</a> পেজে গিয়ে সেই নম্বর দিলে আপনার অর্ডারের স্ট্যাটাস দেখতে পাবেন।</p>
                     </details>
                 </div>
             </div>
@@ -400,7 +402,6 @@
         </div>
     </div>
 
-    <!-- ✅ Wishlist Modal -->
     <div id="wishlistModal" class="modal" aria-hidden="true">
         <div class="modal-content" role="dialog" aria-modal="true">
             <div class="modal-header">
@@ -417,6 +418,9 @@
     <footer class="site-footer">
         <p>© 2024 ARTistico wear. Curated secondhand fashion from Dhaka.</p>
         <p>Orders and bKash payments are confirmed only after manual verification.</p>
+        <p class="footer-track">
+            <a href="track.html">📦 Track Your Order</a>
+        </p>
         <p class="footer-social">
             <a href="https://www.facebook.com/artisticowear/" target="_blank" rel="noopener">
                 📘 Follow us on Facebook
