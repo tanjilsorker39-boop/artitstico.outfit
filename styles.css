@@ -854,7 +854,7 @@ body.dark-mode .wishlist-item:hover { background: #2a3d33; }
     gap: 10px;
     padding: 14px 20px;
     position: fixed;
-    right: 110px;
+    right: 25px;
     text-decoration: none;
     transition: all 0.3s ease;
     z-index: 100;
