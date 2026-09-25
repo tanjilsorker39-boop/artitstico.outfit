@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ARTistico Wear — carefully selected thrifted shirts with timeless style.">
+
+    <meta name="description" content="ARTistico Wear — Curated secondhand shirts from Dhaka. Quality thrifted fashion with timeless style. Fast delivery, secure payment.">
+    <meta name="keywords" content="thrifted shirts, secondhand fashion, Dhaka, Bangladesh, ARTistico, formal shirts, mens fashion">
+    <meta name="author" content="ARTistico Wear">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="ARTistico Wear | Curated Thrift Fashion">
+    <meta property="og:description" content="Unique thrifted shirts, thoughtfully selected. Shop now!">
+    <meta property="og:image" content="https://res.cloudinary.com/sqz4fxak/image/upload/v1790069837/800422297_122107940667470957_2877061161480052652_n.jpg">
+    <meta property="og:url" content="https://artisticooutfit.vercel.app">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ARTistico Wear | Curated Thrift Fashion">
+    <meta name="twitter:description" content="Unique thrifted shirts, thoughtfully selected.">
+
     <title>ARTistico Wear | Curated Thrift Fashion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +49,10 @@
                     <input id="searchInput" class="search-input" type="search" placeholder="Search collection..." aria-label="Search shirts">
                 </label>
 
+                <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Dark Mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+
                 <button id="cartButton" class="cart-icon" aria-label="Open shopping cart">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.5L20.5 7H6"></path>
@@ -61,7 +80,6 @@
             </div>
         </section>
 
-        <!-- ✅ Trust Badges -->
         <section class="trust-badges">
             <div class="badge-item">
                 <span class="badge-icon">✅</span>
@@ -80,6 +98,14 @@
                 <p>নিরাপদ পেমেন্ট</p>
             </div>
         </section>
+
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="#">Home</a>
+            <span class="breadcrumb-sep">›</span>
+            <a href="#products">Shop</a>
+            <span class="breadcrumb-sep">›</span>
+            <span class="breadcrumb-current" id="breadcrumbCurrent">All Products</span>
+        </nav>
 
         <section class="filters-section" aria-label="Product filters">
             <div class="filter-label">Browse by</div>
@@ -163,7 +189,6 @@
             </div>
         </section>
 
-        <!-- ✅ FAQ Section -->
         <section id="faq" class="faq-section">
             <div class="container">
                 <p class="eyebrow">সাধারণ প্রশ্ন</p>
@@ -180,7 +205,7 @@
                     </details>
                     <details class="faq-item">
                         <summary>পেমেন্ট কীভাবে করব?</summary>
-                        <p>bKash, Nagad অথবা Visa — যেকোনো একটা বেছে নিতে পারবেন। bKash/Nagad-এ পেমেন্ট করে TrxID দিতে হবে।</p>
+                        <p>bKash, Nagad অথবা Visa — যেকোনো একটা বেছে নিতে পারবেন।</p>
                     </details>
                     <details class="faq-item">
                         <summary>প্রোডাক্ট কি অরিজিনাল?</summary>
@@ -309,7 +334,6 @@
         </div>
     </div>
 
-    <!-- ✅ Size Chart Modal -->
     <div id="sizeChartModal" class="modal" aria-hidden="true">
         <div class="modal-content" role="dialog" aria-modal="true">
             <div class="modal-header">
@@ -345,7 +369,6 @@
         <p>Orders and bKash payments are confirmed only after manual verification.</p>
     </footer>
 
-    <!-- ✅ WhatsApp Floating Button -->
     <a href="https://wa.me/8801636032218?text=আসসালামু%20আলাইকুম,%20ARTistico%20সম্পর্কে%20জানতে%20চাই।" 
        class="whatsapp-float" 
        target="_blank"
@@ -355,6 +378,13 @@
         </svg>
         <span class="whatsapp-float-text">WhatsApp</span>
     </a>
+
+    <button id="liveChatButton" class="live-chat-btn" aria-label="Chat with us">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12zM7 9h10v2H7zm0-3h10v2H7z"/>
+        </svg>
+        <span class="live-chat-text">Chat with us</span>
+    </button>
 
     <div id="toast" class="toast" role="status"></div>
     <script src="script.js"></script>
