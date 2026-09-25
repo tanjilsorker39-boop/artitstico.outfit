@@ -1421,3 +1421,47 @@ body.dark-mode .review-submit {
     .review-name { font-size: 12px; }
     .review-comment { font-size: 12px; }
 }
+
+
+/* ============================================
+   📲 Install App Footer Button
+   ============================================ */
+
+.footer-install {
+    margin-top: 12px;
+}
+
+.footer-install-btn {
+    align-items: center;
+    background: transparent;
+    border: 2px solid var(--accent);
+    border-radius: 30px;
+    color: var(--accent);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 13px;
+    font-weight: 700;
+    gap: 8px;
+    letter-spacing: 0.3px;
+    padding: 10px 22px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.footer-install-btn:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(216, 117, 80, 0.3);
+}
+
+body.dark-mode .footer-install-btn:hover {
+    color: #0f1a16;
+}
+
+@media (max-width: 560px) {
+    .footer-install-btn {
+        font-size: 12px;
+        padding: 8px 18px;
+    }
+}
