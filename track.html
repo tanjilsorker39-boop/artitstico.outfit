@@ -129,7 +129,6 @@
                     <div id="resultItems"></div>
                 </div>
 
-                <!-- ✅ Cancel Section -->
                 <div id="cancelSection" class="track-cancel-section" style="display: none;">
                     <div class="track-cancel-box">
                         <h3>⚠️ অর্ডার বাতিল করতে চান?</h3>
@@ -138,12 +137,20 @@
                     </div>
                 </div>
 
-                <!-- ✅ Refund Status -->
+                <div id="noCancelNotice" class="track-no-cancel-notice" style="display: none;">
+                    <div class="track-no-cancel-box">
+                        <h3>🚫 অর্ডার বাতিল করা সম্ভব নয়</h3>
+                        <p id="noCancelReason">এই অর্ডারটি ইতিমধ্যে কনফার্ম হয়ে গেছে।</p>
+                        <p class="track-no-cancel-note">⚠️ অ্যাডভান্স (ডেলিভারি চার্জ) ফেরত দেওয়া হবে না।</p>
+                        <p class="track-no-cancel-help">সহায়তার জন্য <a href="https://wa.me/8801636032218" target="_blank">WhatsApp-এ যোগাযোগ করুন</a></p>
+                    </div>
+                </div>
+
                 <div id="refundStatus" class="track-refund-status" style="display: none;">
                     <span class="track-refund-icon">💰</span>
                     <div>
                         <strong id="refundStatusTitle">Refund Pending</strong>
-                        <p id="refundStatusText">আপনার ৳60 ফেরত পাঠানো হবে ২৪ ঘণ্টার মধ্যে।</p>
+                        <p id="refundStatusText">আপনার ফেরত পাঠানো হবে ২৪ ঘণ্টার মধ্যে।</p>
                     </div>
                 </div>
             </div>
@@ -154,7 +161,6 @@
         </div>
     </main>
 
-    <!-- ✅ Cancel Confirmation Modal -->
     <div id="cancelConfirmModal" class="track-confirm-modal" style="display: none;">
         <div class="track-confirm-content">
             <h3>⚠️ নিশ্চিত করুন</h3>
