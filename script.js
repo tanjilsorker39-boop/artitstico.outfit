@@ -90,7 +90,6 @@ function getSubtotal() {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
-// ✅ Size Chart
 function openSizeChart() {
     if (!sizeChartModal) return;
     sizeChartModal.classList.add("active");
@@ -103,7 +102,6 @@ function closeSizeChartModal() {
     sizeChartModal.setAttribute("aria-hidden", "true");
 }
 
-// ✅ Loading Skeleton
 function showLoadingSkeleton() {
     if (!productsGrid) return;
     const skeletonCount = 6;
@@ -125,7 +123,6 @@ function showLoadingSkeleton() {
     productsGrid.innerHTML = skeletonHTML;
 }
 
-// ✅ Breadcrumb
 function updateBreadcrumb(categoryName) {
     if (!breadcrumbCurrent) return;
     if (!categoryName || categoryName === "all") {
@@ -141,7 +138,6 @@ function updateBreadcrumb(categoryName) {
     }
 }
 
-// ✅ Recently Viewed
 function addToRecentlyViewed(productId) {
     recentlyViewed = recentlyViewed.filter(id => id !== productId);
     recentlyViewed.unshift(productId);
@@ -189,7 +185,6 @@ function scrollToProduct(id) {
     }
 }
 
-// ✅ Wishlist
 function toggleWishlist(productId) {
     const id = Number(productId);
     const index = wishlist.indexOf(id);
@@ -247,10 +242,8 @@ function closeWishlistModal() {
     wishlistModal.setAttribute("aria-hidden", "true");
 }
 
-// ✅ Products
 function renderProducts() {
     if (!productsGrid) return;
-
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
     const filteredProducts = products.filter(product => {
@@ -347,7 +340,6 @@ function renderProducts() {
     }).join("");
 }
 
-// ✅ Cart
 function renderCart() {
     if (!cartCount) return;
     cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -439,7 +431,6 @@ function bumpCartIcon() {
     setTimeout(() => cartButton.classList.remove("bump"), 600);
 }
 
-// ✅ Event Listeners
 if (productsGrid) {
     productsGrid.addEventListener("click", event => {
         const sizeButton = event.target.closest(".size-btn");
@@ -590,7 +581,6 @@ if (checkoutButton) {
     });
 }
 
-// ✅ Dark Mode
 function loadTheme() {
     const savedTheme = localStorage.getItem("artisticoTheme") || "light";
     if (savedTheme === "dark") {
@@ -620,7 +610,6 @@ if (liveChatButton) {
     });
 }
 
-// ✅ Order Submit
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", event => {
         event.preventDefault();
@@ -664,7 +653,7 @@ if (checkoutForm) {
         const deliveryCharge = getSelectedDelivery();
         const subtotal = getSubtotal();
         const total = subtotal + deliveryCharge;
-        const orderNumber = `ART-${Date.now().toString().slice(-6)}`;
+        const orderNumber = "ART-" + Date.now().toString().slice(-6);
 
         let senderNumber = 'N/A';
         let trxId = 'N/A';
@@ -735,4 +724,36 @@ if (checkoutForm) {
                 status: 'pending',
                 createdAt: order.createdAt
             })
-        }).then(() => console.log
+        }).then(() => console.log('✅ অর্ডার Firebase-এ গেছে'))
+          .catch(err => console.error('❌ Firebase error:', err));
+
+        localStorage.setItem("artisticoLastOrder", JSON.stringify(order));
+
+        checkoutForm.reset();
+        checkoutForm.hidden = true;
+        cart = [];
+        renderCart();
+        updatePaymentInstruction();
+
+        showToast(`অর্ডার ${orderNumber} সফলভাবে জমা হয়েছে।`);
+
+        setTimeout(() => {
+            const paymentMessage = payment !== 'Visa'
+                ? "সেন্ডার নম্বর: " + order.senderNumber + "\nTrxID: " + order.trxId + "\n"
+                : '';
+
+            alert(
+                "আপনার অর্ডারের জন্য ধন্যবাদ!\n\n" +
+                "অর্ডার নম্বর: " + orderNumber + "\n" +
+                "ডেলিভারি এলাকা: " + order.delivery.area + "\n" +
+                "ডেলিভারি ঠিকানা: " + order.customer.address + "\n" +
+                paymentMessage +
+                "মোট: " + money(total) + "\n\n" +
+                "ARTistico আপনার অর্ডার যাচাই করবে এবং ডেলিভারির জন্য যোগাযোগ করবে।"
+            );
+        }, 300);
+    });
+}
+
+// ✅ START
+updatePaymentInstruction
