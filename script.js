@@ -284,7 +284,7 @@ function renderProducts() {
     }
 
     productsGrid.innerHTML = filteredProducts.map(product => {
-        const stock = product.stock !== undefined ? Number(product.stock) : 10;
+        const stock = product.quantity !== undefined ? Number(product.quantity) : 10;
         const isOutOfStock = stock <= 0;
         const productName = product.name || "Product";
         const isWishlisted = wishlist.includes(product.id);
