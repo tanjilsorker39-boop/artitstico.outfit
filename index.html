@@ -3,88 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="ARTistico Wear — Curated secondhand shirts from Dhaka. Quality thrifted fashion with timeless style. Fast delivery, secure payment.">
-    <meta name="keywords" content="thrifted shirts, secondhand fashion, Dhaka, Bangladesh, ARTistico, formal shirts, mens fashion">
-    <meta name="author" content="ARTistico Wear">
-    <meta name="robots" content="index, follow">
-
-    <meta property="og:title" content="ARTistico Wear | Curated Thrift Fashion">
-    <meta property="og:description" content="Unique thrifted shirts, thoughtfully selected. Shop now!">
-    <meta property="og:image" content="https://res.cloudinary.com/sqz4fxak/image/upload/v1790069837/800422297_122107940667470957_2877061161480052652_n.jpg">
-    <meta property="og:url" content="https://artisticooutfit.vercel.app">
-    <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ARTistico Wear | Curated Thrift Fashion">
-    <meta name="twitter:description" content="Unique thrifted shirts, thoughtfully selected.">
-
+    <meta name="description" content="ARTistico Wear — Curated secondhand shirts from Dhaka. Quality thrifted fashion with timeless style. Cash on Delivery available.">
+    <meta name="keywords" content="thrifted shirts, secondhand fashion, Dhaka, Bangladesh, ARTistico, Cash on Delivery">
     <title>ARTistico Wear | Curated Thrift Fashion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
-    <!-- ✅ PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#294d3b">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="ARTistico">
     <link rel="apple-touch-icon" href="https://res.cloudinary.com/sqz4fxak/image/upload/w_192,h_192,c_fill/v1790309820/screenshot.png">
 </head>
 <body>
     <header class="navbar">
         <div class="navbar-container">
-            <a class="logo" href="#" aria-label="ARTistico Wear home">
+            <a class="logo" href="#">
                 <span class="logo-mark">A</span>
                 <span>ART<span>istico</span></span>
             </a>
-
-            <nav class="nav-center" aria-label="Main navigation">
+            <nav class="nav-center">
                 <a class="nav-link active" href="#products">Shop</a>
                 <a class="nav-link" href="#about">Our Story</a>
                 <a class="nav-link" href="#policies">Policies</a>
                 <a class="nav-link" href="#contact">Contact</a>
             </nav>
-
             <div class="nav-right">
                 <label class="search-box" for="searchInput">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="11" cy="11" r="6.5"></circle>
-                        <path d="m16 16 5 5"></path>
-                    </svg>
-                    <input id="searchInput" class="search-input" type="search" placeholder="Search collection..." aria-label="Search shirts">
+                    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 5 5"></path></svg>
+                    <input id="searchInput" class="search-input" type="search" placeholder="Search collection...">
                 </label>
-
-                <a href="https://www.facebook.com/artisticowear/" 
-                   class="social-icon" 
-                   target="_blank" 
-                   aria-label="Facebook Page"
-                   title="Follow us on Facebook">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
+                <a href="https://www.facebook.com/artisticowear/" class="social-icon" target="_blank" title="Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                 </a>
-
-                <button id="wishlistButton" class="wishlist-icon" aria-label="Wishlist" title="My Wishlist">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
+                <button id="wishlistButton" class="wishlist-icon" title="Wishlist">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                     <span id="wishlistCount" class="wishlist-count">0</span>
                 </button>
-
-                <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Dark Mode">
+                <button id="darkModeToggle" class="theme-toggle" title="Dark Mode">
                     <span class="theme-icon">🌙</span>
                 </button>
-
-                <button id="cartButton" class="cart-icon" aria-label="Open shopping cart">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.5L20.5 7H6"></path>
-                        <circle cx="9" cy="20" r="1"></circle>
-                        <circle cx="18" cy="20" r="1"></circle>
-                    </svg>
+                <button id="cartButton" class="cart-icon">
+                    <svg viewBox="0 0 24 24"><path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.5L20.5 7H6"></path><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg>
                     <span id="cartCount" class="cart-count">0</span>
                 </button>
             </div>
@@ -107,25 +68,13 @@
         </section>
 
         <section class="trust-badges">
-            <div class="badge-item">
-                <span class="badge-icon">✅</span>
-                <p>১০০% অরিজিনাল</p>
-            </div>
-            <div class="badge-item">
-                <span class="badge-icon">🔄</span>
-                <p>৭ দিনের রিটার্ন</p>
-            </div>
-            <div class="badge-item">
-                <span class="badge-icon">🚚</span>
-                <p>ফাস্ট ডেলিভারি</p>
-            </div>
-            <div class="badge-item">
-                <span class="badge-icon">🔒</span>
-                <p>নিরাপদ পেমেন্ট</p>
-            </div>
+            <div class="badge-item"><span class="badge-icon">✅</span><p>১০০% অরিজিনাল</p></div>
+            <div class="badge-item"><span class="badge-icon">💵</span><p>ক্যাশ অন ডেলিভারি</p></div>
+            <div class="badge-item"><span class="badge-icon">🚚</span><p>ফাস্ট ডেলিভারি</p></div>
+            <div class="badge-item"><span class="badge-icon">🔄</span><p>৭ দিনের রিটার্ন</p></div>
         </section>
 
-        <nav class="breadcrumb" aria-label="Breadcrumb">
+        <nav class="breadcrumb">
             <a href="#">Home</a>
             <span class="breadcrumb-sep">›</span>
             <a href="#products">Shop</a>
@@ -133,7 +82,7 @@
             <span class="breadcrumb-current" id="breadcrumbCurrent">All Products</span>
         </nav>
 
-        <section class="filters-section" aria-label="Product filters">
+        <section class="filters-section">
             <div class="filter-label">Browse by</div>
             <button class="filter-btn active" data-category="all">All pieces</button>
             <button class="filter-btn" data-category="mens">Men's</button>
@@ -159,7 +108,6 @@
                     <p class="eyebrow">FOR YOU</p>
                     <h2 class="section-title">Recently Viewed</h2>
                 </div>
-                <p class="section-note">Your browsing history.<br>Quick access.</p>
             </div>
             <div id="recentlyViewedGrid" class="products-grid"></div>
         </section>
@@ -196,27 +144,26 @@
             <div class="container">
                 <p class="eyebrow">SHOP WITH CONFIDENCE</p>
                 <h2 class="section-title">Store policies</h2>
-
                 <div class="policy-grid">
                     <article>
                         <h3>Delivery policy</h3>
-                        <p>Inside Dhaka delivery costs ৳60. Outside Dhaka delivery costs ৳120. Delivery times are confirmed after your order is reviewed.</p>
+                        <p>ঢাকার ভিতরে ৳60, ঢাকার বাইরে ৳120 ডেলিভারি চার্জ অ্যাডভান্স দিতে হবে। বাকি টাকা ডেলিভারির সময় ক্যাশ অন ডেলিভারিতে দিতে হবে।</p>
                     </article>
                     <article>
                         <h3>Returns and exchanges</h3>
-                        <p>Contact ARTistico within 48 hours of delivery if your item has a problem. Items must be unworn and returned in their original condition.</p>
+                        <p>Contact ARTistico within 48 hours of delivery if your item has a problem.</p>
                     </article>
                     <article>
                         <h3>Payment policy</h3>
-                        <p>Visa payments must be completed through an approved secure gateway. bKash and Nagad payments require a valid merchant number and transaction verification.</p>
+                        <p>শুধু ডেলিভারি চার্জ অ্যাডভান্স bKash/Nagad-এ পাঠাতে হবে। প্রোডাক্টের টাকা ডেলিভারির সময় দিতে হবে।</p>
                     </article>
                     <article>
                         <h3>Privacy policy</h3>
-                        <p>We use your contact and delivery details only to process orders, arrange delivery, and provide customer support. Never submit card numbers or CVV in this form.</p>
+                        <p>আপনার তথ্য শুধু অর্ডার প্রসেসিং ও ডেলিভারির জন্য ব্যবহার হবে।</p>
                     </article>
                     <article>
                         <h3>Terms and conditions</h3>
-                        <p>Product availability is limited because our pieces are thrifted. An order is confirmed only after ARTistico verifies stock, delivery details, and payment.</p>
+                        <p>অর্ডার কনফার্ম হয় শুধু ডেলিভারি চার্জ পেমেন্ট ভেরিফাই করার পর।</p>
                     </article>
                     <article>
                         <h3>Business information</h3>
@@ -230,31 +177,26 @@
             <div class="container">
                 <p class="eyebrow">সাধারণ প্রশ্ন</p>
                 <h2 class="section-title">FAQ</h2>
-
                 <div class="faq-list">
                     <details class="faq-item">
-                        <summary>ডেলিভারি কত দিনে পাব?</summary>
-                        <p>ঢাকার ভিতরে ১-২ কর্মদিবস, ঢাকার বাইরে ৩-৫ কর্মদিবস।</p>
+                        <summary>ডেলিভারি চার্জ কত?</summary>
+                        <p>ঢাকার ভিতরে ৳60, ঢাকার বাইরে ৳120। এটা অ্যাডভান্স দিতে হবে।</p>
                     </details>
                     <details class="faq-item">
-                        <summary>রিটার্ন পলিসি কী?</summary>
-                        <p>ডেলিভারির ৪৮ ঘণ্টার মধ্যে সমস্যা জানালে আমরা সমাধান করব। প্রোডাক্ট অব্যবহৃত অবস্থায় ফেরত দিতে হবে।</p>
+                        <summary>ক্যাশ অন ডেলিভারি আছে?</summary>
+                        <p>হ্যাঁ! শুধু ডেলিভারি চার্জ অ্যাডভান্স দিলেই হবে। বাকি টাকা ডেলিভারির সময়।</p>
                     </details>
                     <details class="faq-item">
-                        <summary>পেমেন্ট কীভাবে করব?</summary>
-                        <p>bKash, Nagad অথবা Visa — যেকোনো একটা বেছে নিতে পারবেন।</p>
+                        <summary>ডেলিভারি চার্জ কীভাবে দেব?</summary>
+                        <p>bKash/Nagad-এ 01636032218 নম্বরে পাঠিয়ে TrxID দিন।</p>
                     </details>
                     <details class="faq-item">
-                        <summary>প্রোডাক্ট কি অরিজিনাল?</summary>
-                        <p>হ্যাঁ! আমাদের সব প্রোডাক্ট হাতে বাছাই করা, ১০০% অরিজিনাল।</p>
+                        <summary>কত দিনে ডেলিভারি পাব?</summary>
+                        <p>ঢাকার ভিতরে ১-২ দিন, ঢাকার বাইরে ৩-৫ দিন।</p>
                     </details>
                     <details class="faq-item">
-                        <summary>সাইজ কীভাবে বুঝব?</summary>
-                        <p>প্রতিটা প্রোডাক্টে "Size Guide" বাটন আছে — ক্লিক করলে বিস্তারিত মাপ দেখতে পাবেন।</p>
-                    </details>
-                    <details class="faq-item">
-                        <summary>অর্ডার ট্র্যাক কীভাবে করব?</summary>
-                        <p>অর্ডার করার পর আপনি একটা অর্ডার নম্বর পাবেন (যেমন: ART-123456)। <a href="track.html" style="color: var(--accent); font-weight: 700;">Track Your Order</a> পেজে গিয়ে সেই নম্বর দিলে আপনার অর্ডারের স্ট্যাটাস দেখতে পাবেন।</p>
+                        <summary>অর্ডার ট্র্যাক করব কীভাবে?</summary>
+                        <p>Footer-এ <a href="track.html">Track Your Order</a> পেজে অর্ডার নম্বর দিয়ে ট্র্যাক করুন।</p>
                     </details>
                 </div>
             </div>
@@ -263,52 +205,31 @@
         <section id="contact" class="contact-section">
             <p class="eyebrow">CUSTOMER SUPPORT</p>
             <h2>Need assistance?</h2>
-            <p>Our support team is happy to help with orders, sizing, delivery, and returns.</p>
-
             <div class="support-details">
-                <p>
-                    <strong>Email</strong><br>
-                    <a href="mailto:info.artisticowear@gmail.com">info.artisticowear@gmail.com</a>
-                </p>
-                <p>
-                    <strong>Phone</strong><br>
-                    <a href="tel:+8801636032218">01636032218</a>
-                </p>
-                <p>
-                    <strong>Facebook</strong><br>
-                    <a href="https://www.facebook.com/artisticowear/" target="_blank" rel="noopener">
-                        📘 facebook.com/artisticowear
-                    </a>
-                </p>
+                <p><strong>Email</strong><br><a href="mailto:info.artisticowear@gmail.com">info.artisticowear@gmail.com</a></p>
+                <p><strong>Phone</strong><br><a href="tel:+8801636032218">01636032218</a></p>
+                <p><strong>Facebook</strong><br><a href="https://www.facebook.com/artisticowear/" target="_blank">📘 facebook.com/artisticowear</a></p>
             </div>
         </section>
     </main>
 
-    <div id="cartModal" class="modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <!-- ✅ CART MODAL -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
                 <div>
                     <p class="eyebrow">YOUR SELECTION</p>
-                    <h2 id="cartTitle">Shopping bag</h2>
+                    <h2>Shopping bag</h2>
                 </div>
-                <button id="closeCartButton" class="close-btn" aria-label="Close cart">&times;</button>
+                <button id="closeCartButton" class="close-btn">&times;</button>
             </div>
 
             <div id="cartItems"></div>
 
             <div id="cartSummary" class="cart-summary">
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <strong id="cartSubtotal">৳0</strong>
-                </div>
-                <div class="summary-row">
-                    <span>Delivery</span>
-                    <strong id="deliveryCost">৳0</strong>
-                </div>
-                <div class="summary-row total-row">
-                    <span>Total</span>
-                    <strong id="cartTotal">৳0</strong>
-                </div>
+                <div class="summary-row"><span>Subtotal</span><strong id="cartSubtotal">৳0</strong></div>
+                <div class="summary-row"><span>Delivery</span><strong id="deliveryCost">৳0</strong></div>
+                <div class="summary-row total-row"><span>Total</span><strong id="cartTotal">৳0</strong></div>
 
                 <div class="delivery-options">
                     <h3>Delivery option</h3>
@@ -322,38 +243,42 @@
                     </label>
                 </div>
 
-                <div class="delivery-options">
-                    <h3>Payment method</h3>
-                    <label class="delivery-option">
-                        <input type="radio" name="payment" value="Visa" checked>
-                        <span>Visa secure gateway</span>
-                    </label>
-                    <label class="delivery-option">
-                        <input type="radio" name="payment" value="bKash">
-                        <span>bKash merchant payment</span>
-                    </label>
-                    <label class="delivery-option">
-                        <input type="radio" name="payment" value="Nagad">
-                        <span>Nagad merchant payment</span>
-                    </label>
-                </div>
+                <!-- ✅ New Payment Section - Only Delivery Charge Advance -->
+                <div class="delivery-options advance-payment-section">
+                    <h3>💳 ডেলিভারি চার্জ অ্যাডভান্স পেমেন্ট</h3>
+                    <p class="advance-note">শুধু ডেলিভারি চার্জ অ্যাডভান্স দিতে হবে। বাকি টাকা ক্যাশ অন ডেলিভারি।</p>
 
-                <div id="bkashFields" class="payment-fields" style="display: none;">
-                    <h4>💳 বিকাশ পেমেন্ট তথ্য</h4>
-                    <p><strong>আমাদের বিকাশ নম্বর:</strong> ০১৬৩৬০৩২২১৮</p>
-                    <label for="bkashSender">আপনার বিকাশ নম্বর</label>
-                    <input id="bkashSender" name="bkashSender" type="tel" placeholder="০১XXXXXXXXX">
-                    <label for="bkashTransactionId">TrxID</label>
-                    <input id="bkashTransactionId" name="bkashTransactionId" type="text" placeholder="যেমন: 8T5G7H2J">
-                </div>
+                    <div class="payment-method-tabs">
+                        <label class="delivery-option">
+                            <input type="radio" name="payment" value="bKash" checked>
+                            <span>bKash</span>
+                        </label>
+                        <label class="delivery-option">
+                            <input type="radio" name="payment" value="Nagad">
+                            <span>Nagad</span>
+                        </label>
+                    </div>
 
-                <div id="nagadFields" class="payment-fields" style="display: none;">
-                    <h4>💳 নগদ পেমেন্ট তথ্য</h4>
-                    <p><strong>আমাদের নগদ নম্বর:</strong> ০১৬৩৬০৩২২১৮</p>
-                    <label for="nagadSender">আপনার নগদ নম্বর</label>
-                    <input id="nagadSender" name="nagadSender" type="tel" placeholder="০১XXXXXXXXX">
-                    <label for="nagadTransactionId">TrxID</label>
-                    <input id="nagadTransactionId" name="nagadTransactionId" type="text" placeholder="যেমন: 8T5G7H2J">
+                    <div class="payment-instruction-box">
+                        <p><strong>আমাদের নম্বর:</strong> 01636032218</p>
+                        <p><strong>পাঠাতে হবে:</strong> <span id="advanceAmount">৳60</span> (ডেলিভারি চার্জ)</p>
+                    </div>
+
+                    <div id="bkashFields" class="payment-fields">
+                        <label for="bkashSender">আপনার বিকাশ নম্বর</label>
+                        <input id="bkashSender" name="bkashSender" type="tel" placeholder="০১XXXXXXXXX" maxlength="11">
+                        <label for="bkashTransactionId">TrxID</label>
+                        <input id="bkashTransactionId" name="bkashTransactionId" type="text" placeholder="যেমন: 8A7B6C5D" maxlength="20" style="text-transform: uppercase;">
+                    </div>
+
+                    <div id="nagadFields" class="payment-fields" style="display: none;">
+                        <label for="nagadSender">আপনার নগদ নম্বর</label>
+                        <input id="nagadSender" name="nagadSender" type="tel" placeholder="০১XXXXXXXXX" maxlength="11">
+                        <label for="nagadTransactionId">TrxID</label>
+                        <input id="nagadTransactionId" name="nagadTransactionId" type="text" placeholder="যেমন: 8A7B6C5D" maxlength="20" style="text-transform: uppercase;">
+                    </div>
+
+                    <p class="advance-warning">⚠️ ভুল TrxID দিলে অর্ডার বাতিল হবে।</p>
                 </div>
 
                 <button id="checkoutButton" class="checkout-button" type="button">
@@ -363,42 +288,36 @@
                 <form id="checkoutForm" class="delivery-options" hidden>
                     <h3>Delivery details</h3>
                     <label for="customerName">Full name</label>
-                    <input id="customerName" name="customerName" type="text" required placeholder="Your full name">
+                    <input id="customerName" name="customerName" type="text" required placeholder="আপনার নাম">
                     <label for="customerPhone">Phone number</label>
-                    <input id="customerPhone" name="customerPhone" type="tel" required placeholder="Your phone number">
+                    <input id="customerPhone" name="customerPhone" type="tel" required placeholder="০১XXXXXXXXX">
                     <label for="customerEmail">Email address</label>
                     <input id="customerEmail" name="customerEmail" type="email" required placeholder="you@example.com">
                     <label for="customerAddress">Delivery address</label>
-                    <textarea id="customerAddress" name="customerAddress" rows="3" required placeholder="House, road, area, city"></textarea>
-                    <p id="paymentInstruction" class="product-description">Select a payment method to see instructions.</p>
+                    <textarea id="customerAddress" name="customerAddress" rows="3" required placeholder="সম্পূর্ণ ঠিকানা (বাসা, রোড, এলাকা, শহর)"></textarea>
+
+                    <p id="paymentInstruction" class="product-description"></p>
+
                     <label class="consent-option">
                         <input id="policyConsent" name="policyConsent" type="checkbox" required>
-                        <span>I agree to the delivery, return, privacy, payment, and terms policies.</span>
+                        <span>I agree to all policies.</span>
                     </label>
+
                     <button type="submit" class="checkout-button">Submit order <span>✓</span></button>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="sizeChartModal" class="modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true">
+    <!-- Size Chart Modal -->
+    <div id="sizeChartModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <p class="eyebrow">SIZE GUIDE</p>
-                    <h2>সাইজ চার্ট</h2>
-                </div>
-                <button id="closeSizeChart" class="close-btn" aria-label="Close">&times;</button>
+                <div><p class="eyebrow">SIZE GUIDE</p><h2>সাইজ চার্ট</h2></div>
+                <button id="closeSizeChart" class="close-btn">&times;</button>
             </div>
             <table class="size-chart-table">
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Chest (inch)</th>
-                        <th>Length (inch)</th>
-                        <th>Shoulder (inch)</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Size</th><th>Chest</th><th>Length</th><th>Shoulder</th></tr></thead>
                 <tbody>
                     <tr><td>S</td><td>38</td><td>27</td><td>16</td></tr>
                     <tr><td>M</td><td>40</td><td>28</td><td>17</td></tr>
@@ -411,37 +330,29 @@
         </div>
     </div>
 
-    <div id="wishlistModal" class="modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true">
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <p class="eyebrow">SAVED ITEMS</p>
-                    <h2>My Wishlist ❤️</h2>
-                </div>
-                <button id="closeWishlist" class="close-btn" aria-label="Close">&times;</button>
+                <div><p class="eyebrow">SAVED ITEMS</p><h2>My Wishlist ❤️</h2></div>
+                <button id="closeWishlist" class="close-btn">&times;</button>
             </div>
             <div id="wishlistItems" class="wishlist-items"></div>
         </div>
     </div>
 
-    <div id="reviewModal" class="modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true">
+    <!-- Review Modal -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <p class="eyebrow">CUSTOMER REVIEWS</p>
-                    <h2 id="reviewModalTitle">রিভিউ</h2>
-                </div>
-                <button id="closeReview" class="close-btn" aria-label="Close">&times;</button>
+                <div><p class="eyebrow">CUSTOMER REVIEWS</p><h2 id="reviewModalTitle">রিভিউ</h2></div>
+                <button id="closeReview" class="close-btn">&times;</button>
             </div>
-
             <div id="reviewList" class="review-list"></div>
-
             <form id="reviewForm" class="review-form">
                 <h3>আপনার মতামত দিন</h3>
-
                 <label for="reviewerName">আপনার নাম</label>
-                <input id="reviewerName" name="reviewerName" type="text" required placeholder="যেমন: করিম" maxlength="40">
-
+                <input id="reviewerName" type="text" required placeholder="যেমন: করিম" maxlength="40">
                 <label>রেটিং দিন</label>
                 <div class="star-rating-input" id="starRatingInput">
                     <button type="button" data-star="1" class="star-btn">★</button>
@@ -450,11 +361,9 @@
                     <button type="button" data-star="4" class="star-btn">★</button>
                     <button type="button" data-star="5" class="star-btn">★</button>
                 </div>
-                <input type="hidden" id="ratingValue" name="rating" value="0">
-
+                <input type="hidden" id="ratingValue" value="0">
                 <label for="reviewComment">মন্তব্য</label>
-                <textarea id="reviewComment" name="reviewComment" rows="3" required placeholder="কেমন ছিল শার্টটি? (ন্যূনতম ৫ অক্ষর)" maxlength="300"></textarea>
-
+                <textarea id="reviewComment" rows="3" required placeholder="কেমন ছিল শার্টটি?" maxlength="300"></textarea>
                 <button type="submit" class="review-submit">রিভিউ জমা দিন</button>
             </form>
         </div>
@@ -462,45 +371,27 @@
 
     <footer class="site-footer">
         <p>© 2024 ARTistico wear. Curated secondhand fashion from Dhaka.</p>
-        <p>Orders and bKash payments are confirmed only after manual verification.</p>
-        <p class="footer-track">
-            <a href="track.html">📦 Track Your Order</a>
-        </p>
+        <p>💵 Cash on Delivery available | ডেলিভারি চার্জ অ্যাডভান্স</p>
+        <p class="footer-track"><a href="track.html">📦 Track Your Order</a></p>
         <p class="footer-install">
-            <button id="installAppButton" class="footer-install-btn" style="display: none;">
-                📲 Install App
-            </button>
+            <button id="installAppButton" class="footer-install-btn" style="display: none;">📲 Install App</button>
         </p>
         <p class="footer-social">
-            <a href="https://www.facebook.com/artisticowear/" target="_blank" rel="noopener">
-                📘 Follow us on Facebook
-            </a>
+            <a href="https://www.facebook.com/artisticowear/" target="_blank">📘 Follow us on Facebook</a>
         </p>
     </footer>
 
-    <a href="https://wa.me/8801636032218?text=আসসালামু%20আলাইকুম,%20ARTistico%20সম্পর্কে%20জানতে%20চাই।" 
-       class="whatsapp-float" 
-       target="_blank"
-       aria-label="WhatsApp-এ যোগাযোগ করুন">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-        </svg>
+    <a href="https://wa.me/8801636032218?text=আসসালামু%20আলাইকুম" class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span class="whatsapp-float-text">WhatsApp</span>
     </a>
 
-    <div id="toast" class="toast" role="status"></div>
+    <div id="toast" class="toast"></div>
     <script src="script.js"></script>
-
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then((registration) => {
-                        console.log('✅ Service Worker registered:', registration.scope);
-                    })
-                    .catch((err) => {
-                        console.log('❌ Service Worker registration failed:', err);
-                    });
+                navigator.serviceWorker.register('/sw.js').catch(err => console.log(err));
             });
         }
     </script>
