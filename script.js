@@ -61,9 +61,6 @@ const wishlistCount = document.getElementById("wishlistCount");
 const recentlyViewedSection = document.getElementById("recentlyViewed");
 const recentlyViewedGrid = document.getElementById("recentlyViewedGrid");
 
-const bkashMerchantNumber = "01636032218";
-const nagadMerchantNumber = "01636032218";
-
 function money(value) {
     return "৳" + Number(value).toLocaleString("en-BD");
 }
@@ -493,6 +490,7 @@ if (liveChatButton) {
     });
 }
 
+// ✅ CHECKOUT SUBMIT (Fixed: formData → document.getElementById)
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -515,14 +513,17 @@ if (checkoutForm) {
         const subtotal = getSubtotal();
         const total = subtotal + deliveryCharge;
 
+        // ✅ FIXED: formData এর বদলে সরাসরি element থেকে পড়ি
         const senderField = payment === 'bKash' ? 'bkashSender' : 'nagadSender';
         const trxField = payment === 'bKash' ? 'bkashTransactionId' : 'nagadTransactionId';
 
-        const senderNumber = (formData.get(senderField) || "").trim();
-        const trxId = (formData.get(trxField) || "").trim().toUpperCase();
+        const senderEl = document.getElementById(senderField);
+        const trxEl = document.getElementById(trxField);
+        const senderNumber = senderEl ? senderEl.value.trim() : "";
+        const trxId = trxEl ? trxEl.value.trim().toUpperCase() : "";
 
         // Fraud Check 1: Sender format
-        if (!senderNumber || senderNumber.length !== 11 || !senderNumber.startsWith("01")) {
+        if (!senderNumber || senderNumber.length !== 11 || !/^01[3-9]\d{8}$/.test(senderNumber)) {
             showToast("❌ সঠিক ১১ ডিজিটের নম্বর দিন (01XXXXXXXXX)");
             return;
         }
