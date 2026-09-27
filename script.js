@@ -52,14 +52,12 @@ const themeIcon = darkModeToggle?.querySelector(".theme-icon");
 const liveChatButton = document.getElementById("liveChatButton");
 const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
 
-// ✅ Wishlist Elements
 const wishlistButton = document.getElementById("wishlistButton");
 const wishlistModal = document.getElementById("wishlistModal");
 const closeWishlist = document.getElementById("closeWishlist");
 const wishlistItems = document.getElementById("wishlistItems");
 const wishlistCount = document.getElementById("wishlistCount");
 
-// ✅ Recently Viewed Elements
 const recentlyViewedSection = document.getElementById("recentlyViewed");
 const recentlyViewedGrid = document.getElementById("recentlyViewedGrid");
 
@@ -153,23 +151,18 @@ function addToRecentlyViewed(productId) {
 
 function renderRecentlyViewed() {
     if (!recentlyViewedSection || !recentlyViewedGrid) return;
-    
     if (recentlyViewed.length === 0) {
         recentlyViewedSection.style.display = 'none';
         return;
     }
-    
     const recentProducts = recentlyViewed
         .map(id => products.find(p => p.id === Number(id)))
         .filter(p => p);
-    
     if (recentProducts.length === 0) {
         recentlyViewedSection.style.display = 'none';
         return;
     }
-    
     recentlyViewedSection.style.display = 'block';
-    
     recentlyViewedGrid.innerHTML = recentProducts.map(product => {
         const productName = product.name || "Product";
         return `
@@ -200,7 +193,6 @@ function scrollToProduct(id) {
 function toggleWishlist(productId) {
     const id = Number(productId);
     const index = wishlist.indexOf(id);
-    
     if (index > -1) {
         wishlist.splice(index, 1);
         showToast("Wishlist থেকে সরানো হয়েছে");
@@ -208,7 +200,6 @@ function toggleWishlist(productId) {
         wishlist.push(id);
         showToast("❤️ Wishlist-এ যোগ হয়েছে");
     }
-    
     localStorage.setItem('artisticoWishlist', JSON.stringify(wishlist));
     updateWishlistCount();
     renderProducts();
@@ -216,23 +207,18 @@ function toggleWishlist(productId) {
 }
 
 function updateWishlistCount() {
-    if (wishlistCount) {
-        wishlistCount.textContent = wishlist.length;
-    }
+    if (wishlistCount) wishlistCount.textContent = wishlist.length;
 }
 
 function renderWishlist() {
     if (!wishlistItems) return;
-    
     if (wishlist.length === 0) {
         wishlistItems.innerHTML = `<div class="empty-cart">আপনার wishlist খালি। ❤️ যোগ করুন।</div>`;
         return;
     }
-    
     const wishProducts = wishlist
         .map(id => products.find(p => p.id === Number(id)))
         .filter(p => p);
-    
     wishlistItems.innerHTML = wishProducts.map(product => {
         const productName = product.name || "Product";
         return `
@@ -270,11 +256,9 @@ function renderProducts() {
     const filteredProducts = products.filter(product => {
         const matchesCategory =
             selectedCategory === "all" || product.category === selectedCategory;
-
         const matchesSearch =
             (product.name || "").toLowerCase().includes(searchTerm) ||
             (product.description || "").toLowerCase().includes(searchTerm);
-
         return matchesCategory && matchesSearch;
     });
 
@@ -310,13 +294,13 @@ function renderProducts() {
                 
                 <div class="share-buttons">
                     <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" 
-                       target="_blank" class="share-btn share-fb" title="Share on Facebook" aria-label="Share on Facebook">
+                       target="_blank" class="share-btn share-fb" title="Share on Facebook">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
                     </a>
                     <a href="https://wa.me/?text=${shareMsg}%20${shareUrl}" 
-                       target="_blank" class="share-btn share-wa" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+                       target="_blank" class="share-btn share-wa" title="Share on WhatsApp">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                         </svg>
@@ -366,7 +350,6 @@ function renderProducts() {
 // ✅ Cart
 function renderCart() {
     if (!cartCount) return;
-
     cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
 
     if (cart.length === 0) {
@@ -397,14 +380,12 @@ function renderCart() {
             </div>
         `).join("");
     }
-
     updateTotals();
 }
 
 function updateTotals() {
     const subtotal = getSubtotal();
     const delivery = cart.length ? getSelectedDelivery() : 0;
-
     if (cartSubtotal) cartSubtotal.textContent = money(subtotal);
     if (deliveryCost) deliveryCost.textContent = money(delivery);
     if (cartTotal) cartTotal.textContent = money(subtotal + delivery);
@@ -412,13 +393,10 @@ function updateTotals() {
 
 function updatePaymentInstruction() {
     const payment = getSelectedPayment();
-
     const bkashFields = document.getElementById('bkashFields');
     const nagadFields = document.getElementById('nagadFields');
-
     if (bkashFields) bkashFields.style.display = 'none';
     if (nagadFields) nagadFields.style.display = 'none';
-
     if (!paymentInstruction) return;
 
     if (payment === 'Visa') {
@@ -436,7 +414,6 @@ function showToast(message) {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add("show");
-
     setTimeout(() => {
         toast.classList.remove("show");
     }, 3000);
@@ -466,7 +443,6 @@ function bumpCartIcon() {
 if (productsGrid) {
     productsGrid.addEventListener("click", event => {
         const sizeButton = event.target.closest(".size-btn");
-
         if (sizeButton) {
             const productId = sizeButton.dataset.product;
             document
@@ -483,24 +459,30 @@ if (productsGrid) {
         const product = products.find(
             item => item.id === Number(addButton.dataset.product)
         );
-
         if (!product) return;
 
-        // Recently Viewed-এ যোগ
         addToRecentlyViewed(product.id);
 
         const selectedSizeButton = document.querySelector(
             `.size-btn[data-product="${product.id}"].selected`
         );
-
         const sizes = product.sizes || ["M", "L", "XL"];
         const selectedSize = selectedSizeButton?.dataset.size || sizes[0];
         const cartId = `${product.id}-${selectedSize}`;
         const existingItem = cart.find(item => item.cartId === cartId);
+        const maxQty = product.quantity !== undefined ? Number(product.quantity) : 10;
 
         if (existingItem) {
+            if (existingItem.quantity >= maxQty) {
+                showToast(`⚠️ স্টকে মাত্র ${maxQty}টা আছে!`);
+                return;
+            }
             existingItem.quantity++;
         } else {
+            if (maxQty <= 0) {
+                showToast("❌ এই প্রোডাক্টের স্টক শেষ!");
+                return;
+            }
             cart.push({
                 cartId,
                 id: product.id,
@@ -521,11 +503,18 @@ if (cartItems) {
     cartItems.addEventListener("click", event => {
         const button = event.target.closest("button");
         if (!button) return;
-
         const item = cart.find(entry => entry.cartId === button.dataset.id);
         if (!item) return;
 
-        if (button.dataset.action === "increase") item.quantity++;
+        if (button.dataset.action === "increase") {
+            const prod = products.find(p => p.id === item.id);
+            const maxQty = prod && prod.quantity !== undefined ? Number(prod.quantity) : 10;
+            if (item.quantity >= maxQty) {
+                showToast(`⚠️ স্টকে মাত্র ${maxQty}টা আছে!`);
+                return;
+            }
+            item.quantity++;
+        }
         if (button.dataset.action === "decrease") item.quantity--;
         if (button.dataset.action === "remove") item.quantity = 0;
 
@@ -568,36 +557,24 @@ if (searchInput) {
 
 if (cartButton) cartButton.addEventListener("click", openCart);
 if (closeCartButton) closeCartButton.addEventListener("click", closeCart);
-
 if (cartModal) {
     cartModal.addEventListener("click", event => {
-        if (event.target === cartModal) {
-            closeCart();
-        }
+        if (event.target === cartModal) closeCart();
     });
 }
 
-if (closeSizeChart) {
-    closeSizeChart.addEventListener("click", closeSizeChartModal);
-}
-
+if (closeSizeChart) closeSizeChart.addEventListener("click", closeSizeChartModal);
 if (sizeChartModal) {
     sizeChartModal.addEventListener("click", event => {
-        if (event.target === sizeChartModal) {
-            closeSizeChartModal();
-        }
+        if (event.target === sizeChartModal) closeSizeChartModal();
     });
 }
 
-// ✅ Wishlist Events
 if (wishlistButton) wishlistButton.addEventListener("click", openWishlist);
 if (closeWishlist) closeWishlist.addEventListener("click", closeWishlistModal);
-
 if (wishlistModal) {
     wishlistModal.addEventListener("click", event => {
-        if (event.target === wishlistModal) {
-            closeWishlistModal();
-        }
+        if (event.target === wishlistModal) closeWishlistModal();
     });
 }
 
@@ -607,13 +584,8 @@ if (checkoutButton) {
             showToast("কার্টে একটি প্রোডাক্ট যোগ করুন।");
             return;
         }
-
         checkoutForm.hidden = false;
-        checkoutForm.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-        });
-
+        checkoutForm.scrollIntoView({ behavior: "smooth", block: "nearest" });
         updatePaymentInstruction();
     });
 }
@@ -641,7 +613,6 @@ if (darkModeToggle) {
 
 loadTheme();
 
-// ✅ Live Chat
 if (liveChatButton) {
     liveChatButton.addEventListener("click", () => {
         const msg = encodeURIComponent("আসসালামু আলাইকুম, ARTistico থেকে সহায়তা চাই।");
@@ -653,13 +624,11 @@ if (liveChatButton) {
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", event => {
         event.preventDefault();
-
         const payment = getSelectedPayment();
 
         if (payment === 'bKash') {
             const sender = document.getElementById('bkashSender')?.value.trim();
             const trx = document.getElementById('bkashTransactionId')?.value.trim();
-
             if (!sender || sender.length < 11) {
                 showToast('সঠিক বিকাশ সেন্ডার নম্বর দিন (০১XXXXXXXXX)');
                 return;
@@ -669,11 +638,9 @@ if (checkoutForm) {
                 return;
             }
         }
-
         if (payment === 'Nagad') {
             const sender = document.getElementById('nagadSender')?.value.trim();
             const trx = document.getElementById('nagadTransactionId')?.value.trim();
-
             if (!sender || sender.length < 11) {
                 showToast('সঠিক নগদ সেন্ডার নম্বর দিন (০১XXXXXXXXX)');
                 return;
@@ -683,13 +650,11 @@ if (checkoutForm) {
                 return;
             }
         }
-
         if (cart.length === 0) {
             showToast("আপনার কার্ট খালি।");
             checkoutForm.hidden = true;
             return;
         }
-
         if (!checkoutForm.checkValidity()) {
             checkoutForm.reportValidity();
             return;
@@ -703,7 +668,6 @@ if (checkoutForm) {
 
         let senderNumber = 'N/A';
         let trxId = 'N/A';
-
         if (payment === 'bKash') {
             senderNumber = formData.get('bkashSender') || 'N/A';
             trxId = formData.get('bkashTransactionId') || 'N/A';
@@ -731,7 +695,8 @@ if (checkoutForm) {
                 name: item.name,
                 size: item.size,
                 quantity: item.quantity,
-                price: item.price
+                price: item.price,
+                productId: item.id
             })),
             senderNumber: senderNumber,
             trxId: trxId,
@@ -770,375 +735,4 @@ if (checkoutForm) {
                 status: 'pending',
                 createdAt: order.createdAt
             })
-        }).then(() => console.log('✅ অর্ডার Firebase-এ গেছে'))
-          .catch(err => console.error('❌ Firebase error:', err));
-
-        localStorage.setItem("artisticoLastOrder", JSON.stringify(order));
-
-        checkoutForm.reset();
-        checkoutForm.hidden = true;
-        cart = [];
-        renderCart();
-        updatePaymentInstruction();
-
-        showToast(`অর্ডার ${orderNumber} সফলভাবে জমা হয়েছে।`);
-
-        setTimeout(() => {
-            const paymentMessage = payment !== 'Visa'
-                ? `সেন্ডার নম্বর: ${order.senderNumber}\nTrxID: ${order.trxId}\n`
-                : '';
-
-            alert(
-                `আপনার অর্ডারের জন্য ধন্যবাদ!\n\n` +
-                `অর্ডার নম্বর: ${orderNumber}\n` +
-                `ডেলিভারি এলাকা: ${order.delivery.area}\n` +
-                `ডেলিভারি ঠিকানা: ${order.customer.address}\n` +
-                paymentMessage +
-                `মোট: ${money(total)}\n\n` +
-                `ARTistico আপনার অর্ডার যাচাই করবে এবং ডেলিভারির জন্য যোগাযোগ করবে।`
-            );
-        }, 300);
-    });
-}
-
-// ✅ START
-updatePaymentInstruction();
-updateWishlistCount();
-loadProductsFromFirebase();
-renderCart();
-
-console.log("✅ ARTistico initialized with all features");
-
-
-// =============================================
-// ⭐ REVIEW / RATING SYSTEM
-// =============================================
-
-const reviewModal = document.getElementById("reviewModal");
-const closeReview = document.getElementById("closeReview");
-const reviewList = document.getElementById("reviewList");
-const reviewForm = document.getElementById("reviewForm");
-const reviewModalTitle = document.getElementById("reviewModalTitle");
-const starRatingInput = document.getElementById("starRatingInput");
-const ratingValue = document.getElementById("ratingValue");
-
-let currentReviewProductId = null;
-let currentRating = 0;
-let reviewsCache = {};
-
-function normalizeRating(val) {
-    const n = Number(val);
-    if (isNaN(n)) return 0;
-    return Math.max(1, Math.min(5, Math.round(n)));
-}
-
-async function loadAllReviews() {
-    try {
-        const res = await fetch(`${FIREBASE_URL}/Reviews.json`);
-        const data = await res.json();
-        reviewsCache = data || {};
-    } catch (err) {
-        console.error("Reviews load হয়নি:", err);
-        reviewsCache = {};
-    }
-}
-
-function getProductReviews(productId) {
-    if (!reviewsCache[productId]) return [];
-    return Object.values(reviewsCache[productId]).filter(r => r && r.name);
-}
-
-function getAverageRating(productId) {
-    const reviews = getProductReviews(productId);
-    if (reviews.length === 0) return { avg: 0, count: 0 };
-    const sum = reviews.reduce((s, r) => s + normalizeRating(r.rating), 0);
-    return {
-        avg: (sum / reviews.length).toFixed(1),
-        count: reviews.length
-    };
-}
-
-async function openReviews(productId) {
-    currentReviewProductId = productId;
-    const product = products.find(p => p.id === Number(productId));
-    if (!product) return;
-
-    if (reviewModalTitle) {
-        reviewModalTitle.textContent = product.name + " — রিভিউ";
-    }
-
-    if (reviewList) {
-        reviewList.innerHTML = '<p style="color: var(--muted); padding: 20px 0; text-align: center;">রিভিউ লোড হচ্ছে...</p>';
-    }
-
-    if (reviewModal) {
-        reviewModal.classList.add("active");
-        reviewModal.setAttribute("aria-hidden", "false");
-    }
-
-    await loadAllReviews();
-    renderReviewList(productId);
-}
-
-function renderReviewList(productId) {
-    if (!reviewList) return;
-
-    const reviews = getProductReviews(productId);
-
-    if (reviews.length === 0) {
-        reviewList.innerHTML = '<p style="color: var(--muted); padding: 20px 0; text-align: center;">এখনো কোনো রিভিউ নেই। প্রথম রিভিউ আপনিই দিন! ⭐</p>';
-        return;
-    }
-
-    reviews.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
-
-    reviewList.innerHTML = reviews.map(r => {
-        const rating = normalizeRating(r.rating);
-        const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
-        const date = r.createdAt ? new Date(r.createdAt).toLocaleDateString('bn-BD') : '';
-
-        return `
-            <div class="review-item">
-                <div class="review-header">
-                    <strong class="review-name">${escapeHtml(r.name)}</strong>
-                    <span class="review-date">${date}</span>
-                </div>
-                <div class="review-stars">${stars}</div>
-                <p class="review-comment">${escapeHtml(r.comment)}</p>
-            </div>
-        `;
-    }).join("");
-}
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function closeReviewModal() {
-    if (!reviewModal) return;
-    reviewModal.classList.remove("active");
-    reviewModal.setAttribute("aria-hidden", "true");
-    currentReviewProductId = null;
-    currentRating = 0;
-    if (ratingValue) ratingValue.value = "0";
-    if (starRatingInput) {
-        starRatingInput.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
-    }
-    if (reviewForm) reviewForm.reset();
-}
-
-if (starRatingInput) {
-    starRatingInput.querySelectorAll('.star-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const star = Number(btn.dataset.star);
-            currentRating = star;
-            if (ratingValue) ratingValue.value = star;
-
-            starRatingInput.querySelectorAll('.star-btn').forEach(s => {
-                const sVal = Number(s.dataset.star);
-                s.classList.toggle('active', sVal <= star);
-            });
-        });
-
-        btn.addEventListener('mouseenter', () => {
-            const star = Number(btn.dataset.star);
-            starRatingInput.querySelectorAll('.star-btn').forEach(s => {
-                const sVal = Number(s.dataset.star);
-                s.classList.toggle('hover', sVal <= star);
-            });
-        });
-
-        btn.addEventListener('mouseleave', () => {
-            starRatingInput.querySelectorAll('.star-btn').forEach(s => s.classList.remove('hover'));
-        });
-    });
-}
-
-if (reviewForm) {
-    reviewForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        if (!currentReviewProductId) {
-            showToast("সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-            return;
-        }
-
-        const name = document.getElementById('reviewerName')?.value.trim();
-        const comment = document.getElementById('reviewComment')?.value.trim();
-        const rating = Number(ratingValue?.value || 0);
-
-        if (!name || name.length < 2) {
-            showToast("সঠিক নাম লিখুন (ন্যূনতম ২ অক্ষর)।");
-            return;
-        }
-        if (rating < 1 || rating > 5) {
-            showToast("দয়া করে ১ থেকে ৫ স্টার রেটিং দিন।");
-            return;
-        }
-        if (!comment || comment.length < 5) {
-            showToast("মন্তব্য লিখুন (ন্যূনতম ৫ অক্ষর)।");
-            return;
-        }
-
-        const submitBtn = reviewForm.querySelector('.review-submit');
-        if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = "জমা হচ্ছে...";
-        }
-
-        try {
-            const reviewData = {
-                name: name,
-                rating: rating,
-                comment: comment,
-                createdAt: new Date().toISOString()
-            };
-
-            const res = await fetch(`${FIREBASE_URL}/Reviews/${currentReviewProductId}.json`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(reviewData)
-            });
-
-            if (!res.ok) throw new Error("Submit failed");
-
-            showToast("✅ আপনার রিভিউ জমা হয়েছে!");
-
-            await loadAllReviews();
-            renderReviewList(currentReviewProductId);
-
-            reviewForm.reset();
-            currentRating = 0;
-            if (ratingValue) ratingValue.value = "0";
-            starRatingInput.querySelectorAll('.star-btn').forEach(s => s.classList.remove('active'));
-
-        } catch (err) {
-            console.error("Review submit error:", err);
-            showToast("❌ রিভিউ জমা হয়নি। আবার চেষ্টা করুন।");
-        } finally {
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "রিভিউ জমা দিন";
-            }
-        }
-    });
-}
-
-if (closeReview) closeReview.addEventListener("click", closeReviewModal);
-
-if (reviewModal) {
-    reviewModal.addEventListener("click", (e) => {
-        if (e.target === reviewModal) closeReviewModal();
-    });
-}
-
-function buildRatingHTML(productId) {
-    const { avg, count } = getAverageRating(productId);
-    if (count === 0) {
-        return `<button type="button" class="btn-review-empty" onclick="openReviews(${productId})">⭐ প্রথম রিভিউ দিন</button>`;
-    }
-    const stars = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
-    return `
-        <button type="button" class="btn-review" onclick="openReviews(${productId})">
-            <span class="review-stars-small">${stars}</span>
-            <span class="review-info-small">${avg} (${count})</span>
-        </button>
-    `;
-}
-
-function injectReviewButtons() {
-    document.querySelectorAll('.product-card').forEach(card => {
-        if (card.querySelector('.btn-review') || card.querySelector('.btn-review-empty')) return;
-
-        const productId = card.querySelector('.btn-add-cart')?.dataset.product;
-        if (!productId) return;
-
-        const priceEl = card.querySelector('.product-price');
-        if (!priceEl) return;
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'review-wrapper';
-        wrapper.innerHTML = buildRatingHTML(Number(productId));
-
-        priceEl.parentNode.insertBefore(wrapper, priceEl.nextSibling);
-    });
-}
-
-const _originalRenderProducts = renderProducts;
-renderProducts = function() {
-    _originalRenderProducts();
-    setTimeout(injectReviewButtons, 100);
-};
-
-async function initReviews() {
-    await loadAllReviews();
-    injectReviewButtons();
-}
-
-window.openReviews = openReviews;
-window.toggleWishlist = toggleWishlist;
-
-initReviews();
-
-console.log("✅ Review/Rating System initialized");
-
-
-// =============================================
-// 📲 PWA INSTALL APP BUTTON
-// =============================================
-
-let deferredPrompt = null;
-const installAppButton = document.getElementById("installAppButton");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (installAppButton) {
-        installAppButton.style.display = "inline-flex";
-    }
-    console.log("📲 Install prompt ready");
-});
-
-if (installAppButton) {
-    installAppButton.addEventListener("click", async () => {
-        if (!deferredPrompt) {
-            showToast("আপনার ব্রাউজার ইনস্টল সাপোর্ট করছে না।");
-            return;
-        }
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log("Install outcome:", outcome);
-        if (outcome === "accepted") {
-            showToast("✅ ARTistico অ্যাপ ইনস্টল হয়েছে!");
-        } else {
-            showToast("আপনি ইনস্টল বাতিল করেছেন।");
-        }
-        deferredPrompt = null;
-        if (installAppButton) {
-            installAppButton.style.display = "none";
-        }
-    });
-}
-
-window.addEventListener("appinstalled", () => {
-    console.log("✅ PWA installed");
-    showToast("🎉 ARTistico অ্যাপ ইনস্টল হয়েছে!");
-    if (installAppButton) {
-        installAppButton.style.display = "none";
-    }
-    deferredPrompt = null;
-});
-
-if (window.matchMedia("(display-mode: standalone)").matches) {
-    if (installAppButton) {
-        installAppButton.style.display = "none";
-    }
-}
-
-console.log("✅ Install App button initialized");
+        }).then(() => console.log
