@@ -84,7 +84,7 @@ function getDeliveryArea() {
 
 function getSelectedPayment() {
     const el = document.querySelector('input[name="payment"]:checked');
-    return el ? el.value : "Visa";
+    return el ? el.value : "bKash";
 }
 
 function getSubtotal() {
@@ -276,20 +276,16 @@ function updateTotals() {
 
 function updatePaymentInstruction() {
     const payment = getSelectedPayment();
+    const deliveryCharge = getSelectedDelivery();
     const bkashFields = document.getElementById('bkashFields');
     const nagadFields = document.getElementById('nagadFields');
-    if (bkashFields) bkashFields.style.display = 'none';
-    if (nagadFields) nagadFields.style.display = 'none';
-    if (!paymentInstruction) return;
 
-    if (payment === 'Visa') {
-        paymentInstruction.textContent = "ভিসা পেমেন্টের জন্য একটি সুরক্ষিত গেটওয়ে প্রয়োজন। এখানে কার্ডের তথ্য দেবেন না।";
-    } else if (payment === 'bKash') {
-        if (bkashFields) bkashFields.style.display = 'block';
-        paymentInstruction.textContent = "মোট টাকা বিকাশ নম্বরে পাঠান: " + bkashMerchantNumber + "। তারপর আপনার সেন্ডার নম্বর ও TrxID দিন।";
-    } else if (payment === 'Nagad') {
-        if (nagadFields) nagadFields.style.display = 'block';
-        paymentInstruction.textContent = "মোট টাকা নগদ নম্বরে পাঠান: " + nagadMerchantNumber + "। তারপর আপনার সেন্ডার নম্বর ও TrxID দিন।";
+    if (bkashFields) bkashFields.style.display = payment === 'bKash' ? 'block' : 'none';
+    if (nagadFields) nagadFields.style.display = payment === 'Nagad' ? 'block' : 'none';
+
+    const advanceAmount = document.getElementById('advanceAmount');
+    if (advanceAmount) {
+        advanceAmount.textContent = "৳" + deliveryCharge;
     }
 }
 
@@ -409,7 +405,10 @@ document.querySelectorAll(".filter-btn").forEach(button => {
 });
 
 document.querySelectorAll('input[name="delivery"]').forEach(input => {
-    input.addEventListener("change", updateTotals);
+    input.addEventListener("change", () => {
+        updateTotals();
+        updatePaymentInstruction();
+    });
 });
 
 document.querySelectorAll('input[name="payment"]').forEach(input => {
@@ -495,51 +494,73 @@ if (liveChatButton) {
 }
 
 if (checkoutForm) {
-    checkoutForm.addEventListener("submit", event => {
+    checkoutForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const payment = getSelectedPayment();
 
-        if (payment === 'bKash') {
-            const sender = document.getElementById('bkashSender');
-            const trx = document.getElementById('bkashTransactionId');
-            const senderVal = sender ? sender.value.trim() : "";
-            const trxVal = trx ? trx.value.trim() : "";
-            if (!senderVal || senderVal.length < 11) { showToast('সঠিক বিকাশ সেন্ডার নম্বর দিন'); return; }
-            if (!trxVal || trxVal.length < 6) { showToast('সঠিক TrxID দিন'); return; }
-        }
-        if (payment === 'Nagad') {
-            const sender = document.getElementById('nagadSender');
-            const trx = document.getElementById('nagadTransactionId');
-            const senderVal = sender ? sender.value.trim() : "";
-            const trxVal = trx ? trx.value.trim() : "";
-            if (!senderVal || senderVal.length < 11) { showToast('সঠিক নগদ সেন্ডার নম্বর দিন'); return; }
-            if (!trxVal || trxVal.length < 6) { showToast('সঠিক TrxID দিন'); return; }
-        }
         if (cart.length === 0) {
             showToast("আপনার কার্ট খালি।");
             checkoutForm.hidden = true;
             return;
         }
+
         if (!checkoutForm.checkValidity()) {
             checkoutForm.reportValidity();
             return;
         }
 
+        const payment = getSelectedPayment();
         const formData = new FormData(checkoutForm);
         const deliveryCharge = getSelectedDelivery();
+        const deliveryArea = getDeliveryArea();
         const subtotal = getSubtotal();
         const total = subtotal + deliveryCharge;
-        const orderNumber = "ART-" + Date.now().toString().slice(-6);
 
-        let senderNumber = 'N/A';
-        let trxId = 'N/A';
-        if (payment === 'bKash') {
-            senderNumber = formData.get('bkashSender') || 'N/A';
-            trxId = formData.get('bkashTransactionId') || 'N/A';
-        } else if (payment === 'Nagad') {
-            senderNumber = formData.get('nagadSender') || 'N/A';
-            trxId = formData.get('nagadTransactionId') || 'N/A';
+        const senderField = payment === 'bKash' ? 'bkashSender' : 'nagadSender';
+        const trxField = payment === 'bKash' ? 'bkashTransactionId' : 'nagadTransactionId';
+
+        const senderNumber = (formData.get(senderField) || "").trim();
+        const trxId = (formData.get(trxField) || "").trim().toUpperCase();
+
+        // Fraud Check 1: Sender format
+        if (!senderNumber || senderNumber.length !== 11 || !senderNumber.startsWith("01")) {
+            showToast("❌ সঠিক ১১ ডিজিটের নম্বর দিন (01XXXXXXXXX)");
+            return;
         }
+
+        // Fraud Check 2: TrxID format
+        if (!trxId || trxId.length < 8) {
+            showToast("❌ TrxID কমপক্ষে ৮ অক্ষরের হতে হবে");
+            return;
+        }
+
+        if (!/^[A-Z0-9]+$/.test(trxId)) {
+            showToast("❌ TrxID-এ শুধু A-Z ও 0-9 থাকবে");
+            return;
+        }
+
+        // Fraud Check 3: Duplicate TrxID
+        try {
+            const checkRes = await fetch(FIREBASE_URL + "/Orders.json");
+            const existingOrders = await checkRes.json();
+            if (existingOrders) {
+                const allOrders = Object.values(existingOrders);
+                const duplicate = allOrders.find(o => o && o.trxId && o.trxId.toUpperCase() === trxId);
+                if (duplicate) {
+                    showToast("❌ এই TrxID আগে ব্যবহার হয়েছে!");
+                    return;
+                }
+                const sameSenderCount = allOrders.filter(o => o && o.senderNumber === senderNumber).length;
+                if (sameSenderCount >= 3) {
+                    if (!confirm("⚠️ এই নম্বর দিয়ে অনেক অর্ডার হয়েছে। চালিয়ে যাবেন?")) {
+                        return;
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Fraud check error:", err);
+        }
+
+        const orderNumber = "ART-" + Date.now().toString().slice(-6);
 
         const order = {
             orderNumber: orderNumber,
@@ -549,10 +570,7 @@ if (checkoutForm) {
                 email: formData.get("customerEmail"),
                 address: formData.get("customerAddress")
             },
-            delivery: { area: getDeliveryArea(), charge: deliveryCharge },
-            payment: payment,
-            subtotal: subtotal,
-            total: total,
+            delivery: { area: deliveryArea, charge: deliveryCharge },
             items: cart.map(item => ({
                 name: item.name,
                 size: item.size,
@@ -560,59 +578,78 @@ if (checkoutForm) {
                 price: item.price,
                 productId: item.id
             })),
+            subtotal: subtotal,
+            deliveryCharge: deliveryCharge,
+            total: total,
+            advancePaid: deliveryCharge,
+            codAmount: subtotal,
+            payment: payment,
             senderNumber: senderNumber,
             trxId: trxId,
-            status: payment === 'Visa' ? 'pending' : 'pending_verification',
+            status: "pending_verification",
             createdAt: new Date().toISOString()
         };
 
-        const orders = JSON.parse(localStorage.getItem('artisticoOrders') || '[]');
-        orders.push({
-            orderId: order.orderNumber,
-            customer: order.customer.name,
-            phone: order.customer.phone,
-            address: order.customer.address,
-            payment: order.payment,
-            items: order.items.map(i => i.name + " (" + i.size + ") x" + i.quantity).join(', '),
-            total: order.total,
-            senderNumber: order.senderNumber,
-            trxId: order.trxId,
-            status: 'pending'
-        });
-        localStorage.setItem('artisticoOrders', JSON.stringify(orders));
+        const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Order জমা হচ্ছে...";
+        }
 
-        fetch(FIREBASE_URL + "/Orders.json", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                orderNumber: order.orderNumber,
-                customer: order.customer,
-                delivery: order.delivery,
-                items: order.items,
+        try {
+            await fetch(FIREBASE_URL + "/Orders.json", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(order)
+            });
+
+            const orders = JSON.parse(localStorage.getItem('artisticoOrders') || '[]');
+            orders.push({
+                orderId: order.orderNumber,
+                customer: order.customer.name,
+                phone: order.customer.phone,
+                address: order.customer.address,
                 payment: order.payment,
-                subtotal: order.subtotal,
+                items: order.items.map(i => i.name + " (" + i.size + ") x" + i.quantity).join(', '),
                 total: order.total,
+                advancePaid: order.advancePaid,
+                codAmount: order.codAmount,
                 senderNumber: order.senderNumber,
                 trxId: order.trxId,
-                status: 'pending',
-                createdAt: order.createdAt
-            })
-        }).then(() => console.log('✅ অর্ডার Firebase-এ গেছে')).catch(err => console.error('❌ Firebase error:', err));
+                status: 'pending_verification'
+            });
+            localStorage.setItem('artisticoOrders', JSON.stringify(orders));
 
-        localStorage.setItem("artisticoLastOrder", JSON.stringify(order));
+            checkoutForm.reset();
+            checkoutForm.hidden = true;
+            cart = [];
+            renderCart();
+            updatePaymentInstruction();
 
-        checkoutForm.reset();
-        checkoutForm.hidden = true;
-        cart = [];
-        renderCart();
-        updatePaymentInstruction();
+            showToast("✅ অর্ডার " + orderNumber + " সফল!");
 
-        showToast("অর্ডার " + orderNumber + " সফলভাবে জমা হয়েছে।");
+            setTimeout(() => {
+                alert(
+                    "✅ অর্ডার কনফার্ম হয়েছে!\n\n" +
+                    "Order নম্বর: " + orderNumber + "\n\n" +
+                    "📦 ডেলিভারি: " + deliveryArea + "\n" +
+                    "💵 ডেলিভারি চার্জ: ৳" + deliveryCharge + " (পেইড)\n" +
+                    "💰 COD তে দিতে হবে: ৳" + subtotal + "\n" +
+                    "📊 মোট: ৳" + total + "\n\n" +
+                    "🔍 আপনার TrxID: " + trxId + "\n\n" +
+                    "ARTistico ২৪ ঘণ্টার মধ্যে যাচাই করে যোগাযোগ করবে।"
+                );
+            }, 300);
 
-        setTimeout(() => {
-            const paymentMessage = payment !== 'Visa' ? "সেন্ডার নম্বর: " + order.senderNumber + "\nTrxID: " + order.trxId + "\n" : '';
-            alert("আপনার অর্ডারের জন্য ধন্যবাদ!\n\nঅর্ডার নম্বর: " + orderNumber + "\nডেলিভারি এলাকা: " + order.delivery.area + "\nডেলিভারি ঠিকানা: " + order.customer.address + "\n" + paymentMessage + "মোট: " + money(total) + "\n\nARTistico আপনার অর্ডার যাচাই করবে এবং ডেলিভারির জন্য যোগাযোগ করবে।");
-        }, 300);
+        } catch (err) {
+            console.error("Order save error:", err);
+            showToast("❌ অর্ডার জমা হয়নি। আবার চেষ্টা করুন।");
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit order ✓";
+            }
+        }
     });
 }
 
@@ -621,4 +658,4 @@ updateWishlistCount();
 loadProductsFromFirebase();
 renderCart();
 
-console.log("✅ ARTistico initialized");
+console.log("✅ ARTistico initialized with COD + Fraud Detection");
