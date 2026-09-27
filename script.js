@@ -9,7 +9,7 @@ const WHATSAPP_NUMBER = "8801636032218";
 async function loadProductsFromFirebase() {
     try {
         showLoadingSkeleton();
-        const res = await fetch(`${FIREBASE_URL}/Products.json`);
+        const res = await fetch(FIREBASE_URL + "/Products.json");
         const data = await res.json();
         if (data) {
             products = Object.values(data).filter(p => p && p.name && p.id);
@@ -48,7 +48,7 @@ const sizeChartModal = document.getElementById("sizeChartModal");
 const closeSizeChart = document.getElementById("closeSizeChart");
 
 const darkModeToggle = document.getElementById("darkModeToggle");
-const themeIcon = darkModeToggle?.querySelector(".theme-icon");
+const themeIcon = darkModeToggle ? darkModeToggle.querySelector(".theme-icon") : null;
 const liveChatButton = document.getElementById("liveChatButton");
 const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
 
@@ -65,7 +65,7 @@ const bkashMerchantNumber = "01636032218";
 const nagadMerchantNumber = "01636032218";
 
 function money(value) {
-    return `৳${Number(value).toLocaleString("en-BD")}`;
+    return "৳" + Number(value).toLocaleString("en-BD");
 }
 
 function getSelectedDeliveryInput() {
@@ -73,17 +73,18 @@ function getSelectedDeliveryInput() {
 }
 
 function getSelectedDelivery() {
-    return Number(getSelectedDeliveryInput()?.value || 0);
+    const el = getSelectedDeliveryInput();
+    return Number(el ? el.value : 0);
 }
 
 function getDeliveryArea() {
-    return getSelectedDeliveryInput()?.value === "120"
-        ? "ঢাকার বাইরে"
-        : "ঢাকার ভিতরে";
+    const el = getSelectedDeliveryInput();
+    return (el && el.value === "120") ? "ঢাকার বাইরে" : "ঢাকার ভিতরে";
 }
 
 function getSelectedPayment() {
-    return document.querySelector('input[name="payment"]:checked')?.value || "Visa";
+    const el = document.querySelector('input[name="payment"]:checked');
+    return el ? el.value : "Visa";
 }
 
 function getSubtotal() {
@@ -104,21 +105,9 @@ function closeSizeChartModal() {
 
 function showLoadingSkeleton() {
     if (!productsGrid) return;
-    const skeletonCount = 6;
     let skeletonHTML = "";
-    for (let i = 0; i < skeletonCount; i++) {
-        skeletonHTML += `
-            <article class="product-card skeleton-card">
-                <div class="product-image skeleton-image"></div>
-                <div class="product-info">
-                    <div class="skeleton-line skeleton-small"></div>
-                    <div class="skeleton-line skeleton-medium"></div>
-                    <div class="skeleton-line skeleton-large"></div>
-                    <div class="skeleton-line skeleton-small"></div>
-                    <div class="skeleton-line skeleton-button"></div>
-                </div>
-            </article>
-        `;
+    for (let i = 0; i < 6; i++) {
+        skeletonHTML += '<article class="product-card skeleton-card"><div class="product-image skeleton-image"></div><div class="product-info"><div class="skeleton-line skeleton-small"></div><div class="skeleton-line skeleton-medium"></div><div class="skeleton-line skeleton-large"></div></div></article>';
     }
     productsGrid.innerHTML = skeletonHTML;
 }
@@ -128,12 +117,7 @@ function updateBreadcrumb(categoryName) {
     if (!categoryName || categoryName === "all") {
         breadcrumbCurrent.textContent = "All Products";
     } else {
-        const labels = {
-            mens: "Men's",
-            womens: "Women's",
-            boys: "Boys",
-            unisex: "Unisex"
-        };
+        const labels = { mens: "Men's", womens: "Women's", boys: "Boys", unisex: "Unisex" };
         breadcrumbCurrent.textContent = labels[categoryName] || categoryName;
     }
 }
@@ -151,38 +135,21 @@ function renderRecentlyViewed() {
         recentlyViewedSection.style.display = 'none';
         return;
     }
-    const recentProducts = recentlyViewed
-        .map(id => products.find(p => p.id === Number(id)))
-        .filter(p => p);
+    const recentProducts = recentlyViewed.map(id => products.find(p => p.id === Number(id))).filter(p => p);
     if (recentProducts.length === 0) {
         recentlyViewedSection.style.display = 'none';
         return;
     }
     recentlyViewedSection.style.display = 'block';
     recentlyViewedGrid.innerHTML = recentProducts.map(product => {
-        const productName = product.name || "Product";
-        return `
-        <article class="product-card" onclick="scrollToProduct(${product.id})">
-            <div class="product-image">
-                <span class="product-badge">দেখেছেন</span>
-                <img src="${product.image}" alt="${productName}" loading="lazy"
-                     onerror="this.src='https://placehold.co/600x600/e0f7ff/003d7a?text=ARTistico'">
-            </div>
-            <div class="product-info">
-                <div class="product-category">${product.category}</div>
-                <h3 class="product-name">${productName}</h3>
-                <div class="product-price">${money(product.price)}</div>
-            </div>
-        </article>
-        `;
+        const n = product.name || "Product";
+        return '<article class="product-card" onclick="scrollToProduct(' + product.id + ')"><div class="product-image"><span class="product-badge">দেখেছেন</span><img src="' + product.image + '" alt="' + n + '" loading="lazy" onerror="this.src=\'https://placehold.co/600x600/e0f7ff/003d7a?text=ARTistico\'"></div><div class="product-info"><div class="product-category">' + product.category + '</div><h3 class="product-name">' + n + '</h3><div class="product-price">' + money(product.price) + '</div></div></article>';
     }).join("");
 }
 
 function scrollToProduct(id) {
-    const element = document.querySelector(`.btn-add-cart[data-product="${id}"]`);
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    const element = document.querySelector('.btn-add-cart[data-product="' + id + '"]');
+    if (element) element.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function toggleWishlist(productId) {
@@ -208,24 +175,13 @@ function updateWishlistCount() {
 function renderWishlist() {
     if (!wishlistItems) return;
     if (wishlist.length === 0) {
-        wishlistItems.innerHTML = `<div class="empty-cart">আপনার wishlist খালি। ❤️ যোগ করুন।</div>`;
+        wishlistItems.innerHTML = '<div class="empty-cart">আপনার wishlist খালি। ❤️ যোগ করুন।</div>';
         return;
     }
-    const wishProducts = wishlist
-        .map(id => products.find(p => p.id === Number(id)))
-        .filter(p => p);
+    const wishProducts = wishlist.map(id => products.find(p => p.id === Number(id))).filter(p => p);
     wishlistItems.innerHTML = wishProducts.map(product => {
-        const productName = product.name || "Product";
-        return `
-        <div class="wishlist-item">
-            <img src="${product.image}" alt="${productName}" class="wishlist-image">
-            <div class="wishlist-info">
-                <h3>${productName}</h3>
-                <p>${money(product.price)}</p>
-            </div>
-            <button type="button" class="wishlist-remove" onclick="toggleWishlist(${product.id})">❌</button>
-        </div>
-        `;
+        const n = product.name || "Product";
+        return '<div class="wishlist-item"><img src="' + product.image + '" alt="' + n + '" class="wishlist-image"><div class="wishlist-info"><h3>' + n + '</h3><p>' + money(product.price) + '</p></div><button type="button" class="wishlist-remove" onclick="toggleWishlist(' + product.id + ')">❌</button></div>';
     }).join("");
 }
 
@@ -245,18 +201,14 @@ function closeWishlistModal() {
 function renderProducts() {
     if (!productsGrid) return;
     const searchTerm = searchInput ? searchInput.value.trim().toLowerCase() : "";
-
     const filteredProducts = products.filter(product => {
-        const matchesCategory =
-            selectedCategory === "all" || product.category === selectedCategory;
-        const matchesSearch =
-            (product.name || "").toLowerCase().includes(searchTerm) ||
-            (product.description || "").toLowerCase().includes(searchTerm);
+        const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+        const matchesSearch = (product.name || "").toLowerCase().includes(searchTerm) || (product.description || "").toLowerCase().includes(searchTerm);
         return matchesCategory && matchesSearch;
     });
 
     if (filteredProducts.length === 0) {
-        productsGrid.innerHTML = `<p class="empty-cart">কোনো শার্ট পাওয়া যায়নি।</p>`;
+        productsGrid.innerHTML = '<p class="empty-cart">কোনো শার্ট পাওয়া যায়নি।</p>';
         return;
     }
 
@@ -265,78 +217,33 @@ function renderProducts() {
         const isOutOfStock = stock <= 0;
         const productName = product.name || "Product";
         const isWishlisted = wishlist.includes(product.id);
-        const whatsappMsg = encodeURIComponent(`আসসালামু আলাইকুম, আমি "${productName}" (৳${product.price}) সম্পর্কে জানতে চাই।`);
-        const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMsg}`;
-        const shareMsg = encodeURIComponent(`ARTistico-তে দেখুন: ${productName} — ৳${product.price}`);
+        const whatsappMsg = encodeURIComponent('আসসালামু আলাইকুম, আমি "' + productName + '" (৳' + product.price + ') সম্পর্কে জানতে চাই।');
+        const whatsappLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + whatsappMsg;
+        const shareMsg = encodeURIComponent("ARTistico-তে দেখুন: " + productName + " — ৳" + product.price);
         const shareUrl = encodeURIComponent("https://artisticooutfit.vercel.app");
 
-        return `
-        <article class="product-card" data-product-id="${product.id}">
-            <div class="product-image">
-                <span class="product-badge">থ্রিফটেড</span>
-                ${isOutOfStock ? '<span class="stock-badge">STOCK OUT</span>' : ''}
-                <img src="${product.image}" alt="${productName}" loading="lazy"
-                     onerror="this.src='https://placehold.co/600x600/e0f7ff/003d7a?text=ARTistico'">
-                
-                <button type="button" 
-                        class="wishlist-heart ${isWishlisted ? 'active' : ''}" 
-                        onclick="event.stopPropagation(); toggleWishlist(${product.id})"
-                        aria-label="Wishlist">
-                    ${isWishlisted ? '❤️' : '🤍'}
-                </button>
-                
-                <div class="share-buttons">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" 
-                       target="_blank" class="share-btn share-fb" title="Share on Facebook" aria-label="Share on Facebook">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </a>
-                    <a href="https://wa.me/?text=${shareMsg}%20${shareUrl}" 
-                       target="_blank" class="share-btn share-wa" title="Share on WhatsApp" aria-label="Share on WhatsApp">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <div class="product-info">
-                <div class="product-category">${product.category}</div>
-                <h3 class="product-name">${productName}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-price">${money(product.price)}</div>
-
-                <div class="size-selector">
-                    ${(product.sizes || ["M", "L", "XL"]).map((size, index) => `
-                        <button type="button"
-                                class="size-btn ${index === 0 ? "selected" : ""}"
-                                data-product="${product.id}"
-                                data-size="${size}">
-                            ${size}
-                        </button>
-                    `).join("")}
-                </div>
-
-                <button type="button" class="btn-size-guide" onclick="openSizeChart()">
-                    📏 Size Guide
-                </button>
-
-                <button type="button" 
-                        class="btn-add-cart ${isOutOfStock ? "disabled" : ""}" 
-                        data-product="${product.id}"
-                        ${isOutOfStock ? "disabled" : ""}>
-                    ${isOutOfStock ? "স্টক শেষ" : "কার্টে যোগ করুন"}
-                </button>
-
-                <a href="${whatsappLink}" target="_blank" class="btn-whatsapp">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                    </svg>
-                    WhatsApp-এ জিজ্ঞেস করুন
-                </a>
-            </div>
-        </article>
-    `;
+        return '<article class="product-card" data-product-id="' + product.id + '">' +
+            '<div class="product-image">' +
+            '<span class="product-badge">থ্রিফটেড</span>' +
+            (isOutOfStock ? '<span class="stock-badge">STOCK OUT</span>' : '') +
+            '<img src="' + product.image + '" alt="' + productName + '" loading="lazy" onerror="this.src=\'https://placehold.co/600x600/e0f7ff/003d7a?text=ARTistico\'">' +
+            '<button type="button" class="wishlist-heart ' + (isWishlisted ? 'active' : '') + '" onclick="event.stopPropagation(); toggleWishlist(' + product.id + ')" aria-label="Wishlist">' + (isWishlisted ? '❤️' : '🤍') + '</button>' +
+            '<div class="share-buttons">' +
+            '<a href="https://www.facebook.com/sharer/sharer.php?u=' + shareUrl + '" target="_blank" class="share-btn share-fb" title="Share on Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>' +
+            '<a href="https://wa.me/?text=' + shareMsg + '%20' + shareUrl + '" target="_blank" class="share-btn share-wa" title="Share on WhatsApp"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></a>' +
+            '</div></div>' +
+            '<div class="product-info">' +
+            '<div class="product-category">' + product.category + '</div>' +
+            '<h3 class="product-name">' + productName + '</h3>' +
+            '<p class="product-description">' + product.description + '</p>' +
+            '<div class="product-price">' + money(product.price) + '</div>' +
+            '<div class="size-selector">' +
+            (product.sizes || ["M", "L", "XL"]).map((size, index) => '<button type="button" class="size-btn ' + (index === 0 ? 'selected' : '') + '" data-product="' + product.id + '" data-size="' + size + '">' + size + '</button>').join("") +
+            '</div>' +
+            '<button type="button" class="btn-size-guide" onclick="openSizeChart()">📏 Size Guide</button>' +
+            '<button type="button" class="btn-add-cart ' + (isOutOfStock ? 'disabled' : '') + '" data-product="' + product.id + '"' + (isOutOfStock ? ' disabled' : '') + '>' + (isOutOfStock ? 'স্টক শেষ' : 'কার্টে যোগ করুন') + '</button>' +
+            '<a href="' + whatsappLink + '" target="_blank" class="btn-whatsapp"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> WhatsApp-এ জিজ্ঞেস করুন</a>' +
+            '</div></article>';
     }).join("");
 }
 
@@ -345,7 +252,7 @@ function renderCart() {
     cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
 
     if (cart.length === 0) {
-        if (cartItems) cartItems.innerHTML = `<div class="empty-cart">আপনার কার্ট খালি।</div>`;
+        if (cartItems) cartItems.innerHTML = '<div class="empty-cart">আপনার কার্ট খালি।</div>';
         if (cartSubtotal) cartSubtotal.textContent = money(0);
         if (deliveryCost) deliveryCost.textContent = money(0);
         if (cartTotal) cartTotal.textContent = money(0);
@@ -354,23 +261,7 @@ function renderCart() {
     }
 
     if (cartItems) {
-        cartItems.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div>
-                    <h3>${item.name}</h3>
-                    <p>${money(item.price)} · সাইজ ${item.size}</p>
-                </div>
-                <div class="quantity-control">
-                    <button type="button" class="quantity-btn"
-                            data-action="decrease" data-id="${item.cartId}">−</button>
-                    <span>${item.quantity}</span>
-                    <button type="button" class="quantity-btn"
-                            data-action="increase" data-id="${item.cartId}">+</button>
-                    <button type="button" class="remove-btn"
-                            data-action="remove" data-id="${item.cartId}">রিমুভ</button>
-                </div>
-            </div>
-        `).join("");
+        cartItems.innerHTML = cart.map(item => '<div class="cart-item"><div><h3>' + item.name + '</h3><p>' + money(item.price) + ' · সাইজ ' + item.size + '</p></div><div class="quantity-control"><button type="button" class="quantity-btn" data-action="decrease" data-id="' + item.cartId + '">−</button><span>' + item.quantity + '</span><button type="button" class="quantity-btn" data-action="increase" data-id="' + item.cartId + '">+</button><button type="button" class="remove-btn" data-action="remove" data-id="' + item.cartId + '">রিমুভ</button></div></div>').join("");
     }
     updateTotals();
 }
@@ -406,9 +297,7 @@ function showToast(message) {
     if (!toast) return;
     toast.textContent = message;
     toast.classList.add("show");
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
+    setTimeout(() => { toast.classList.remove("show"); }, 3000);
 }
 
 function openCart() {
@@ -436,9 +325,7 @@ if (productsGrid) {
         const sizeButton = event.target.closest(".size-btn");
         if (sizeButton) {
             const productId = sizeButton.dataset.product;
-            document
-                .querySelectorAll(".size-btn[data-product='" + productId + "']")
-                .forEach(button => button.classList.remove("selected"));
+            document.querySelectorAll('.size-btn[data-product="' + productId + '"]').forEach(button => button.classList.remove("selected"));
             sizeButton.classList.add("selected");
             return;
         }
@@ -447,18 +334,14 @@ if (productsGrid) {
         if (!addButton) return;
         if (addButton.disabled) return;
 
-        const product = products.find(
-            item => item.id === Number(addButton.dataset.product)
-        );
+        const product = products.find(item => item.id === Number(addButton.dataset.product));
         if (!product) return;
 
         addToRecentlyViewed(product.id);
 
-        const selectedSizeButton = document.querySelector(
-            ".size-btn[data-product='" + product.id + "'].selected"
-        );
+        const selectedSizeButton = document.querySelector('.size-btn[data-product="' + product.id + '"].selected');
         const sizes = product.sizes || ["M", "L", "XL"];
-        const selectedSize = selectedSizeButton?.dataset.size || sizes[0];
+        const selectedSize = selectedSizeButton ? selectedSizeButton.dataset.size : sizes[0];
         const cartId = product.id + "-" + selectedSize;
         const existingItem = cart.find(item => item.cartId === cartId);
         const maxQty = product.quantity !== undefined ? Number(product.quantity) : 10;
@@ -516,7 +399,8 @@ if (cartItems) {
 
 document.querySelectorAll(".filter-btn").forEach(button => {
     button.addEventListener("click", () => {
-        document.querySelector(".filter-btn.active")?.classList.remove("active");
+        const active = document.querySelector(".filter-btn.active");
+        if (active) active.classList.remove("active");
         button.classList.add("active");
         selectedCategory = button.dataset.category;
         updateBreadcrumb(selectedCategory);
@@ -616,28 +500,20 @@ if (checkoutForm) {
         const payment = getSelectedPayment();
 
         if (payment === 'bKash') {
-            const sender = document.getElementById('bkashSender')?.value.trim();
-            const trx = document.getElementById('bkashTransactionId')?.value.trim();
-            if (!sender || sender.length < 11) {
-                showToast('সঠিক বিকাশ সেন্ডার নম্বর দিন (০১XXXXXXXXX)');
-                return;
-            }
-            if (!trx || trx.length < 6) {
-                showToast('সঠিক TrxID দিন (ন্যূনতম ৬ অক্ষর)');
-                return;
-            }
+            const sender = document.getElementById('bkashSender');
+            const trx = document.getElementById('bkashTransactionId');
+            const senderVal = sender ? sender.value.trim() : "";
+            const trxVal = trx ? trx.value.trim() : "";
+            if (!senderVal || senderVal.length < 11) { showToast('সঠিক বিকাশ সেন্ডার নম্বর দিন'); return; }
+            if (!trxVal || trxVal.length < 6) { showToast('সঠিক TrxID দিন'); return; }
         }
         if (payment === 'Nagad') {
-            const sender = document.getElementById('nagadSender')?.value.trim();
-            const trx = document.getElementById('nagadTransactionId')?.value.trim();
-            if (!sender || sender.length < 11) {
-                showToast('সঠিক নগদ সেন্ডার নম্বর দিন (০১XXXXXXXXX)');
-                return;
-            }
-            if (!trx || trx.length < 6) {
-                showToast('সঠিক TrxID দিন (ন্যূনতম ৬ অক্ষর)');
-                return;
-            }
+            const sender = document.getElementById('nagadSender');
+            const trx = document.getElementById('nagadTransactionId');
+            const senderVal = sender ? sender.value.trim() : "";
+            const trxVal = trx ? trx.value.trim() : "";
+            if (!senderVal || senderVal.length < 11) { showToast('সঠিক নগদ সেন্ডার নম্বর দিন'); return; }
+            if (!trxVal || trxVal.length < 6) { showToast('সঠিক TrxID দিন'); return; }
         }
         if (cart.length === 0) {
             showToast("আপনার কার্ট খালি।");
@@ -673,10 +549,7 @@ if (checkoutForm) {
                 email: formData.get("customerEmail"),
                 address: formData.get("customerAddress")
             },
-            delivery: {
-                area: getDeliveryArea(),
-                charge: deliveryCharge
-            },
+            delivery: { area: getDeliveryArea(), charge: deliveryCharge },
             payment: payment,
             subtotal: subtotal,
             total: total,
@@ -724,8 +597,7 @@ if (checkoutForm) {
                 status: 'pending',
                 createdAt: order.createdAt
             })
-        }).then(() => console.log('✅ অর্ডার Firebase-এ গেছে'))
-          .catch(err => console.error('❌ Firebase error:', err));
+        }).then(() => console.log('✅ অর্ডার Firebase-এ গেছে')).catch(err => console.error('❌ Firebase error:', err));
 
         localStorage.setItem("artisticoLastOrder", JSON.stringify(order));
 
@@ -738,14 +610,15 @@ if (checkoutForm) {
         showToast("অর্ডার " + orderNumber + " সফলভাবে জমা হয়েছে।");
 
         setTimeout(() => {
-            const paymentMessage = payment !== 'Visa'
-                ? "সেন্ডার নম্বর: " + order.senderNumber + "\nTrxID: " + order.trxId + "\n"
-                : '';
+            const paymentMessage = payment !== 'Visa' ? "সেন্ডার নম্বর: " + order.senderNumber + "\nTrxID: " + order.trxId + "\n" : '';
+            alert("আপনার অর্ডারের জন্য ধন্যবাদ!\n\nঅর্ডার নম্বর: " + orderNumber + "\nডেলিভারি এলাকা: " + order.delivery.area + "\nডেলিভারি ঠিকানা: " + order.customer.address + "\n" + paymentMessage + "মোট: " + money(total) + "\n\nARTistico আপনার অর্ডার যাচাই করবে এবং ডেলিভারির জন্য যোগাযোগ করবে।");
+        }, 300);
+    });
+}
 
-            alert(
-                "আপনার অর্ডারের জন্য ধন্যবাদ!\n\n" +
-                "অর্ডার নম্বর: " + orderNumber + "\n" +
-                "ডেলিভারি এলাকা: " + order.delivery.area + "\n" +
-                "ডেলিভারি ঠিকানা: " + order.customer.address + "\n" +
-                paymentMessage +
-                "মোট: " + money(total) + "\n
+updatePaymentInstruction();
+updateWishlistCount();
+loadProductsFromFirebase();
+renderCart();
+
+console.log("✅ ARTistico initialized");
