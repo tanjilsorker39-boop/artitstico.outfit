@@ -1,67 +1,96 @@
 // =============================================
-// 🤖 ARTistico AI Chatbot (Gemini API)
+// 🤖 ARTistico Chatbot — Rule-Based (100% Free)
 // =============================================
 
-// ⚠️ এই লাইনে আপনার API Key বসান
-const GEMINI_API_KEY = "AQ.Ab8RN6ILdqZYVmf4zgP9Wgmqfdbo0Zm5jqhDbTPx_9yPCEkrOw";
+const BUSINESS = {
+    phone: "01636032218",
+    email: "info.artisticowear@gmail.com",
+    facebook: "facebook.com/artisticowear",
+    website: "artisticooutfit.vercel.app",
+    deliveryInside: 60,
+    deliveryOutside: 120,
+    bkash: "01636032218",
+    nagad: "01636032218",
+    products: [
+        { name: "Sky Blue Striped Shirt", price: 299 },
+        { name: "Pink Striped Shirt", price: 350 },
+        { name: "White Striped Formal Shirt", price: 375 },
+        { name: "Olive Green Striped Shirt", price: 399 },
+        { name: "Black Striped Formal Shirt", price: 299 },
+        { name: "Deep Indigo Striped Formal Shirt", price: 299 }
+    ]
+};
 
-// Gemini API Endpoint
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
-
-// =============================================
-// ARTistico Business Info (AI এটা জানে)
-// =============================================
-const BUSINESS_INFO = `
-আপনি ARTistico Wear-এর AI Assistant। আপনার নাম "ARTistico Assistant"।
-
-📌 BUSINESS INFO:
-- নাম: ARTistico Wear
-- ঠিকানা: ঢাকা, বাংলাদেশ
-- Email: info.artisticowear@gmail.com
-- Phone/WhatsApp: 01636032218
-- Facebook: facebook.com/artisticowear
-- ওয়েবসাইট: artisticooutfit.vercel.app
-
-🛍️ PRODUCTS:
-- Secondhand/Thrifted শার্ট বিক্রি করি
-- দাম: ৳299 থেকে ৳399 পর্যন্ত
-- সাইজ: S, M, L, XL, XXL
-- সব প্রোডাক্ট হাতে বাছাই করা, ১০০% অরিজিনাল
-
-💰 PAYMENT:
-- Cash on Delivery (COD) - মূল পেমেন্ট
-- শুধু ডেলিভারি চার্জ অ্যাডভান্স দিতে হয়
-- bKash/Nagad: 01636032218
-
-🚚 DELIVERY:
-- ঢাকার ভিতরে: ৳60 (১-২ দিন)
-- ঢাকার বাইরে: ৳120 (৩-৫ দিন)
-- ডেলিভারি চার্জ অ্যাডভান্স, বাকি COD
-
-🔄 RETURN POLICY:
-- ডেলিভারির ৪৮ ঘণ্টার মধ্যে সমস্যা জানাতে হবে
-- প্রোডাক্ট অব্যবহৃত অবস্থায় ফেরত
-
-📦 ORDER TRACKING:
-- অর্ডার করার পর ART-XXXXXX নম্বর পাবেন
-- artisticooutfit.vercel.app/track এ ট্র্যাক করুন
-
-❌ CANCEL POLICY:
-- Pending অবস্থায় Cancel করা যাবে
-- Advance ফেরত পাবে
-- Paid/Shipped হলে Cancel করা যাবে না
-
-🗣️ আপনার কাজ:
-1. বাংলা এবং English দুটোতেই উত্তর দিন (কাস্টমার যে ভাষায় প্রশ্ন করবে)
-2. সহজ, বিনয়ী, এবং প্রফেশনাল ভাষায় উত্তর দিন
-3. কম কথা বলুন — সোজা উত্তর দিন
-4. কাস্টমার রাগ করলে শান্ত থাকুন
-5. জানা না থাকলে বলুন "এটা নিশ্চিত করতে WhatsApp-এ যোগাযোগ করুন: 01636032218"
-6. অর্ডার দিতে চাইলে ওয়েবসাইটে নিয়ে যান: artisticooutfit.vercel.app
-7. কখনো ভুয়া তথ্য দেবেন না
-
-💡 TONE: বিনয়ী, বন্ধুত্বপূর্ণ, সাহায্যকারী।
-`;
+const KNOWLEDGE_BASE = [
+    {
+        keywords: ["hello", "hi", "hey", "assalamu", "salam", "আসসালামু", "হ্যালো", "হাই", "শুরু"],
+        answer: "আসসালামু আলাইকুম! 👋\n\nআমি ARTistico Assistant। আপনার যেকোনো প্রশ্ন জিজ্ঞেস করুন।\n\nআমি যা জানি:\n• শার্টের দাম\n• ডেলিভারি চার্জ ও সময়\n• পেমেন্ট পদ্ধতি\n• সাইজ গাইড\n• রিটার্ন পলিসি\n• অর্ডার ট্র্যাকিং"
+    },
+    {
+        keywords: ["ডেলিভারি চার্জ", "delivery charge", "ডেলিভারি খরচ", "শিপিং চার্জ", "ডেলিভারি কত", "কত টাকা ডেলিভারি"],
+        answer: "💵 **ডেলিভারি চার্জ**\n\n📍 ঢাকার ভিতরে: ৳" + BUSINESS.deliveryInside + "\n📍 ঢাকার বাইরে: ৳" + BUSINESS.deliveryOutside + "\n\n⚡ শুধু ডেলিভারি চার্জ অ্যাডভান্স দিতে হবে। বাকি টাকা ক্যাশ অন ডেলিভারি (COD)।"
+    },
+    {
+        keywords: ["ডেলিভারি", "delivery", "কত দিন", "কতদিন", "শিপিং", "shipping", "কবে পাব", "কখন পাব"],
+        answer: "🚚 **ডেলিভারি তথ্য**\n\n📍 ঢাকার ভিতরে:\n• চার্জ: ৳" + BUSINESS.deliveryInside + "\n• সময়: ১-২ দিন\n\n📍 ঢাকার বাইরে:\n• চার্জ: ৳" + BUSINESS.deliveryOutside + "\n• সময়: ৩-৫ দিন\n\n💡 শুধু ডেলিভারি চার্জ অ্যাডভান্স, বাকি টাকা COD।"
+    },
+    {
+        keywords: ["বিকাশ নম্বর", "bkash number", "নগদ নম্বর", "nagad number", "bkash", "nagad", "bikash", "কোন নম্বরে", "পেমেন্ট নম্বর"],
+        answer: "📱 **আমাদের bKash/Nagad নম্বর:**\n\n💚 **" + BUSINESS.bkash + "**\n\nডেলিভারি চার্জ পাঠিয়ে TrxID ও Sender Number দিন।"
+    },
+    {
+        keywords: ["পেমেন্ট", "payment", "কিভাবে টাকা", "ক্যাশ অন ডেলিভারি", "cod", "cash on delivery"],
+        answer: "💰 **পেমেন্ট পদ্ধতি**\n\nআমরা **Cash on Delivery (COD)** নিই।\n\n📌 শুধু ডেলিভারি চার্জ (৳" + BUSINESS.deliveryInside + "/৳" + BUSINESS.deliveryOutside + ") অ্যাডভান্স দিতে হবে।\n\n✅ bKash: " + BUSINESS.bkash + "\n✅ Nagad: " + BUSINESS.nagad + "\n\n🔍 চেকআউটে TrxID + Sender Number দিতে হবে।"
+    },
+    {
+        keywords: ["দাম", "price", "কত টাকা", "কত দাম", "শার্টের দাম", "প্রোডাক্টের দাম", "কত পড়বে"],
+        answer: "🛍️ **শার্টের দাম**\n\n" + BUSINESS.products.map(function(p) { return "• " + p.name + ": ৳" + p.price; }).join("\n") + "\n\n✅ সব হাতে বাছাই করা\n✅ ১০০% অরিজিনাল\n\n👉 " + BUSINESS.website
+    },
+    {
+        keywords: ["সাইজ", "size", "মাপ", "measurement", "কোন সাইজ", "sizes", "ফিট"],
+        answer: "📏 **সাইজ গাইড**\n\nআমাদের সাইজ:\n• S — Chest 38\", Length 27\"\n• M — Chest 40\", Length 28\"\n• L — Chest 42\", Length 29\"\n• XL — Chest 44\", Length 30\"\n• XXL — Chest 46\", Length 31\"\n\n⚠️ মাপ ±১ ইঞ্চি পার্থক্য হতে পারে।\n\n👉 প্রতিটা প্রোডাক্টে Size Guide বাটন আছে।"
+    },
+    {
+        keywords: ["রিটার্ন", "return", "ফেরত", "exchange", "বদল", "বদলাতে", "নষ্ট", "সমস্যা"],
+        answer: "🔄 **রিটার্ন পলিসি**\n\n• ডেলিভারির ৪৮ ঘণ্টার মধ্যে জানাতে হবে\n• প্রোডাক্ট অব্যবহৃত অবস্থায় ফেরত দিতে হবে\n• সমস্যা হলে " + BUSINESS.phone + " এ WhatsApp করুন"
+    },
+    {
+        keywords: ["অর্ডার করব", "order", "কিনব", "কিনতে চাই", "buy", "purchase", "কিভাবে কিনব", "কিভাবে অর্ডার"],
+        answer: "🛒 **অর্ডার পদ্ধতি**\n\n১️⃣ ওয়েবসাইটে যান: " + BUSINESS.website + "\n২️⃣ পছন্দের শার্ট কার্টে যোগ করুন\n৩️⃣ Checkout করুন\n৪️⃣ ডেলিভারি চার্জ পাঠান bKash/Nagad-এ\n৫️⃣ TrxID দিন\n৬️⃣ অর্ডার কনফার্ম ✅\n\n❓ সমস্যা হলে WhatsApp: " + BUSINESS.phone
+    },
+    {
+        keywords: ["ট্র্যাক", "track", "tracking", "অর্ডার কোথায়", "কোথায় আছে", "অর্ডার ট্র্যাক", "স্ট্যাটাস"],
+        answer: "📦 **অর্ডার ট্র্যাকিং**\n\nঅর্ডার করার পর আপনি একটা নম্বর পাবেন:\n\n🎫 Format: ART-XXXXXX\n\n👉 ট্র্যাক করতে যান:\n" + BUSINESS.website + "/track\n\nসেখানে অর্ডার নম্বর দিয়ে স্ট্যাটাস দেখুন।"
+    },
+    {
+        keywords: ["ক্যান্সেল", "cancel", "বাতিল", "cancel order", "বাতিল করতে", "ক্যানসেল"],
+        answer: "❌ **অর্ডার বাতিল**\n\n✅ Pending অবস্থায় Cancel করা যাবে\n✅ ডেলিভারি চার্জ ফেরত পাবেন\n\n❌ Paid/Shipped হলে Cancel করা যাবে না\n❌ Advance ফেরত দেওয়া হবে না\n\n👉 ট্র্যাক পেজে গিয়ে Cancel করুন।"
+    },
+    {
+        keywords: ["কে তোমরা", "about", "সম্পর্কে", "artistico ki", "কি ব্যবসা", "কে"],
+        answer: "🏪 **ARTistico Wear সম্পর্কে**\n\n✅ হাতে বাছাই করা Secondhand শার্ট\n✅ ঢাকা, বাংলাদেশ\n✅ ১০০% অরিজিনাল\n✅ Quality-focused\n\n📞 " + BUSINESS.phone + "\n✉️ " + BUSINESS.email + "\n📘 " + BUSINESS.facebook
+    },
+    {
+        keywords: ["যোগাযোগ", "contact", "ফোন", "phone", "নম্বর", "call", "ইমেইল", "email", "whatsapp"],
+        answer: "📞 **যোগাযোগ**\n\n💬 WhatsApp: " + BUSINESS.phone + "\n📧 Email: " + BUSINESS.email + "\n📘 Facebook: " + BUSINESS.facebook + "\n\n⏰ সকাল ৯টা - রাত ১০টা"
+    },
+    {
+        keywords: ["অরিজিনাল", "original", "quality", "কোয়ালিটি", "ভালো", "আসল", "থ্রিফটেড", "secondhand", "নতুন"],
+        answer: "⭐ **Quality নিশ্চয়তা**\n\n✅ ১০০% অরিজিনাল\n✅ হাতে বাছাই করা প্রতিটা শার্ট\n✅ Quality check করা\n✅ কোনো সমস্যা হলে ফেরত\n\n💚 Secondhand = পরিবেশ বান্ধব"
+    },
+    {
+        keywords: ["স্টক", "stock", "আছে কি", "available", "পাওয়া যাবে", "শেষ"],
+        answer: "📦 **Stock তথ্য**\n\nআমাদের স্টক সীমিত — কারণ প্রতিটা শার্ট একটাই!\n\n👉 ওয়েবসাইটে দেখুন কোনটা available:\n" + BUSINESS.website + "\n\n⚡ দ্রুত কিনুন, শেষ হয়ে যেতে পারে!"
+    },
+    {
+        keywords: ["ধন্যবাদ", "thanks", "thank you", "thank", "শুকরিয়া", "ভালো লাগলো"],
+        answer: "আপনাকেও ধন্যবাদ! 😊\n\nআর কোনো প্রশ্ন থাকলে জিজ্ঞেস করুন।\n\n🛍️ শপিং করতে যান: " + BUSINESS.website
+    },
+    {
+        keywords: ["bye", "বিদায়", "আল্লাহ হাফেজ", "goodbye", "চলে যাচ্ছি"],
+        answer: "আল্লাহ হাফেজ! 👋\n\nআবার আসবেন। ভালো থাকুন! 🌟"
+    }
+];
 
 // =============================================
 // DOM Elements
@@ -76,25 +105,20 @@ const chatbotTyping = document.getElementById("chatbotTyping");
 const chatbotBadge = document.querySelector(".chatbot-badge");
 
 // =============================================
-// State
-// =============================================
-let conversationHistory = [];
-
-// =============================================
 // Toggle Chat Window
 // =============================================
 if (chatbotToggle) {
-    chatbotToggle.addEventListener("click", () => {
+    chatbotToggle.addEventListener("click", function() {
         chatbotWindow.classList.toggle("active");
         if (chatbotWindow.classList.contains("active")) {
             if (chatbotBadge) chatbotBadge.style.display = "none";
-            setTimeout(() => chatbotInput.focus(), 300);
+            setTimeout(function() { chatbotInput.focus(); }, 300);
         }
     });
 }
 
 if (chatbotClose) {
-    chatbotClose.addEventListener("click", () => {
+    chatbotClose.addEventListener("click", function() {
         chatbotWindow.classList.remove("active");
     });
 }
@@ -102,19 +126,19 @@ if (chatbotClose) {
 // =============================================
 // Add Message to UI
 // =============================================
-function addMessage(text, sender = "bot") {
-    const messageDiv = document.createElement("div");
+function addMessage(text, sender) {
+    sender = sender || "bot";
+    var messageDiv = document.createElement("div");
     messageDiv.className = "chatbot-message " + sender;
 
-    const avatar = document.createElement("div");
+    var avatar = document.createElement("div");
     avatar.className = "chatbot-message-avatar";
-    avatar.textContent = sender === "bot" ? "🤖" : "👤";
+    avatar.textContent = sender === "bot" ? "✦" : "👤";
 
-    const content = document.createElement("div");
+    var content = document.createElement("div");
     content.className = "chatbot-message-content";
 
-    // Convert line breaks + basic formatting
-    const formatted = text
+    var formatted = text
         .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
         .replace(/\n/g, "<br>");
 
@@ -132,9 +156,6 @@ function addMessage(text, sender = "bot") {
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
 }
 
-// =============================================
-// Show/Hide Typing
-// =============================================
 function showTyping() {
     if (chatbotTyping) chatbotTyping.style.display = "flex";
     chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
@@ -145,81 +166,31 @@ function hideTyping() {
 }
 
 // =============================================
-// Call Gemini API
+// Find Answer
 // =============================================
-async function askGemini(userMessage) {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === "YOUR_API_KEY_HERE") {
-        return "⚠️ API Key সেট করা হয়নি। Admin কে জানান।";
-    }
+function findAnswer(message) {
+    var lowerMsg = message.toLowerCase().trim();
 
-    // Add user message to history
-    conversationHistory.push({
-        role: "user",
-        parts: [{ text: userMessage }]
-    });
-
-    // Keep last 10 messages (to save tokens)
-    if (conversationHistory.length > 10) {
-        conversationHistory = conversationHistory.slice(-10);
-    }
-
-    const requestBody = {
-        contents: [
-            {
-                role: "user",
-                parts: [{ text: BUSINESS_INFO + "\n\n=== কাস্টমারের প্রশ্ন ===\n" + userMessage }]
+    for (var i = 0; i < KNOWLEDGE_BASE.length; i++) {
+        var item = KNOWLEDGE_BASE[i];
+        for (var j = 0; j < item.keywords.length; j++) {
+            if (lowerMsg.indexOf(item.keywords[j].toLowerCase()) !== -1) {
+                return item.answer;
             }
-        ],
-        generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500,
-            topP: 0.95,
-            topK: 40
         }
-    };
-
-    try {
-        const res = await fetch(GEMINI_API_URL + "?key=" + GEMINI_API_KEY, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!res.ok) {
-            const errText = await res.text();
-            console.error("Gemini API Error:", errText);
-            if (res.status === 429) {
-                return "⚠️ এইমুহূর্তে অনেক প্রশ্ন আসছে। একটু পরে চেষ্টা করুন, অথবা WhatsApp-এ যোগাযোগ করুন: 01636032218";
-            }
-            return "❌ সমস্যা হয়েছে। আবার চেষ্টা করুন, অথবা WhatsApp-এ যোগাযোগ করুন: 01636032218";
-        }
-
-        const data = await res.json();
-
-        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-            const botReply = data.candidates[0].content.parts[0].text;
-            conversationHistory.push({
-                role: "model",
-                parts: [{ text: botReply }]
-            });
-            return botReply;
-        }
-
-        return "❌ উত্তর পাইনি। আবার চেষ্টা করুন।";
-    } catch (err) {
-        console.error("Fetch Error:", err);
-        return "❌ ইন্টারনেট সমস্যা। আবার চেষ্টা করুন।";
     }
+
+    return "আমি এই প্রশ্নটা বুঝতে পারিনি। 😔\n\nআমি যা জানি:\n• শার্টের দাম\n• ডেলিভারি চার্জ\n• পেমেন্ট পদ্ধতি\n• সাইজ গাইড\n• রিটার্ন পলিসি\n• অর্ডার ট্র্যাকিং\n• অর্ডার বাতিল\n\n👉 আরও সাহায্যের জন্য WhatsApp করুন:\n💬 " + BUSINESS.phone;
 }
 
 // =============================================
 // Handle Form Submit
 // =============================================
 if (chatbotForm) {
-    chatbotForm.addEventListener("submit", async (e) => {
+    chatbotForm.addEventListener("submit", function(e) {
         e.preventDefault();
 
-        const message = chatbotInput.value.trim();
+        var message = chatbotInput.value.trim();
         if (!message) return;
 
         addMessage(message, "user");
@@ -228,27 +199,23 @@ if (chatbotForm) {
 
         showTyping();
 
-        try {
-            const reply = await askGemini(message);
+        setTimeout(function() {
             hideTyping();
+            var reply = findAnswer(message);
             addMessage(reply, "bot");
-        } catch (err) {
-            hideTyping();
-            addMessage("❌ সমস্যা হয়েছে। আবার চেষ্টা করুন।", "bot");
-        } finally {
             chatbotInput.disabled = false;
             chatbotInput.focus();
-        }
+        }, 500);
     });
 }
 
 // =============================================
-// Welcome Badge Hide after 10 sec
+// Welcome Badge Hide
 // =============================================
-setTimeout(() => {
+setTimeout(function() {
     if (chatbotBadge && chatbotWindow && !chatbotWindow.classList.contains("active")) {
         chatbotBadge.style.display = "none";
     }
 }, 10000);
 
-console.log("✅ ARTistico AI Chatbot initialized");
+console.log("✅ ARTistico Chatbot (Rule-Based) initialized");
