@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="ARTistico Wear — Curated secondhand shirts from Dhaka. Quality thrifted fashion with timeless style. Cash on Delivery available.">
-    <meta name="keywords" content="thrifted shirts, secondhand fashion, Dhaka, Bangladesh, ARTistico, Cash on Delivery">
+    <meta name="description" content="ARTistico Wear — Curated secondhand shirts from Dhaka. Cash on Delivery available.">
+    <meta name="keywords" content="thrifted shirts, secondhand fashion, Dhaka, ARTistico">
     <title>ARTistico Wear | Curated Thrift Fashion</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="chatbot.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#294d3b">
     <meta name="mobile-web-app-capable" content="yes">
@@ -147,7 +148,7 @@
                 <div class="policy-grid">
                     <article>
                         <h3>Delivery policy</h3>
-                        <p>ঢাকার ভিতরে ৳60, ঢাকার বাইরে ৳120 ডেলিভারি চার্জ অ্যাডভান্স দিতে হবে। বাকি টাকা ডেলিভারির সময় ক্যাশ অন ডেলিভারিতে দিতে হবে।</p>
+                        <p>ঢাকার ভিতরে ৳60, ঢাকার বাইরে ৳120 ডেলিভারি চার্জ অ্যাডভান্স দিতে হবে। বাকি টাকা ডেলিভারির সময়।</p>
                     </article>
                     <article>
                         <h3>Returns and exchanges</h3>
@@ -155,7 +156,7 @@
                     </article>
                     <article>
                         <h3>Payment policy</h3>
-                        <p>শুধু ডেলিভারি চার্জ অ্যাডভান্স bKash/Nagad-এ পাঠাতে হবে। প্রোডাক্টের টাকা ডেলিভারির সময় দিতে হবে।</p>
+                        <p>শুধু ডেলিভারি চার্জ অ্যাডভান্স bKash/Nagad-এ পাঠাতে হবে। প্রোডাক্টের টাকা COD।</p>
                     </article>
                     <article>
                         <h3>Privacy policy</h3>
@@ -184,7 +185,7 @@
                     </details>
                     <details class="faq-item">
                         <summary>ক্যাশ অন ডেলিভারি আছে?</summary>
-                        <p>হ্যাঁ! শুধু ডেলিভারি চার্জ অ্যাডভান্স দিলেই হবে। বাকি টাকা ডেলিভারির সময়।</p>
+                        <p>হ্যাঁ! শুধু ডেলিভারি চার্জ অ্যাডভান্স দিলেই হবে।</p>
                     </details>
                     <details class="faq-item">
                         <summary>ডেলিভারি চার্জ কীভাবে দেব?</summary>
@@ -196,7 +197,7 @@
                     </details>
                     <details class="faq-item">
                         <summary>অর্ডার ট্র্যাক করব কীভাবে?</summary>
-                        <p>Footer-এ <a href="track.html">Track Your Order</a> পেজে অর্ডার নম্বর দিয়ে ট্র্যাক করুন।</p>
+                        <p>Footer-এ <a href="track.html">Track Your Order</a> পেজে ট্র্যাক করুন।</p>
                     </details>
                 </div>
             </div>
@@ -213,24 +214,17 @@
         </section>
     </main>
 
-    <!-- ✅ CART MODAL -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <p class="eyebrow">YOUR SELECTION</p>
-                    <h2>Shopping bag</h2>
-                </div>
+                <div><p class="eyebrow">YOUR SELECTION</p><h2>Shopping bag</h2></div>
                 <button id="closeCartButton" class="close-btn">&times;</button>
             </div>
-
             <div id="cartItems"></div>
-
             <div id="cartSummary" class="cart-summary">
                 <div class="summary-row"><span>Subtotal</span><strong id="cartSubtotal">৳0</strong></div>
                 <div class="summary-row"><span>Delivery</span><strong id="deliveryCost">৳0</strong></div>
                 <div class="summary-row total-row"><span>Total</span><strong id="cartTotal">৳0</strong></div>
-
                 <div class="delivery-options">
                     <h3>Delivery option</h3>
                     <label class="delivery-option">
@@ -242,12 +236,9 @@
                         <span>Outside Dhaka <b>৳120</b></span>
                     </label>
                 </div>
-
-                <!-- ✅ New Payment Section - Only Delivery Charge Advance -->
                 <div class="delivery-options advance-payment-section">
                     <h3>💳 ডেলিভারি চার্জ অ্যাডভান্স পেমেন্ট</h3>
                     <p class="advance-note">শুধু ডেলিভারি চার্জ অ্যাডভান্স দিতে হবে। বাকি টাকা ক্যাশ অন ডেলিভারি।</p>
-
                     <div class="payment-method-tabs">
                         <label class="delivery-option">
                             <input type="radio" name="payment" value="bKash" checked>
@@ -258,58 +249,48 @@
                             <span>Nagad</span>
                         </label>
                     </div>
-
                     <div class="payment-instruction-box">
                         <p><strong>আমাদের নম্বর:</strong> 01636032218</p>
                         <p><strong>পাঠাতে হবে:</strong> <span id="advanceAmount">৳60</span> (ডেলিভারি চার্জ)</p>
                     </div>
-
                     <div id="bkashFields" class="payment-fields">
                         <label for="bkashSender">আপনার বিকাশ নম্বর</label>
-                        <input id="bkashSender" name="bkashSender" type="tel" placeholder="০১XXXXXXXXX" maxlength="11">
+                        <input id="bkashSender" name="bkashSender" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01XXXXXXXXX">
                         <label for="bkashTransactionId">TrxID</label>
-                        <input id="bkashTransactionId" name="bkashTransactionId" type="text" placeholder="যেমন: 8A7B6C5D" maxlength="20" style="text-transform: uppercase;">
+                        <input id="bkashTransactionId" name="bkashTransactionId" type="text" autocomplete="off" placeholder="যেমন: 8A7B6C5D" style="text-transform: uppercase;">
                     </div>
-
                     <div id="nagadFields" class="payment-fields" style="display: none;">
                         <label for="nagadSender">আপনার নগদ নম্বর</label>
-                        <input id="nagadSender" name="nagadSender" type="tel" placeholder="০১XXXXXXXXX" maxlength="11">
+                        <input id="nagadSender" name="nagadSender" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01XXXXXXXXX">
                         <label for="nagadTransactionId">TrxID</label>
-                        <input id="nagadTransactionId" name="nagadTransactionId" type="text" placeholder="যেমন: 8A7B6C5D" maxlength="20" style="text-transform: uppercase;">
+                        <input id="nagadTransactionId" name="nagadTransactionId" type="text" autocomplete="off" placeholder="যেমন: 8A7B6C5D" style="text-transform: uppercase;">
                     </div>
-
                     <p class="advance-warning">⚠️ ভুল TrxID দিলে অর্ডার বাতিল হবে।</p>
                 </div>
-
                 <button id="checkoutButton" class="checkout-button" type="button">
                     Proceed to checkout <span>→</span>
                 </button>
-
                 <form id="checkoutForm" class="delivery-options" hidden>
                     <h3>Delivery details</h3>
                     <label for="customerName">Full name</label>
                     <input id="customerName" name="customerName" type="text" required placeholder="আপনার নাম">
                     <label for="customerPhone">Phone number</label>
-                    <input id="customerPhone" name="customerPhone" type="tel" required placeholder="০১XXXXXXXXX">
+                    <input id="customerPhone" name="customerPhone" type="tel" required placeholder="01XXXXXXXXX">
                     <label for="customerEmail">Email address</label>
                     <input id="customerEmail" name="customerEmail" type="email" required placeholder="you@example.com">
                     <label for="customerAddress">Delivery address</label>
-                    <textarea id="customerAddress" name="customerAddress" rows="3" required placeholder="সম্পূর্ণ ঠিকানা (বাসা, রোড, এলাকা, শহর)"></textarea>
-
+                    <textarea id="customerAddress" name="customerAddress" rows="3" required placeholder="সম্পূর্ণ ঠিকানা"></textarea>
                     <p id="paymentInstruction" class="product-description"></p>
-
                     <label class="consent-option">
                         <input id="policyConsent" name="policyConsent" type="checkbox" required>
                         <span>I agree to all policies.</span>
                     </label>
-
                     <button type="submit" class="checkout-button">Submit order <span>✓</span></button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Size Chart Modal -->
     <div id="sizeChartModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -330,7 +311,6 @@
         </div>
     </div>
 
-    <!-- Wishlist Modal -->
     <div id="wishlistModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -341,7 +321,6 @@
         </div>
     </div>
 
-    <!-- Review Modal -->
     <div id="reviewModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -381,13 +360,74 @@
         </p>
     </footer>
 
-    <a href="https://wa.me/8801636032218?text=আসসালামু%20আলাইকুম" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/8801636032218" class="whatsapp-float" target="_blank">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span class="whatsapp-float-text">WhatsApp</span>
     </a>
 
+    <button id="chatbotToggle" class="chatbot-toggle" aria-label="Open AI Assistant">
+        <div class="chatbot-toggle-inner">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.74.45 3.37 1.24 4.79L2 22l5.21-1.24C8.63 21.55 10.26 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.54 0-2.97-.4-4.24-1.1l-.3-.17-3.15.75.75-3.15-.17-.3C4.4 14.97 4 13.54 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+            </svg>
+        </div>
+        <span class="chatbot-badge">1</span>
+        <div class="chatbot-toggle-tooltip">💬 AI Assistant</div>
+    </button>
+
+    <div id="chatbotWindow" class="chatbot-window">
+        <div class="chatbot-header">
+            <div class="chatbot-header-info">
+                <div class="chatbot-avatar">
+                    <span class="chatbot-avatar-glow"></span>
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.74.45 3.37 1.24 4.79L2 22l5.21-1.24C8.63 21.55 10.26 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.54 0-2.97-.4-4.24-1.1l-.3-.17-3.15.75.75-3.15-.17-.3C4.4 14.97 4 13.54 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                </div>
+                <div class="chatbot-header-text">
+                    <h3>ARTistico Assistant</h3>
+                    <p><span class="chatbot-status-dot"></span> Active Now · AI Powered</p>
+                </div>
+            </div>
+            <button id="chatbotClose" class="chatbot-close" aria-label="Close">&times;</button>
+        </div>
+
+        <div id="chatbotMessages" class="chatbot-messages">
+            <div class="chatbot-message bot">
+                <div class="chatbot-message-avatar">✦</div>
+                <div class="chatbot-message-content">
+                    <p>আসসালামু আলাইকুম! 👋</p>
+                    <p>আমি ARTistico-র AI Assistant।</p>
+                    <p>আপনার যেকোনো প্রশ্ন জিজ্ঞেস করুন — আমি ২৪/৭ আছি।</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="chatbotTyping" class="chatbot-typing" style="display: none;">
+            <div class="chatbot-message-avatar">✦</div>
+            <div class="chatbot-typing-dots">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <form id="chatbotForm" class="chatbot-input-form">
+            <input id="chatbotInput" class="chatbot-input" type="text" placeholder="Write your question..." autocomplete="off">
+            <button type="submit" class="chatbot-send" aria-label="Send">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </form>
+
+        <div class="chatbot-footer">
+            <span>⚡ Powered by Gemini AI</span>
+        </div>
+    </div>
+
     <div id="toast" class="toast"></div>
     <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
