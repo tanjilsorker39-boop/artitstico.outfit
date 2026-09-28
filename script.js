@@ -633,4 +633,25 @@ if (checkoutForm) {
                     "💰 COD তে দিতে হবে: ৳" + subtotal + "\n" +
                     "📊 মোট: ৳" + total + "\n\n" +
                     "🔍 আপনার TrxID: " + trxId + "\n\n" +
-                    "ARTistico ২৪
+                    "ARTistico ২৪ ঘণ্টার মধ্যে যাচাই করে যোগাযোগ করবে।"
+                );
+            }, 300);
+
+        } catch (err) {
+            console.error("Order save error:", err);
+            showToast("❌ অর্ডার জমা হয়নি। আবার চেষ্টা করুন।");
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit order ✓";
+            }
+        }
+    });
+}
+
+updatePaymentInstruction();
+updateWishlistCount();
+loadProductsFromFirebase();
+renderCart();
+
+console.log("✅ ARTistico initialized with COD + Fraud Detection");
