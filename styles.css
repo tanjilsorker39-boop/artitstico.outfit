@@ -3599,3 +3599,59 @@ img.fade-img.loaded { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
     .ripple-span, .skeleton { animation: none !important; }
 }
+
+
+/* ===== LEVEL 6 ===== */
+
+/* 1. Page Transition */
+#pageTransition {
+    position: fixed; inset: 0; background: #294d3b;
+    z-index: 100002; opacity: 0; pointer-events: none;
+    transition: opacity .45s ease;
+}
+#pageTransition.active { opacity: 1; pointer-events: auto; }
+
+/* 2. Scroll-Triggered */
+[data-anim] {
+    opacity: 0;
+    transition: opacity .8s ease, transform .8s cubic-bezier(.34, 1.56, .64, 1);
+}
+[data-anim="up"]    { transform: translateY(50px); }
+[data-anim="left"]  { transform: translateX(-60px); }
+[data-anim="right"] { transform: translateX(60px); }
+[data-anim="zoom"]  { transform: scale(.85); }
+[data-anim].in-view { opacity: 1; transform: none; }
+
+/* 3. Mouse-Follow Gradient (hero-তে) */
+.hero { position: relative; }
+.hero::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%),
+                rgba(201, 169, 97, .18), transparent 60%);
+}
+
+/* 4. Liquid Button */
+.btn-liquid { position: relative; overflow: hidden; z-index: 0; }
+.btn-liquid::before {
+    content: ''; position: absolute; z-index: -1;
+    left: var(--x, 50%); top: var(--y, 50%);
+    width: 0; height: 0; border-radius: 50%;
+    background: #c9a961; transform: translate(-50%, -50%);
+    transition: width .6s ease, height .6s ease;
+}
+.btn-liquid:hover::before { width: 400px; height: 400px; }
+
+/* 5. Parallax */
+[data-parallax] { will-change: transform; }
+
+/* 6. Text Split */
+.split-word { display: inline-block; overflow: hidden; vertical-align: top; }
+.split-word > span {
+    display: inline-block; transform: translateY(110%);
+    transition: transform .8s cubic-bezier(.34, 1.56, .64, 1);
+}
+[data-split].in-view .split-word > span { transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    [data-anim], .split-word > span { transition: none; opacity: 1; transform: none; }
+}
