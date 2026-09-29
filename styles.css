@@ -3519,3 +3519,83 @@ body {
         animation: none !important;
     }
 }
+
+
+/* ===== LEVEL 5 ===== */
+
+/* 1. Custom Cursor */
+.has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+.cursor-dot, .cursor-ring {
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 100000; border-radius: 50%;
+}
+.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: #c9a961; }
+.cursor-ring {
+    width: 36px; height: 36px; margin: -18px 0 0 -18px;
+    border: 1.5px solid #c9a961;
+    transition: width .3s, height .3s, margin .3s, background .3s;
+}
+.cursor-ring.hover {
+    width: 60px; height: 60px; margin: -30px 0 0 -30px;
+    background: rgba(201, 169, 97, .15);
+}
+@media (hover: none) { .cursor-dot, .cursor-ring { display: none; } }
+
+/* 2. Button Ripple */
+.ripple-span {
+    position: absolute; border-radius: 50%;
+    background: rgba(255, 255, 255, .5);
+    transform: scale(0); pointer-events: none;
+    animation: rippleAnim .6s ease-out forwards;
+}
+@keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+
+/* 3. Link Hover */
+nav a, footer a {
+    background: linear-gradient(#c9a961, #c9a961) no-repeat 0 100% / 0 2px;
+    transition: background-size .4s ease, color .3s;
+}
+nav a:hover, footer a:hover { background-size: 100% 2px; color: #c9a961; }
+
+/* 4. Icon Rotate */
+header svg, .icon, .social a {
+    transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+header svg:hover, .icon:hover, .social a:hover {
+    transform: rotate(15deg) scale(1.15);
+}
+
+/* 5. Skeleton Shimmer */
+.skeleton {
+    background: linear-gradient(90deg, #eee 25%, #f8f8f8 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* 6. Image Lazy Fade */
+img.fade-img { opacity: 0; transition: opacity .7s ease; }
+img.fade-img.loaded { opacity: 1; }
+
+/* 7. Scroll Progress Bar */
+#scrollProgress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0;
+    background: linear-gradient(90deg, #c9a961, #d87550);
+    z-index: 100001;
+}
+
+/* 8. Back to Top */
+#backToTop {
+    position: fixed; right: 20px; bottom: 20px;
+    width: 46px; height: 46px; border: none; border-radius: 50%;
+    background: #294d3b; color: #fff; font-size: 20px;
+    opacity: 0; transform: translateY(20px); pointer-events: none;
+    transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
+    z-index: 9999; cursor: pointer;
+}
+#backToTop.show { opacity: 1; transform: none; pointer-events: auto; }
+#backToTop:hover { background: #c9a961; transform: translateY(-4px); }
+
+@media (prefers-reduced-motion: reduce) {
+    .ripple-span, .skeleton { animation: none !important; }
+}
