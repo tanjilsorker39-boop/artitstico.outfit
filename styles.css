@@ -3586,7 +3586,7 @@ img.fade-img.loaded { opacity: 1; }
 
 /* 8. Back to Top */
 #backToTop {
-    position: fixed; right: 20px; bottom: 20px;
+    position: fixed; left: 20px; bottom: 20px;
     width: 46px; height: 46px; border: none; border-radius: 50%;
     background: #294d3b; color: #fff; font-size: 20px;
     opacity: 0; transform: translateY(20px); pointer-events: none;
