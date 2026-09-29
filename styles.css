@@ -2656,3 +2656,355 @@ body {
         animation: none !important;
     }
 }
+
+
+/* ============================================
+   🎬 LEVEL 3: SCROLL REVEAL ANIMATIONS
+   Section-by-Section Cinematic Reveal
+   ============================================ */
+
+/* ============================================
+   🎯 1. BASE SCROLL REVEAL
+   ============================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 1s ease;
+    filter: blur(6px);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* ============================================
+   🎯 2. VARIATIONS — Left / Right / Scale
+   ============================================ */
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-80px);
+    filter: blur(6px);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 1s ease;
+}
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+}
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(80px);
+    filter: blur(6px);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 1s ease;
+}
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+}
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(6px);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 1s ease;
+}
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+}
+
+/* ============================================
+   🎯 3. STAGGER CHILDREN
+   ============================================ */
+.stagger-children > * {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stagger-children.active > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children.active > *:nth-child(4) { transition-delay: 0.4s; }
+.stagger-children.active > *:nth-child(5) { transition-delay: 0.5s; }
+.stagger-children.active > *:nth-child(6) { transition-delay: 0.6s; }
+.stagger-children.active > *:nth-child(7) { transition-delay: 0.7s; }
+.stagger-children.active > *:nth-child(8) { transition-delay: 0.8s; }
+
+/* ============================================
+   🎯 4. ABOUT SECTION — Features Stagger
+   ============================================ */
+.info-section .features article {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.info-section .features.active article {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.info-section .features.active article:nth-child(1) { transition-delay: 0.1s; }
+.info-section .features.active article:nth-child(2) { transition-delay: 0.3s; }
+.info-section .features.active article:nth-child(3) { transition-delay: 0.5s; }
+
+/* Feature Icon Rotate */
+.info-section .features.active article .feature-icon {
+    animation: featureIconSpin 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+@keyframes featureIconSpin {
+    0% {
+        opacity: 0;
+        transform: rotate(-180deg) scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+/* ============================================
+   🎯 5. POLICIES SECTION — Cards Stagger
+   ============================================ */
+.policies-section .policy-grid article {
+    opacity: 0;
+    transform: translateY(50px) rotateX(-15deg);
+    transform-origin: top;
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.policies-section .policy-grid.active article {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+}
+
+.policies-section .policy-grid.active article:nth-child(1) { transition-delay: 0.05s; }
+.policies-section .policy-grid.active article:nth-child(2) { transition-delay: 0.15s; }
+.policies-section .policy-grid.active article:nth-child(3) { transition-delay: 0.25s; }
+.policies-section .policy-grid.active article:nth-child(4) { transition-delay: 0.35s; }
+.policies-section .policy-grid.active article:nth-child(5) { transition-delay: 0.45s; }
+.policies-section .policy-grid.active article:nth-child(6) { transition-delay: 0.55s; }
+
+/* Policy Card Hover */
+.policy-grid article {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.policy-grid article:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(41, 77, 59, 0.12);
+}
+
+/* ============================================
+   🎯 6. FAQ SECTION — Items Stagger
+   ============================================ */
+.faq-section .faq-list details {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.faq-section .faq-list.active details {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.faq-section .faq-list.active details:nth-child(1) { transition-delay: 0.05s; }
+.faq-section .faq-list.active details:nth-child(2) { transition-delay: 0.15s; }
+.faq-section .faq-list.active details:nth-child(3) { transition-delay: 0.25s; }
+.faq-section .faq-list.active details:nth-child(4) { transition-delay: 0.35s; }
+.faq-section .faq-list.active details:nth-child(5) { transition-delay: 0.45s; }
+.faq-section .faq-list.active details:nth-child(6) { transition-delay: 0.55s; }
+
+/* FAQ Item Expand Glow */
+.faq-item[open] {
+    box-shadow: 0 8px 30px rgba(41, 77, 59, 0.12);
+    animation: faqGlow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes faqGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(41, 77, 59, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(41, 77, 59, 0);
+    }
+    100% {
+        box-shadow: 0 8px 30px rgba(41, 77, 59, 0.12);
+    }
+}
+
+.faq-item p {
+    animation: faqTextReveal 0.5s ease-out;
+}
+
+@keyframes faqTextReveal {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   🎯 7. TRUST BADGES — Stagger
+   ============================================ */
+.trust-badges .badge-item {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.trust-badges.active .badge-item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.trust-badges.active .badge-item:nth-child(1) { transition-delay: 0.1s; }
+.trust-badges.active .badge-item:nth-child(2) { transition-delay: 0.25s; }
+.trust-badges.active .badge-item:nth-child(3) { transition-delay: 0.4s; }
+.trust-badges.active .badge-item:nth-child(4) { transition-delay: 0.55s; }
+
+/* ============================================
+   🎯 8. BREADCRUMB — Fade In
+   ============================================ */
+.breadcrumb {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.8s ease,
+                transform 0.8s ease;
+}
+
+.breadcrumb.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   🎯 9. CONTACT SECTION — Fade Up
+   ============================================ */
+.contact-section {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.contact-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.contact-section .support-details p {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.contact-section.active .support-details p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.contact-section.active .support-details p:nth-child(1) { transition-delay: 0.2s; }
+.contact-section.active .support-details p:nth-child(2) { transition-delay: 0.4s; }
+.contact-section.active .support-details p:nth-child(3) { transition-delay: 0.6s; }
+
+/* ============================================
+   🎯 10. SECTION HEADING REVEAL
+   ============================================ */
+.section-heading {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.section-heading.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   🎯 11. FOOTER — Fade In
+   ============================================ */
+.site-footer {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.site-footer.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================
+   🎯 12. MOBILE OPTIMIZATION
+   ============================================ */
+@media (max-width: 800px) {
+    .reveal {
+        transform: translateY(40px);
+        filter: blur(4px);
+    }
+
+    .reveal-left {
+        transform: translateX(-40px);
+    }
+
+    .reveal-right {
+        transform: translateX(40px);
+    }
+}
+
+/* ============================================
+   🎯 13. REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale,
+    .stagger-children > *,
+    .info-section .features article,
+    .policies-section .policy-grid article,
+    .faq-section .faq-list details,
+    .trust-badges .badge-item,
+    .breadcrumb,
+    .contact-section,
+    .section-heading,
+    .site-footer {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+    }
+}
