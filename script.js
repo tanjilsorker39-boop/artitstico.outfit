@@ -1294,3 +1294,103 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
     window.triggerConfetti = createConfetti;
 
 })();
+
+
+// ===== LEVEL 5 =====
+(function () {
+    'use strict';
+
+    // 1. Custom Cursor
+    function initCursor() {
+        if (!matchMedia('(hover: hover)').matches) return;
+        const dot = document.createElement('div');
+        const ring = document.createElement('div');
+        dot.className = 'cursor-dot';
+        ring.className = 'cursor-ring';
+        document.body.append(dot, ring);
+        document.body.classList.add('has-cursor');
+
+        let x = 0, y = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => {
+            x = e.clientX; y = e.clientY;
+            dot.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        (function loop() {
+            rx += (x - rx) * 0.15;
+            ry += (y - ry) * 0.15;
+            ring.style.transform = `translate(${rx}px, ${ry}px)`;
+            requestAnimationFrame(loop);
+        })();
+        document.addEventListener('mouseover', e => {
+            ring.classList.toggle('hover', !!e.target.closest('a, button, .product-card'));
+        });
+    }
+
+    // 2. Button Ripple
+    function initRipple() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('button, .btn');
+            if (!btn) return;
+            if (getComputedStyle(btn).position === 'static') btn.style.position = 'relative';
+            btn.style.overflow = 'hidden';
+            const r = btn.getBoundingClientRect();
+            const size = Math.max(r.width, r.height);
+            const s = document.createElement('span');
+            s.className = 'ripple-span';
+            s.style.width = s.style.height = size + 'px';
+            s.style.left = (e.clientX - r.left - size / 2) + 'px';
+            s.style.top = (e.clientY - r.top - size / 2) + 'px';
+            btn.appendChild(s);
+            setTimeout(() => s.remove(), 600);
+        });
+    }
+
+    // 3. Lazy Fade + Skeleton (পরে Firestore থেকে আসা ছবিতেও কাজ করবে)
+    function prepImg(img) {
+        if (img.dataset.fade) return;
+        img.dataset.fade = '1';
+        img.loading = 'lazy';
+        if (img.complete && img.naturalWidth) return;
+        const box = img.parentElement;
+        img.classList.add('fade-img');
+        box.classList.add('skeleton');
+        const done = () => {
+            img.classList.add('loaded');
+            box.classList.remove('skeleton');
+        };
+        img.addEventListener('load', done);
+        img.addEventListener('error', done);
+    }
+    function initImages() {
+        document.querySelectorAll('img').forEach(prepImg);
+        new MutationObserver(muts => {
+            muts.forEach(m => m.addedNodes.forEach(n => {
+                if (n.nodeType !== 1) return;
+                if (n.tagName === 'IMG') prepImg(n);
+                else n.querySelectorAll && n.querySelectorAll('img').forEach(prepImg);
+            }));
+        }).observe(document.body, { childList: true, subtree: true });
+    }
+
+    // 4. Scroll Progress + Back to Top
+    function initScroll() {
+        const bar = document.createElement('div');
+        bar.id = 'scrollProgress';
+        const top = document.createElement('button');
+        top.id = 'backToTop';
+        top.setAttribute('aria-label', 'Back to top');
+        top.textContent = '↑';
+        document.body.append(bar, top);
+
+        top.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - innerHeight;
+            bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+            top.classList.toggle('show', scrollY > 400);
+        }, { passive: true });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initCursor(); initRipple(); initImages(); initScroll();
+    });
+})();
