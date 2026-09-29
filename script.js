@@ -1394,3 +1394,111 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
         initCursor(); initRipple(); initImages(); initScroll();
     });
 })();
+
+
+// ===== LEVEL 6 =====
+(function () {
+    'use strict';
+
+    // 1. Page Transition
+    function initTransition() {
+        const ov = document.createElement('div');
+        ov.id = 'pageTransition';
+        ov.className = 'active';
+        document.body.appendChild(ov);
+        const hide = () => setTimeout(() => ov.classList.remove('active'), 200);
+        if (document.readyState === 'complete') hide();
+        else window.addEventListener('load', hide);
+        window.addEventListener('pageshow', hide);
+
+        document.addEventListener('click', e => {
+            const a = e.target.closest('a[href]');
+            if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+            if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+            const u = new URL(a.href, location.href);
+            if (!/^https?:$/.test(u.protocol) || u.origin !== location.origin) return;
+            if (u.pathname === location.pathname && u.hash) return;
+            e.preventDefault();
+            ov.classList.add('active');
+            setTimeout(() => (location.href = a.href), 450);
+        });
+    }
+
+    // 2. Scroll-Triggered + Text Split + Counter (একই Observer)
+    function splitText(el) {
+        const words = el.textContent.trim().split(/\s+/);
+        el.setAttribute('aria-label', el.textContent.trim());
+        el.innerHTML = words.map((w, i) =>
+            `<span class="split-word" aria-hidden="true"><span style="transition-delay:${i * 0.08}s">${w}</span></span>`
+        ).join(' ');
+    }
+    function countUp(el) {
+        const target = +el.dataset.count;
+        const suffix = el.dataset.suffix || '';
+        const dur = 1800, start = performance.now();
+        (function tick(now) {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.floor(target * eased).toLocaleString() + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+        })(start);
+    }
+    function initObserver() {
+        document.querySelectorAll('[data-split]').forEach(splitText);
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(en => {
+                if (!en.isIntersecting) return;
+                const el = en.target;
+                el.classList.add('in-view');
+                if (el.hasAttribute('data-count')) countUp(el);
+                io.unobserve(el);
+            });
+        }, { threshold: 0.25 });
+        document.querySelectorAll('[data-anim], [data-split], [data-count]')
+            .forEach(el => io.observe(el));
+    }
+
+    // 3. Mouse-Follow Gradient
+    function initMouseGradient() {
+        const hero = document.querySelector('.hero');
+        if (!hero) return;
+        hero.addEventListener('mousemove', e => {
+            const r = hero.getBoundingClientRect();
+            hero.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+            hero.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+    }
+
+    // 4. Liquid Button
+    function initLiquid() {
+        document.querySelectorAll('.btn-liquid').forEach(btn => {
+            btn.addEventListener('mousemove', e => {
+                const r = btn.getBoundingClientRect();
+                btn.style.setProperty('--x', (e.clientX - r.left) + 'px');
+                btn.style.setProperty('--y', (e.clientY - r.top) + 'px');
+            });
+        });
+    }
+
+    // 5. Parallax
+    function initParallax() {
+        const items = document.querySelectorAll('[data-parallax]');
+        if (!items.length || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                items.forEach(el => {
+                    el.style.transform = `translateY(${scrollY * parseFloat(el.dataset.parallax)}px)`;
+                });
+                ticking = false;
+            });
+        }, { passive: true });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initTransition(); initObserver(); initMouseGradient();
+        initLiquid(); initParallax();
+    });
+})();
