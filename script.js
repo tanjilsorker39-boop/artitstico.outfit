@@ -1502,3 +1502,172 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
         initLiquid(); initParallax();
     });
 })();
+
+
+// ===== LEVEL 7 =====
+(function () {
+    'use strict';
+    const canHover = matchMedia('(hover: hover)').matches;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1. Page Loader
+    function initLoader() {
+        const l = document.createElement('div');
+        l.id = 'pageLoader';
+        l.innerHTML = '<div class="loader-logo">ART<span>istico</span></div><div class="loader-bar"><i></i></div>';
+        document.body.prepend(l);
+        const hide = () => setTimeout(() => {
+            l.classList.add('done');
+            setTimeout(() => l.remove(), 700);
+        }, 900);
+        document.readyState === 'complete' ? hide() : window.addEventListener('load', hide);
+    }
+
+    // 2. Card 3D Tilt (শুধু মাউস আছে এমন ডিভাইসে)
+    function initTilt() {
+        if (!canHover || reduce) return;
+        document.addEventListener('mousemove', e => {
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            card.style.transform =
+                `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+        });
+        document.addEventListener('mouseout', e => {
+            const card = e.target.closest('.product-card');
+            if (card && !card.contains(e.relatedTarget)) card.style.transform = '';
+        });
+    }
+
+    // 3. Quick View (কার্ডের ছবিতে ক্লিক করলে)
+    function initQuickView() {
+        document.addEventListener('click', e => {
+            const img = e.target.closest('.product-card img');
+            if (!img) return;
+            const card = img.closest('.product-card');
+            const title = (card.querySelector('h3, h2, .product-name') || {}).textContent || '';
+            const price = (card.querySelector('.product-price, .price') || {}).textContent || '';
+
+            const ov = document.createElement('div');
+            ov.className = 'qv-overlay';
+            ov.innerHTML = `<div class="qv-box">
+                <button class="qv-close" aria-label="Close">&times;</button>
+                <img src="${img.currentSrc || img.src}" alt="">
+                <h3></h3><p></p></div>`;
+            ov.querySelector('h3').textContent = title.trim();
+            ov.querySelector('p').textContent = price.trim();
+            document.body.appendChild(ov);
+            requestAnimationFrame(() => ov.classList.add('show'));
+
+            const close = () => {
+                ov.classList.remove('show');
+                setTimeout(() => ov.remove(), 300);
+                document.removeEventListener('keydown', onKey);
+            };
+            const onKey = ev => ev.key === 'Escape' && close();
+            document.addEventListener('keydown', onKey);
+            ov.addEventListener('click', ev => {
+                if (ev.target === ov || ev.target.closest('.qv-close')) close();
+            });
+        });
+    }
+
+    // 4. Fly to Cart
+    function initFlyToCart() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('.product-card button');
+            if (!btn) return;
+            const t = btn.textContent + ' ' + btn.className + ' ' + (btn.getAttribute('onclick') || '');
+            if (!/add|cart|bag|কার্ট|ব্যাগ/i.test(t) || /wish/i.test(t)) return;
+
+            const img = btn.closest('.product-card').querySelector('img');
+            const cart = document.getElementById('cartButton');
+            if (!img || !cart || reduce) return;
+
+            const a = img.getBoundingClientRect();
+            const b = cart.getBoundingClientRect();
+            const f = img.cloneNode();
+            f.className = 'fly-img';
+            f.style.cssText = `left:${a.left}px;top:${a.top}px;width:${a.width}px;height:${a.height}px;opacity:1`;
+            document.body.appendChild(f);
+            requestAnimationFrame(() => {
+                const dx = b.left + b.width / 2 - a.left - a.width / 2;
+                const dy = b.top + b.height / 2 - a.top - a.height / 2;
+                f.style.transform = `translate(${dx}px, ${dy}px) scale(.08)`;
+                f.style.opacity = '.3';
+            });
+            setTimeout(() => {
+                f.remove();
+                cart.classList.add('bump');
+                setTimeout(() => cart.classList.remove('bump'), 400);
+            }, 800);
+        });
+    }
+
+    // 5. Heart Burst
+    function initHeartBurst() {
+        document.addEventListener('click', e => {
+            const btn = e.target.closest('button, a, span');
+            if (!btn) return;
+            const t = btn.textContent + ' ' + btn.className;
+            if (!/wish|❤|♡|🤍|♥/i.test(t) || btn.id === 'wishlistButton' || reduce) return;
+            for (let i = 0; i < 8; i++) {
+                const h = document.createElement('span');
+                h.className = 'heart-burst';
+                h.textContent = '❤️';
+                const ang = (Math.PI * 2 * i) / 8;
+                h.style.left = e.clientX + 'px';
+                h.style.top = e.clientY + 'px';
+                h.style.setProperty('--dx', Math.cos(ang) * 50 + 'px');
+                h.style.setProperty('--dy', Math.sin(ang) * 50 + 'px');
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 900);
+            }
+        });
+    }
+
+    // 6. Navbar Shrink
+    function initNavbar() {
+        const nav = document.querySelector('.navbar');
+        if (!nav) return;
+        const on = () => nav.classList.toggle('scrolled', scrollY > 50);
+        window.addEventListener('scroll', on, { passive: true });
+        on();
+    }
+
+    // 7. Magnetic Button
+    function initMagnetic() {
+        if (!canHover || reduce) return;
+        document.addEventListener('mousemove', e => {
+            const b = e.target.closest('.cta-button');
+            if (!b) return;
+            const r = b.getBoundingClientRect();
+            const x = (e.clientX - r.left - r.width / 2) * 0.25;
+            const y = (e.clientY - r.top - r.height / 2) * 0.25;
+            b.style.transform = `translate(${x}px, ${y}px)`;
+        });
+        document.addEventListener('mouseout', e => {
+            const b = e.target.closest('.cta-button');
+            if (b && !b.contains(e.relatedTarget)) b.style.transform = '';
+        });
+    }
+
+    // 8. Marquee Strip
+    function initMarquee() {
+        const anchor = document.querySelector('.trust-badges');
+        if (!anchor) return;
+        const items = ['💵 Cash on Delivery', '🔄 ৭ দিনের রিটার্ন', '✅ ১০০% অরিজিনাল', '🚚 ফাস্ট ডেলিভারি', '♻️ Thrift • Sustainable'];
+        const html = items.map(t => `<span>${t}</span>`).join('');
+        const strip = document.createElement('div');
+        strip.className = 'marquee-strip';
+        strip.innerHTML = `<div class="marquee-track">${html}${html}${html}${html}</div>`;
+        anchor.parentNode.insertBefore(strip, anchor);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initLoader(); initTilt(); initQuickView(); initFlyToCart();
+        initHeartBurst(); initNavbar(); initMagnetic(); initMarquee();
+    });
+})();
