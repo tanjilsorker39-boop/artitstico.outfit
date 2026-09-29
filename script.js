@@ -1066,3 +1066,231 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
     }, 2500);
 
 })();
+
+
+// ============================================
+// 🎬 LEVEL 4: CART & CHECKOUT ANIMATIONS (JS)
+// ============================================
+
+(function() {
+    'use strict';
+
+    // ============================================
+    // 🎯 1. QUANTITY BUTTON PULSE
+    // ============================================
+    function initQuantityPulse() {
+        document.addEventListener('click', (e) => {
+            const qtyBtn = e.target.closest('.quantity-btn');
+            if (!qtyBtn) return;
+
+            qtyBtn.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                qtyBtn.style.transform = '';
+            }, 300);
+        });
+    }
+
+    // ============================================
+    // 🎯 2. TOTAL PRICE PULSE
+    // ============================================
+    function initTotalPulse() {
+        let lastTotal = '';
+
+        setInterval(() => {
+            const totalEl = document.getElementById('cartTotal');
+            if (!totalEl) return;
+
+            const currentTotal = totalEl.textContent;
+            if (currentTotal !== lastTotal && lastTotal !== '') {
+                totalEl.classList.add('pulse');
+                setTimeout(() => totalEl.classList.remove('pulse'), 600);
+            }
+            lastTotal = currentTotal;
+        }, 500);
+    }
+
+    // ============================================
+    // 🎯 3. CONFETTI CELEBRATION
+    // ============================================
+    function createConfetti() {
+        const colors = ['#c9a961', '#d87550', '#294d3b', '#e4c989', '#ffffff'];
+        const confettiCount = 50;
+
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = (Math.random() * 8 + 6) + 'px';
+            confetti.style.height = (Math.random() * 8 + 6) + 'px';
+            confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+
+            document.body.appendChild(confetti);
+
+            setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+
+    // ============================================
+    // 🎯 4. DETECT ORDER SUCCESS
+    // ============================================
+    function initOrderSuccessDetection() {
+        // Watch for alert or toast with order success
+        const originalAlert = window.alert;
+        window.alert = function(message) {
+            if (message && message.includes('অর্ডার কনফার্ম')) {
+                createConfetti();
+                playSuccessSound();
+            }
+            return originalAlert.apply(this, arguments);
+        };
+    }
+
+    // ============================================
+    // 🎯 5. SUCCESS SOUND (Optional)
+    // ============================================
+    function playSuccessSound() {
+        try {
+            // Simple beep using Web Audio API
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+
+            // Second beep
+            setTimeout(() => {
+                const osc2 = audioContext.createOscillator();
+                const gain2 = audioContext.createGain();
+                osc2.connect(gain2);
+                gain2.connect(audioContext.destination);
+                osc2.frequency.value = 1200;
+                osc2.type = 'sine';
+                gain2.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                osc2.start(audioContext.currentTime);
+                osc2.stop(audioContext.currentTime + 0.3);
+            }, 150);
+
+        } catch (err) {
+            // Silent fail
+        }
+    }
+
+    // ============================================
+    // 🎯 6. CART MODAL ENHANCEMENT
+    // ============================================
+    function initCartModalEnhancement() {
+        const cartButton = document.getElementById('cartButton');
+        const cartModal = document.getElementById('cartModal');
+
+        if (cartButton && cartModal) {
+            cartButton.addEventListener('click', () => {
+                setTimeout(() => {
+                    const items = cartModal.querySelectorAll('.cart-item');
+                    items.forEach((item, index) => {
+                        item.style.animation = 'none';
+                        item.offsetHeight;
+                        item.style.animation = `cartItemSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) ${index * 0.1}s forwards`;
+                    });
+                }, 100);
+            });
+        }
+    }
+
+    // ============================================
+    // 🎯 7. CHECKOUT FORM REVEAL
+    // ============================================
+    function initCheckoutFormReveal() {
+        const checkoutButton = document.getElementById('checkoutButton');
+        const checkoutForm = document.getElementById('checkoutForm');
+
+        if (checkoutButton && checkoutForm) {
+            checkoutButton.addEventListener('click', () => {
+                setTimeout(() => {
+                    if (checkoutForm && !checkoutForm.hidden) {
+                        checkoutForm.style.animation = 'none';
+                        checkoutForm.offsetHeight;
+                        checkoutForm.style.animation = 'checkoutFormSlideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    }
+                }, 50);
+            });
+        }
+    }
+
+    // ============================================
+    // 🎯 8. PAYMENT METHOD TOGGLE
+    // ============================================
+    function initPaymentToggle() {
+        document.querySelectorAll('input[name="payment"]').forEach(input => {
+            input.addEventListener('change', () => {
+                const bkashFields = document.getElementById('bkashFields');
+                const nagadFields = document.getElementById('nagadFields');
+
+                if (bkashFields && input.value === 'bKash') {
+                    bkashFields.style.animation = 'none';
+                    bkashFields.offsetHeight;
+                    bkashFields.style.animation = 'paymentFieldSlideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                }
+
+                if (nagadFields && input.value === 'Nagad') {
+                    nagadFields.style.animation = 'none';
+                    nagadFields.offsetHeight;
+                    nagadFields.style.animation = 'paymentFieldSlideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                }
+            });
+        });
+    }
+
+    // ============================================
+    // 🎯 9. REMOVE ITEM ANIMATION
+    // ============================================
+    function initRemoveAnimation() {
+        document.addEventListener('click', (e) => {
+            const removeBtn = e.target.closest('.remove-btn');
+            if (!removeBtn) return;
+
+            const cartItem = removeBtn.closest('.cart-item');
+            if (cartItem) {
+                cartItem.style.transition = 'all 0.4s ease';
+                cartItem.style.opacity = '0';
+                cartItem.style.transform = 'translateX(100px)';
+                setTimeout(() => {
+                    cartItem.style.opacity = '';
+                    cartItem.style.transform = '';
+                }, 400);
+            }
+        });
+    }
+
+    // ============================================
+    // 🎯 10. INIT
+    // ============================================
+    document.addEventListener('DOMContentLoaded', () => {
+        initQuantityPulse();
+        initTotalPulse();
+        initOrderSuccessDetection();
+        initCartModalEnhancement();
+        initCheckoutFormReveal();
+        initPaymentToggle();
+        initRemoveAnimation();
+
+        console.log('🎬 Level 4: Cart & Checkout Animation initialized');
+    });
+
+    // Make confetti available globally
+    window.triggerConfetti = createConfetti;
+
+})();
