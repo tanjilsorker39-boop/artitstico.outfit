@@ -655,3 +655,212 @@ loadProductsFromFirebase();
 renderCart();
 
 console.log("✅ ARTistico initialized with COD + Fraud Detection");
+
+
+// ============================================
+// 🎬 LEVEL 2: PRODUCTS SECTION ANIMATIONS (JS)
+// ============================================
+
+(function() {
+    'use strict';
+
+    // ============================================
+    // 🎯 1. PRODUCT CARD 3D TILT
+    // ============================================
+    function initProductCardTilt() {
+        if (window.innerWidth <= 800) return;
+        if ('ontouchstart' in window) return;
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            let ticking = false;
+
+            card.addEventListener('mousemove', (e) => {
+                if (ticking) return;
+                ticking = true;
+
+                requestAnimationFrame(() => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -6;
+                    const rotateY = ((x - centerX) / centerX) * 6;
+
+                    card.style.transform = `translateY(-12px) scale(1.02) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    ticking = false;
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // ============================================
+    // 🎯 2. CART BOUNCE ON ADD
+    // ============================================
+    function initCartBounceAnimation() {
+        document.addEventListener('click', (e) => {
+            const addBtn = e.target.closest('.btn-add-cart');
+            if (!addBtn) return;
+            if (addBtn.disabled) return;
+
+            setTimeout(() => {
+                const cartIcon = document.querySelector('.cart-icon');
+                if (cartIcon) {
+                    cartIcon.classList.add('bump');
+                    setTimeout(() => cartIcon.classList.remove('bump'), 700);
+                }
+
+                const cartCount = document.getElementById('cartCount');
+                if (cartCount) {
+                    cartCount.classList.add('bounce');
+                    setTimeout(() => cartCount.classList.remove('bounce'), 600);
+                }
+            }, 100);
+        });
+    }
+
+    // ============================================
+    // 🎯 3. SIZE BUTTON POP ON CLICK
+    // ============================================
+    function initSizeButtonPop() {
+        document.addEventListener('click', (e) => {
+            const sizeBtn = e.target.closest('.size-btn');
+            if (!sizeBtn) return;
+
+            sizeBtn.style.transform = 'scale(1.3) rotate(5deg)';
+            setTimeout(() => {
+                sizeBtn.style.transform = '';
+            }, 300);
+        });
+    }
+
+    // ============================================
+    // 🎯 4. PRODUCT CARD ENTRANCE ANIMATION
+    // ============================================
+    function initProductEntrance() {
+        const cards = document.querySelectorAll('.product-card');
+        if (!cards.length) return;
+
+        cards.forEach(card => {
+            card.style.animation = 'none';
+            card.offsetHeight;
+            card.style.animation = '';
+        });
+    }
+
+    // ============================================
+    // 🎯 5. WISHLIST HEART ANIMATION
+    // ============================================
+    function initWishlistAnimation() {
+        document.addEventListener('click', (e) => {
+            const heart = e.target.closest('.wishlist-heart');
+            if (!heart) return;
+
+            heart.style.transform = 'scale(1.5)';
+            setTimeout(() => {
+                heart.style.transform = '';
+            }, 400);
+        });
+    }
+
+    // ============================================
+    // 🎯 6. BUTTON RIPPLE EFFECT
+    // ============================================
+    function initButtonRipple() {
+        document.addEventListener('click', (e) => {
+            const button = e.target.closest('.btn-add-cart, .btn-whatsapp');
+            if (!button) return;
+            if (button.disabled) return;
+
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const ripple = document.createElement('span');
+            ripple.style.cssText = `
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+                width: 0;
+                height: 0;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                animation: rippleEffect 0.7s ease-out;
+                z-index: 1;
+            `;
+
+            button.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 700);
+        });
+    }
+
+    // ============================================
+    // 🎯 7. IMAGE LAZY LOAD FADE
+    // ============================================
+    function initImageFade() {
+        const images = document.querySelectorAll('.product-image img');
+        images.forEach(img => {
+            if (img.complete) {
+                img.style.opacity = '1';
+            } else {
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.6s ease';
+                img.addEventListener('load', () => {
+                    img.style.opacity = '1';
+                });
+            }
+        });
+    }
+
+    // ============================================
+    // 🎯 8. RE-INIT ON NEW PRODUCTS
+    // ============================================
+    function reinitOnProductsLoad() {
+        // Watch for new product cards
+        const observer = new MutationObserver(() => {
+            if (document.querySelectorAll('.product-card').length > 0) {
+                initProductCardTilt();
+                initImageFade();
+            }
+        });
+
+        const grid = document.getElementById('productsGrid');
+        if (grid) {
+            observer.observe(grid, { childList: true, subtree: true });
+        }
+    }
+
+    // ============================================
+    // 🎯 INITIALIZE ALL
+    // ============================================
+    document.addEventListener('DOMContentLoaded', () => {
+        initProductCardTilt();
+        initCartBounceAnimation();
+        initSizeButtonPop();
+        initWishlistAnimation();
+        initButtonRipple();
+        initImageFade();
+        reinitOnProductsLoad();
+
+        console.log('🎬 Level 2: Products Animation initialized');
+    });
+
+    // Re-init after products load
+    setTimeout(() => {
+        initProductCardTilt();
+        initImageFade();
+    }, 2500);
+
+    // Re-init after cart updates
+    setTimeout(() => {
+        initProductCardTilt();
+    }, 5000);
+
+})();
