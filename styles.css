@@ -3659,24 +3659,6 @@ img.fade-img.loaded { opacity: 1; }
 
 /* ===== LEVEL 7 ===== */
 
-/* 1. Page Loader */
-#pageLoader {
-    position: fixed; inset: 0; z-index: 100010;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 18px; background: #294d3b; color: #fff;
-    transition: opacity .6s ease, visibility .6s;
-}
-#pageLoader.done { opacity: 0; visibility: hidden; }
-.loader-logo {
-    font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700;
-    letter-spacing: 2px; animation: loaderPop 1s ease infinite alternate;
-}
-.loader-logo span { color: #c9a961; }
-.loader-bar { width: 140px; height: 3px; background: rgba(255,255,255,.2); overflow: hidden; border-radius: 3px; }
-.loader-bar i { display: block; height: 100%; width: 40%; background: #c9a961; animation: loaderSlide 1s ease-in-out infinite; }
-@keyframes loaderPop { from { transform: scale(.96); opacity: .7; } to { transform: scale(1.04); opacity: 1; } }
-@keyframes loaderSlide { from { transform: translateX(-100%); } to { transform: translateX(350%); } }
-
 /* 2. Card 3D Tilt */
 .product-card { transition: transform .25s ease, box-shadow .25s ease; will-change: transform; }
 
@@ -3736,5 +3718,57 @@ img.fade-img.loaded { opacity: 1; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 @media (prefers-reduced-motion: reduce) {
-    .marquee-track, .loader-logo, .loader-bar i { animation: none !important; }
+    .marquee-track { animation: none !important; }
+}
+    
+
+/* ============================================
+   🚴 BICYCLE LOADER
+   ============================================ */
+#bikeLoader {
+    position: fixed; inset: 0; z-index: 100020;
+    display: flex; align-items: center; justify-content: center;
+    background: #cbdaf9;
+    transition: opacity .6s ease, visibility .6s;
+}
+#bikeLoader.done { opacity: 0; visibility: hidden; }
+#bikeLoader svg { width: min(86vw, 440px); height: auto; overflow: visible; }
+#bikeLoader .bk {
+    fill: none; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 1 1; stroke-dashoffset: 1;
+    animation: bkLine 3s ease-in-out infinite;
+}
+#bikeLoader .bk-frame { stroke: #1a56e6; stroke-width: 10; }
+#bikeLoader .bk-wheel { stroke: #000827; stroke-width: 10; }
+#bikeLoader .bk-tire, #bikeLoader .bk-crank {
+    fill: none; stroke-linecap: round;
+    transform-box: fill-box; transform-origin: center;
+    animation: bkTire 3s ease-in-out infinite;
+}
+#bikeLoader .bk-tire { stroke: #000827; stroke-width: 9; }
+#bikeLoader .bk-crank { stroke: #1a56e6; stroke-width: 8; }
+#bikeLoader .bk-text {
+    font: 700 100px 'Poppins', sans-serif;
+    text-anchor: middle; fill: #4a6fdc; fill-opacity: 0;
+    stroke: #4a6fdc; stroke-width: 2.5;
+    stroke-dasharray: 900; stroke-dashoffset: 900;
+    animation: bkText 3s ease-in-out infinite;
+}
+@keyframes bkLine {
+    0%   { stroke-dashoffset: 1; }
+    33%  { stroke-dashoffset: 0; }
+    72%  { stroke-dashoffset: 0; }
+    90%, 100% { stroke-dashoffset: -1; }
+}
+@keyframes bkTire {
+    0%   { stroke-dasharray: 0 50; transform: rotate(0); }
+    33%  { stroke-dasharray: 16 34; transform: rotate(.33turn); }
+    72%  { stroke-dasharray: 16 34; transform: rotate(.72turn); }
+    90%, 100% { stroke-dasharray: 0 50; transform: rotate(1turn); }
+}
+@keyframes bkText {
+    0%   { stroke-dashoffset: 900; fill-opacity: 0; opacity: 1; }
+    33%  { stroke-dashoffset: 0;   fill-opacity: 1; opacity: 1; }
+    72%  { stroke-dashoffset: 0;   fill-opacity: 1; opacity: 1; }
+    90%, 100% { stroke-dashoffset: 0; fill-opacity: 1; opacity: .35; }
 }
