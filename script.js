@@ -864,3 +864,205 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
     }, 5000);
 
 })();
+
+
+// ============================================
+// 🎬 LEVEL 3: SCROLL REVEAL SYSTEM (JS)
+// Advanced Intersection Observer
+// ============================================
+
+(function() {
+    'use strict';
+
+    // ============================================
+    // 🎯 SELECTORS TO REVEAL
+    // ============================================
+    const REVEAL_SELECTORS = [
+        // Sections
+        'section',
+        // Headings
+        '.section-heading',
+        // Trust Badges
+        '.trust-badges',
+        '.trust-badges .badge-item',
+        // Breadcrumb
+        '.breadcrumb',
+        // About Features
+        '.info-section .features',
+        '.info-section .features article',
+        // Policies
+        '.policies-section .policy-grid',
+        '.policies-section .policy-grid article',
+        // FAQ
+        '.faq-section .faq-list',
+        '.faq-section .faq-list details',
+        // Contact
+        '.contact-section',
+        '.contact-section .support-details p',
+        // Footer
+        '.site-footer'
+    ];
+
+    // ============================================
+    // 🎯 AUTO-ASSIGN CLASSES
+    // ============================================
+    function autoAssignRevealClasses() {
+        // Trust Badges → Stagger
+        const trustBadges = document.querySelector('.trust-badges');
+        if (trustBadges && !trustBadges.classList.contains('active')) {
+            trustBadges.classList.add('reveal-stagger');
+        }
+
+        // About Features → Stagger
+        const features = document.querySelector('.info-section .features');
+        if (features && !features.classList.contains('active')) {
+            features.classList.add('reveal-stagger');
+        }
+
+        // Policies Grid → Stagger
+        const policyGrid = document.querySelector('.policies-section .policy-grid');
+        if (policyGrid && !policyGrid.classList.contains('active')) {
+            policyGrid.classList.add('reveal-stagger');
+        }
+
+        // FAQ List → Stagger
+        const faqList = document.querySelector('.faq-section .faq-list');
+        if (faqList && !faqList.classList.contains('active')) {
+            faqList.classList.add('reveal-stagger');
+        }
+
+        // Breadcrumb
+        const breadcrumb = document.querySelector('.breadcrumb');
+        if (breadcrumb && !breadcrumb.classList.contains('reveal')) {
+            breadcrumb.classList.add('reveal');
+        }
+
+        // Contact Section
+        const contact = document.querySelector('.contact-section');
+        if (contact && !contact.classList.contains('reveal')) {
+            contact.classList.add('reveal');
+        }
+
+        // Footer
+        const footer = document.querySelector('.site-footer');
+        if (footer && !footer.classList.contains('reveal')) {
+            footer.classList.add('reveal');
+        }
+    }
+
+    // ============================================
+    // 🎯 INTERSECTION OBSERVER
+    // ============================================
+    function initScrollReveal() {
+        const targets = document.querySelectorAll(
+            '.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger, ' +
+            '.trust-badges, .section-heading, .breadcrumb, .contact-section, .site-footer, ' +
+            '.info-section .features, .policies-section .policy-grid, .faq-section .faq-list'
+        );
+
+        if (!targets.length) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -80px 0px'
+        });
+
+        targets.forEach(el => {
+            if (!el.classList.contains('active')) {
+                observer.observe(el);
+            }
+        });
+    }
+
+    // ============================================
+    // 🎯 STAGGER CHILDREN
+    // ============================================
+    function initStaggerChildren() {
+        const staggerContainers = document.querySelectorAll('.stagger-children');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15
+        });
+
+        staggerContainers.forEach(el => observer.observe(el));
+    }
+
+    // ============================================
+    // 🎯 REVEAL ON PAGE LOAD (Above Fold)
+    // ============================================
+    function revealAboveFold() {
+        const aboveFold = document.querySelectorAll('.hero, .trust-badges, .breadcrumb');
+
+        setTimeout(() => {
+            aboveFold.forEach(el => el.classList.add('active'));
+        }, 300);
+    }
+
+    // ============================================
+    // 🎯 MANUAL REVEAL FOR MISSED ELEMENTS
+    // ============================================
+    function manualRevealCheck() {
+        const windowHeight = window.innerHeight;
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-stagger').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < windowHeight * 0.85 && !el.classList.contains('active')) {
+                el.classList.add('active');
+            }
+        });
+    }
+
+    // ============================================
+    // 🎯 INIT
+    // ============================================
+    function init() {
+        autoAssignRevealClasses();
+        initScrollReveal();
+        initStaggerChildren();
+        revealAboveFold();
+
+        // Check after load
+        setTimeout(manualRevealCheck, 1000);
+        setTimeout(manualRevealCheck, 2000);
+
+        // On scroll check
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                manualRevealCheck();
+                ticking = false;
+            });
+        });
+
+        console.log('🎬 Level 3: Scroll Reveal System initialized');
+    }
+
+    // ============================================
+    // 🎯 RUN
+    // ============================================
+    document.addEventListener('DOMContentLoaded', init);
+
+    // Re-init after products load
+    setTimeout(() => {
+        autoAssignRevealClasses();
+        initScrollReveal();
+        manualRevealCheck();
+    }, 2500);
+
+})();
