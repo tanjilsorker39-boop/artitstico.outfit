@@ -3008,3 +3008,514 @@ body {
         transition: none !important;
     }
 }
+
+
+/* ============================================
+   🎬 LEVEL 4: CART & CHECKOUT ANIMATIONS
+   Premium Shopping Experience
+   ============================================ */
+
+/* ============================================
+   🎯 1. CART MODAL — SLIDE UP
+   ============================================ */
+.modal {
+    backdrop-filter: blur(8px);
+    transition: backdrop-filter 0.4s ease;
+}
+
+.modal.active {
+    animation: modalBackdropIn 0.4s ease;
+}
+
+@keyframes modalBackdropIn {
+    from {
+        backdrop-filter: blur(0);
+        background: rgba(18, 30, 24, 0);
+    }
+    to {
+        backdrop-filter: blur(8px);
+        background: rgba(18, 30, 24, 0.65);
+    }
+}
+
+.modal.active .modal-content {
+    animation: cartModalSlideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cartModalSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.9) rotateX(-15deg);
+        filter: blur(10px);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1.01) rotateX(0);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================
+   🎯 2. CART ITEMS — STAGGER FADE IN
+   ============================================ */
+.cart-item {
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: cartItemSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cartItemSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.cart-item:nth-child(1) { animation-delay: 0.05s; }
+.cart-item:nth-child(2) { animation-delay: 0.15s; }
+.cart-item:nth-child(3) { animation-delay: 0.25s; }
+.cart-item:nth-child(4) { animation-delay: 0.35s; }
+.cart-item:nth-child(5) { animation-delay: 0.45s; }
+.cart-item:nth-child(6) { animation-delay: 0.55s; }
+
+/* Cart Item Hover */
+.cart-item {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cart-item:hover {
+    background: rgba(41, 77, 59, 0.03);
+    transform: translateX(6px);
+}
+
+/* ============================================
+   🎯 3. QUANTITY BUTTONS — PULSE
+   ============================================ */
+.quantity-btn {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.quantity-btn:hover {
+    background: var(--accent, #d87550);
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px rgba(216, 117, 80, 0.4);
+}
+
+.quantity-btn:active {
+    animation: quantityBtnPulse 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes quantityBtnPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.8); }
+    100% { transform: scale(1.1); }
+}
+
+/* Ripple on Quantity */
+.quantity-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.quantity-btn:active::before {
+    width: 100px;
+    height: 100px;
+}
+
+/* ============================================
+   🎯 4. REMOVE BUTTON
+   ============================================ */
+.remove-btn {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.remove-btn:hover {
+    color: #dc3545;
+    transform: scale(1.1);
+}
+
+.remove-btn:hover::after {
+    content: '🗑️';
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: removeIconIn 0.3s ease;
+}
+
+@keyframes removeIconIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+    }
+}
+
+/* ============================================
+   🎯 5. CHECKOUT BUTTON — PULSE
+   ============================================ */
+.checkout-button {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.checkout-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: left 0.8s ease;
+}
+
+.checkout-button:hover::before {
+    left: 100%;
+}
+
+.checkout-button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(41, 77, 59, 0.3);
+}
+
+@keyframes checkoutPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(41, 77, 59, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(41, 77, 59, 0);
+    }
+}
+
+.checkout-button:not(:disabled) {
+    animation: checkoutPulse 2.5s infinite;
+}
+
+/* ============================================
+   🎯 6. CHECKOUT FORM — SLIDE DOWN
+   ============================================ */
+#checkoutForm {
+    animation: checkoutFormSlideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes checkoutFormSlideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+        max-height: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 2000px;
+    }
+}
+
+#checkoutForm label {
+    opacity: 0;
+    animation: formLabelFadeIn 0.5s ease forwards;
+}
+
+#checkoutForm input,
+#checkoutForm textarea {
+    opacity: 0;
+    animation: formInputFadeIn 0.5s ease forwards;
+}
+
+@keyframes formLabelFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes formInputFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#checkoutForm label:nth-of-type(1),
+#checkoutForm input:nth-of-type(1) { animation-delay: 0.1s; }
+#checkoutForm label:nth-of-type(2),
+#checkoutForm input:nth-of-type(2) { animation-delay: 0.2s; }
+#checkoutForm label:nth-of-type(3),
+#checkoutForm input:nth-of-type(3) { animation-delay: 0.3s; }
+#checkoutForm label:nth-of-type(4),
+#checkoutForm textarea { animation-delay: 0.4s; }
+
+/* ============================================
+   🎯 7. PAYMENT METHOD FIELDS — TOGGLE
+   ============================================ */
+.payment-fields {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: top;
+    overflow: hidden;
+}
+
+.payment-fields[style*="display: block"] {
+    animation: paymentFieldSlideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes paymentFieldSlideDown {
+    0% {
+        opacity: 0;
+        transform: scaleY(0) translateY(-20px);
+        max-height: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: scaleY(1) translateY(0);
+        max-height: 500px;
+    }
+}
+
+/* Payment Method Radio */
+.delivery-option {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.delivery-option:hover {
+    transform: translateX(6px);
+    border-color: var(--green, #294d3b);
+}
+
+.delivery-option:has(input:checked) {
+    background: linear-gradient(135deg, #f0f5f0 0%, #e8f0e8 100%);
+    border-color: var(--green, #294d3b);
+    box-shadow: 0 4px 14px rgba(41, 77, 59, 0.12);
+}
+
+.delivery-option:has(input:checked)::before {
+    content: '✓';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--green, #294d3b);
+    font-weight: 700;
+    font-size: 18px;
+    animation: checkmarkAppear 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes checkmarkAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) scale(0) rotate(-45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1) rotate(0deg);
+    }
+}
+
+/* ============================================
+   🎯 8. TOAST NOTIFICATION — SLIDE + CHECKMARK
+   ============================================ */
+.toast {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toast.show {
+    animation: toastSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toastSlideUp {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 40px) scale(0.85);
+    }
+    60% {
+        opacity: 1;
+        transform: translate(-50%, -8px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+    }
+}
+
+.toast.show::after {
+    content: '✓';
+    display: inline-block;
+    margin-left: 12px;
+    font-weight: 800;
+    animation: checkmarkPopEffect 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes checkmarkPopEffect {
+    0% {
+        transform: scale(0) rotate(-90deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.5) rotate(-45deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   🎯 9. ORDER SUCCESS — CELEBRATION
+   ============================================ */
+@keyframes successCelebration {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.order-success {
+    animation: successCelebration 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Confetti Effect */
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    z-index: 99999;
+    pointer-events: none;
+    animation: confettiFall 3s linear forwards;
+}
+
+/* ============================================
+   🎯 10. CART SUMMARY — TOTAL PULSE
+   ============================================ */
+.cart-summary .total-row strong {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cart-summary .total-row strong.pulse {
+    animation: totalPulse 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes totalPulse {
+    0% { transform: scale(1); }
+    50% {
+        transform: scale(1.15);
+        color: var(--accent, #d87550);
+    }
+    100% { transform: scale(1); }
+}
+
+/* ============================================
+   🎯 11. EMPTY CART — BOUNCE
+   ============================================ */
+.empty-cart {
+    animation: emptyCartBounce 2s ease-in-out infinite;
+}
+
+@keyframes emptyCartBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* ============================================
+   🎯 12. MODAL CLOSE BUTTON — ROTATE
+   ============================================ */
+.close-btn {
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.close-btn:hover {
+    transform: rotate(90deg) scale(1.15);
+    color: var(--accent, #d87550);
+}
+
+/* ============================================
+   🎯 13. MOBILE OPTIMIZATION
+   ============================================ */
+@media (max-width: 560px) {
+    @keyframes cartModalSlideUp {
+        0% {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .checkout-button:not(:disabled) {
+        animation: none;
+    }
+}
+
+/* ============================================
+   🎯 14. REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    .modal.active .modal-content,
+    .cart-item,
+    .checkout-button,
+    .toast,
+    .empty-cart {
+        animation: none !important;
+    }
+}
