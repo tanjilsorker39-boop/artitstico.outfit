@@ -1510,19 +1510,6 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
     const canHover = matchMedia('(hover: hover)').matches;
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. Page Loader
-    function initLoader() {
-        const l = document.createElement('div');
-        l.id = 'pageLoader';
-        l.innerHTML = '<div class="loader-logo">ART<span>istico</span></div><div class="loader-bar"><i></i></div>';
-        document.body.prepend(l);
-        const hide = () => setTimeout(() => {
-            l.classList.add('done');
-            setTimeout(() => l.remove(), 700);
-        }, 900);
-        document.readyState === 'complete' ? hide() : window.addEventListener('load', hide);
-    }
-
     // 2. Card 3D Tilt (শুধু মাউস আছে এমন ডিভাইসে)
     function initTilt() {
         if (!canHover || reduce) return;
@@ -1667,7 +1654,58 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        initLoader(); initTilt(); initQuickView(); initFlyToCart();
+        initTilt(); initQuickView(); initFlyToCart();
         initHeartBurst(); initNavbar(); initMagnetic(); initMarquee();
     });
+})();
+
+
+// ============================================
+// 🚴 BICYCLE LOADER
+// ============================================
+(function () {
+    'use strict';
+    const MIN_TIME = 4500;
+    const startTime = Date.now();
+
+    if (!document.getElementById('bikeFont')) {
+        const f = document.createElement('link');
+        f.id = 'bikeFont';
+        f.rel = 'stylesheet';
+        f.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap';
+        document.head.appendChild(f);
+    }
+
+    const loader = document.createElement('div');
+    loader.id = 'bikeLoader';
+    loader.innerHTML = `
+        <svg viewBox="110 40 640 480" aria-hidden="true">
+            <circle class="bk bk-wheel" pathLength="1" cx="247" cy="272" r="113"/>
+            <circle class="bk bk-wheel" pathLength="1" cx="605" cy="275" r="113"/>
+            <circle class="bk-tire" pathLength="100" cx="247" cy="272" r="62"/>
+            <circle class="bk-tire" pathLength="100" cx="605" cy="275" r="62"/>
+            <path class="bk bk-frame" pathLength="1" d="M247 272 L365 138 L548 125 L430 270 Z"/>
+            <path class="bk bk-frame" pathLength="1" d="M247 272 L430 270"/>
+            <path class="bk bk-frame" pathLength="1" d="M335 78 L430 270"/>
+            <path class="bk bk-frame" pathLength="1" d="M300 76 L358 76"/>
+            <path class="bk bk-frame" pathLength="1" d="M498 66 L562 66 C590 66 592 92 574 94 M534 66 L605 272"/>
+            <circle class="bk-crank" pathLength="100" cx="430" cy="270" r="46"/>
+            <text class="bk-text" x="428" y="480">Loading</text>
+        </svg>`;
+
+    (document.body || document.documentElement).prepend(loader);
+
+    function hideLoader() {
+        let wait = Math.max(0, MIN_TIME - (Date.now() - startTime));
+        const phase = (Date.now() - startTime + wait) % 3000;
+        if (phase < 1200) wait += 1200 - phase;
+        else if (phase > 2200) wait += 3000 - phase + 1200;
+        setTimeout(() => {
+            loader.classList.add('done');
+            setTimeout(() => loader.remove(), 700);
+        }, wait);
+    }
+
+    if (document.readyState === 'complete') hideLoader();
+    else window.addEventListener('load', hideLoader);
 })();
