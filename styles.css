@@ -3772,3 +3772,102 @@ img.fade-img.loaded { opacity: 1; }
     72%  { stroke-dashoffset: 0;   fill-opacity: 1; opacity: 1; }
     90%, 100% { stroke-dashoffset: 0; fill-opacity: 1; opacity: .35; }
 }
+
+
+/* ============================================
+   🚚 ORDER CONFIRM ANIMATION (Truck)
+   ============================================ */
+#orderAnim {
+    position: fixed;
+    inset: 0;
+    z-index: 100050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 26, 22, 0.75);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s;
+    cursor: pointer;
+}
+#orderAnim.show {
+    opacity: 1;
+    visibility: visible;
+}
+#orderAnim svg {
+    width: min(86vw, 460px);
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
+}
+#orderAnim .oa-truck {
+    transform: translateX(-200px);
+    animation: oaTruckIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+}
+@keyframes oaTruckIn {
+    to { transform: translateX(0); }
+}
+#orderAnim .oa-beams {
+    opacity: 0;
+    animation: oaBeamsOn 0.6s ease 1.2s forwards;
+}
+@keyframes oaBeamsOn {
+    to { opacity: 1; }
+}
+#orderAnim .oa-road {
+    animation: oaRoadMove 0.8s linear infinite;
+}
+@keyframes oaRoadMove {
+    from { transform: translateX(0); }
+    to { transform: translateX(-18px); }
+}
+#orderAnim .oa-box {
+    animation: oaBoxJump 1.5s ease-in-out infinite;
+    transform-origin: center bottom;
+}
+@keyframes oaBoxJump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+#orderAnim .oa-door {
+    opacity: 0;
+    animation: oaDoorFade 0.5s ease 0.8s forwards;
+}
+@keyframes oaDoorFade {
+    to { opacity: 1; }
+}
+#orderAnim .oa-t2 {
+    fill: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: oaTextFade 0.6s ease 1.5s forwards;
+}
+@keyframes oaTextFade {
+    to { opacity: 1; }
+}
+#orderAnim .oa-ck {
+    fill: #25D366;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    opacity: 0;
+    animation: oaCheckPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s forwards;
+    transform-origin: 226px 47px;
+}
+@keyframes oaCheckPop {
+    0% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1.3); }
+    100% { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 560px) {
+    #orderAnim svg { width: min(92vw, 360px); }
+}
+@media (prefers-reduced-motion: reduce) {
+    #orderAnim *, #orderAnim *::before, #orderAnim *::after {
+        animation-duration: 0.01ms !important;
+    }
+}
