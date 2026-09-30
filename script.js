@@ -1760,3 +1760,79 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
     if (document.readyState === 'complete') hideLoader();
     else window.addEventListener('load', hideLoader);
 })();
+
+
+
+// ============================================
+// 🚚 ORDER CONFIRM ANIMATION (Truck)
+// ============================================
+(function () {
+    'use strict';
+    const TOTAL = 9800;
+    let busy = false;
+
+    const SVG = `
+    <svg viewBox="0 0 348 80" aria-hidden="true">
+        <defs>
+            <clipPath id="oaClip"><rect width="340" height="80" rx="40"/></clipPath>
+            <linearGradient id="oaBody" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f8f9ff"/><stop offset="1" stop-color="#d3d9f2"/>
+            </linearGradient>
+            <linearGradient id="oaBeam" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#ffd83a" stop-opacity=".6"/>
+                <stop offset="1" stop-color="#ffd83a" stop-opacity="0"/>
+            </linearGradient>
+        </defs>
+        <rect width="340" height="80" rx="40" fill="#1a1f2c"/>
+        <rect x="342" y="34" width="2.5" height="12" rx="1" fill="#4b5060"/>
+        <g clip-path="url(#oaClip)">
+            <g class="oa-roadwrap">
+                <line class="oa-road" x1="-20" y1="40" x2="340" y2="40" stroke="#fff" stroke-width="2.5" stroke-dasharray="9 9"/>
+            </g>
+            <g class="oa-box">
+                <rect x="28" y="25" width="30" height="30" rx="2.5" fill="#e3b97a"/>
+                <line x1="28" y1="40" x2="58" y2="40" stroke="#c79a55" stroke-width="2"/>
+            </g>
+            <g class="oa-truck">
+                <g class="oa-beams">
+                    <polygon points="224,25 322,7 322,47" fill="url(#oaBeam)"/>
+                    <polygon points="224,55 322,33 322,73" fill="url(#oaBeam)"/>
+                </g>
+                <rect x="110" y="15" width="86" height="50" rx="3" fill="url(#oaBody)"/>
+                <rect x="196" y="15" width="12" height="50" rx="1.5" fill="#7598ff"/>
+                <line x1="209" y1="30" x2="218" y2="25" stroke="#fff" stroke-opacity=".25" stroke-width="2"/>
+                <line x1="209" y1="37" x2="218" y2="32" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
+                <path d="M208 16 Q222 16 222 40 Q222 64 208 64" fill="none" stroke="#2b59f0" stroke-width="3" stroke-linecap="round"/>
+                <rect x="220.5" y="21" width="3.2" height="8" rx="1" fill="#f5d033"/>
+                <rect x="220.5" y="51" width="3.2" height="8" rx="1" fill="#f5d033"/>
+                <line class="oa-door t" x1="110" y1="15" x2="84" y2="15" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                <line class="oa-door b" x1="110" y1="65" x2="84" y2="65" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+        </g>
+        <text class="oa-t2" x="158" y="46">Order Placed</text>
+        <text class="oa-ck" x="226" y="47">✓</text>
+    </svg>`;
+
+    window.playOrderAnimation = function () {
+        if (busy) return;
+        busy = true;
+        const ov = document.createElement('div');
+        ov.id = 'orderAnim';
+        ov.innerHTML = SVG;
+        document.body.appendChild(ov);
+        requestAnimationFrame(() => ov.classList.add('show'));
+
+        let closed = false;
+        const close = () => {
+            if (closed) return;
+            closed = true;
+            ov.classList.remove('show');
+            setTimeout(() => { ov.remove(); busy = false; }, 400);
+        };
+        ov.addEventListener('click', close);
+        setTimeout(() => {
+            if (!closed && typeof window.triggerConfetti === 'function') window.triggerConfetti();
+        }, 7300);
+        setTimeout(close, TOTAL);
+    };
+})();
