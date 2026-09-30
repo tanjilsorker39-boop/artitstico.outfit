@@ -625,19 +625,8 @@ if (checkoutForm) {
             window.playOrderAnimation(); 
             showToast("✅ অর্ডার " + orderNumber + " সফল!");
 
-            setTimeout(() => {
-                alert(
-                    "✅ অর্ডার কনফার্ম হয়েছে!\n\n" +
-                    "Order নম্বর: " + orderNumber + "\n\n" +
-                    "📦 ডেলিভারি: " + deliveryArea + "\n" +
-                    "💵 ডেলিভারি চার্জ: ৳" + deliveryCharge + " (পেইড)\n" +
-                    "💰 COD তে দিতে হবে: ৳" + subtotal + "\n" +
-                    "📊 মোট: ৳" + total + "\n\n" +
-                    "🔍 আপনার TrxID: " + trxId + "\n\n" +
-                    "ARTistico ২৪ ঘণ্টার মধ্যে যাচাই করে যোগাযোগ করবে।"
-                );
-            }, 300);
-
+         
+               
         } catch (err) {
             console.error("Order save error:", err);
             showToast("❌ অর্ডার জমা হয়নি। আবার চেষ্টা করুন।");
