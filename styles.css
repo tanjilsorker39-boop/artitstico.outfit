@@ -3953,3 +3953,215 @@ img.fade-img.loaded { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
     #orderAnim .oa-road { animation: none; }
 }
+
+
+
+/* ============================================
+   📞 CONTACT SECTION — PROFESSIONAL CARDS
+   ============================================ */
+.support-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 40px auto 0;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.support-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 20px 24px;
+    background: #ffffff;
+    border: 1.5px solid #e5e8ef;
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+}
+
+.support-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #294d3b, #d87550);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.support-card:hover {
+    transform: translateY(-8px);
+    border-color: #294d3b;
+    box-shadow:
+        0 20px 40px rgba(41, 77, 59, 0.12),
+        0 0 0 4px rgba(41, 77, 59, 0.04);
+}
+
+.support-card:hover::before {
+    transform: scaleX(1);
+}
+
+.support-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8f0eb 0%, #dce8df 100%);
+    color: #294d3b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.support-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.support-card:hover .support-icon {
+    background: linear-gradient(135deg, #294d3b 0%, #3d6b50 100%);
+    color: #ffffff;
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.support-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1f2c;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+}
+
+.support-value {
+    font-size: 13px;
+    color: #718078;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    word-break: break-word;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.support-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #294d3b;
+    background: #f0f5f0;
+    border-radius: 30px;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.support-card:hover .support-action {
+    background: #294d3b;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+@media (max-width: 800px) {
+    .support-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+}
+
+@media (max-width: 560px) {
+    .support-cards {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 0 16px;
+    }
+
+    .support-card {
+        padding: 24px 18px 20px;
+        flex-direction: row;
+        text-align: left;
+        gap: 16px;
+    }
+
+    .support-icon {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .support-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .support-label {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .support-value {
+        font-size: 12px;
+        margin-bottom: 0;
+        min-height: auto;
+        justify-content: flex-start;
+    }
+
+    .support-action {
+        display: none;
+    }
+}
+
+body.dark-mode .support-card {
+    background: #1a2621;
+    border-color: #2a3d33;
+}
+
+body.dark-mode .support-card:hover {
+    border-color: #7fb89a;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 4px rgba(127, 184, 154, 0.06);
+}
+
+body.dark-mode .support-icon {
+    background: linear-gradient(135deg, #2a3d33 0%, #1a2621 100%);
+    color: #7fb89a;
+}
+
+body.dark-mode .support-card:hover .support-icon {
+    background: linear-gradient(135deg, #7fb89a 0%, #a8d4ba 100%);
+    color: #0f1a16;
+}
+
+body.dark-mode .support-label {
+    color: #e8f0eb;
+}
+
+body.dark-mode .support-value {
+    color: #8fa89a;
+}
+
+body.dark-mode .support-action {
+    background: #2a3d33;
+    color: #7fb89a;
+}
+
+body.dark-mode .support-card:hover .support-action {
+    background: #7fb89a;
+    color: #0f1a16;
+}
