@@ -1733,8 +1733,8 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
             </g>
             <g class="oa-truck">
                 <g class="oa-beams">
-                    <polygon points="224,25 322,7 322,47" fill="url(#oaBeam)"/>
-                    <polygon points="224,55 322,33 322,73" fill="url(#oaBeam)"/>
+                    <polygon points="224,28 280,14 280,42" fill="url(#oaBeam)"/>
+                    <polygon points="224,52 280,38 280,66" fill="url(#oaBeam)"/>
                 </g>
                 <rect x="110" y="15" width="86" height="50" rx="3" fill="url(#oaBody)"/>
                 <rect x="196" y="15" width="12" height="50" rx="1.5" fill="#7598ff"/>
@@ -1747,8 +1747,8 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
                 <line class="oa-door b" x1="110" y1="65" x2="84" y2="65" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
             </g>
         </g>
-        <text class="oa-t2" x="158" y="46">Order Placed</text>
-        <text class="oa-ck" x="226" y="47">✓</text>
+        <text class="oa-t2" x="170" y="72">Order Placed</text>
+        <text class="oa-ck" x="230" y="20">✓</text>
     </svg>`;
 
     window.playOrderAnimation = function () {
