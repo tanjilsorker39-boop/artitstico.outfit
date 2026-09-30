@@ -2,7 +2,6 @@
 // 🔥 Firebase থেকে প্রোডাক্ট লোড
 // =============================================
 let products = [];
-
 const FIREBASE_URL = "https://artistico-c3a5e-default-rtdb.asia-southeast1.firebasedatabase.app";
 const WHATSAPP_NUMBER = "8801636032218";
 
@@ -1747,7 +1746,7 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
                 <line class="oa-door b" x1="110" y1="65" x2="84" y2="65" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
             </g>
         </g>
-        <text class="oa-t2" x="170" y="72">Order Placed</text>
+        <text class="oa-t2" x="170" y="72">Order Confirmed</text>
         <text class="oa-ck" x="230" y="20">✓</text>
     </svg>`;
 
