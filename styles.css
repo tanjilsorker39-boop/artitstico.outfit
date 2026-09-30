@@ -3222,66 +3222,177 @@ body {
 }
 
 /* ============================================
-   🎯 6. CHECKOUT FORM — SLIDE DOWN
+   📝 CHECKOUT FORM — PROFESSIONAL DESIGN
    ============================================ */
 #checkoutForm {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 24px;
+    padding: 28px 24px;
+    background: #f8f9fb;
+    border-radius: 14px;
+    border: 1px solid #e5e8ef;
     animation: checkoutFormSlideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes checkoutFormSlideDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-30px);
-        max-height: 0;
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-        max-height: 2000px;
-    }
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+#checkoutForm h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1f2c;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.3px;
 }
 
 #checkoutForm label {
-    opacity: 0;
-    animation: formLabelFadeIn 0.5s ease forwards;
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+    opacity: 1;
 }
 
 #checkoutForm input,
 #checkoutForm textarea {
-    opacity: 0;
-    animation: formInputFadeIn 0.5s ease forwards;
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #1a1f2c;
+    background: #ffffff;
+    border: 1.5px solid #dfe3ec;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    opacity: 1;
 }
 
-@keyframes formLabelFadeIn {
-    from {
-        opacity: 0;
-        transform: translateX(-15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+#checkoutForm input::placeholder,
+#checkoutForm textarea::placeholder {
+    color: #a0a8b8;
 }
 
-@keyframes formInputFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+#checkoutForm input:focus,
+#checkoutForm textarea:focus {
+    border-color: #294d3b;
+    box-shadow: 0 0 0 4px rgba(41, 77, 59, 0.08);
 }
 
-#checkoutForm label:nth-of-type(1),
-#checkoutForm input:nth-of-type(1) { animation-delay: 0.1s; }
-#checkoutForm label:nth-of-type(2),
-#checkoutForm input:nth-of-type(2) { animation-delay: 0.2s; }
-#checkoutForm label:nth-of-type(3),
-#checkoutForm input:nth-of-type(3) { animation-delay: 0.3s; }
-#checkoutForm label:nth-of-type(4),
-#checkoutForm textarea { animation-delay: 0.4s; }
+#checkoutForm textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+#checkoutForm #paymentInstruction {
+    font-size: 13px;
+    color: #718078;
+    background: #eef2f7;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border-left: 3px solid #294d3b;
+    margin: 4px 0;
+}
+
+#checkoutForm .consent-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #4a5568;
+    padding: 12px;
+    background: #ffffff;
+    border: 1.5px solid #dfe3ec;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#checkoutForm .consent-option:hover {
+    border-color: #294d3b;
+    background: #f8fbf9;
+}
+
+#checkoutForm .consent-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: #294d3b;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+#checkoutForm button[type="submit"] {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+    background: #294d3b;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#checkoutForm button[type="submit"]:hover {
+    background: #1a3328;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(41, 77, 59, 0.25);
+}
+
+#checkoutForm button[type="submit"]:disabled {
+    background: #a0a8b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 560px) {
+    #checkoutForm { padding: 22px 18px; gap: 14px; }
+    #checkoutForm h3 { font-size: 19px; }
+    #checkoutForm input,
+    #checkoutForm textarea { padding: 12px 14px; }
+}
+
+body.dark-mode #checkoutForm { background: #1a2621; border-color: #2a3d33; }
+body.dark-mode #checkoutForm h3 { color: #e8f0eb; }
+body.dark-mode #checkoutForm label { color: #8fa89a; }
+body.dark-mode #checkoutForm input,
+body.dark-mode #checkoutForm textarea {
+    background: #0f1a16;
+    border-color: #2a3d33;
+    color: #e8f0eb;
+}
+body.dark-mode #checkoutForm input:focus,
+body.dark-mode #checkoutForm textarea:focus {
+    border-color: #7fb89a;
+    box-shadow: 0 0 0 4px rgba(127, 184, 154, 0.12);
+}
+body.dark-mode #checkoutForm #paymentInstruction {
+    background: #0f1a16;
+    color: #8fa89a;
+    border-left-color: #7fb89a;
+}
+body.dark-mode #checkoutForm .consent-option {
+    background: #0f1a16;
+    border-color: #2a3d33;
+    color: #8fa89a;
+}
 
 /* ============================================
    🎯 7. PAYMENT METHOD FIELDS — TOGGLE
