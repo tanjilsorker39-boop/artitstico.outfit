@@ -1747,7 +1747,7 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
             </g>
         </g>
         <text class="oa-t2" x="170" y="50">Order Confirmed</text>
-        <text class="oa-ck" x="230" y="42">✓</text>
+        <text class="oa-ck" x="288" y="42">✓</text>
     </svg>`;
 
     window.playOrderAnimation = function () {
