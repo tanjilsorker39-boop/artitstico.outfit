@@ -3697,15 +3697,15 @@ img.fade-img.loaded { opacity: 1; }
 
 /* 8. Back to Top */
 #backToTop {
-    position: fixed; left: 20px; bottom: 20px;
+    position: fixed; left: 50%; bottom: 20px;
     width: 46px; height: 46px; border: none; border-radius: 50%;
     background: #294d3b; color: #fff; font-size: 20px;
-    opacity: 0; transform: translateY(20px); pointer-events: none;
+    opacity: 0; transform: translateY(-50%); pointer-events: none;
     transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
     z-index: 9999; cursor: pointer;
 }
 #backToTop.show { opacity: 1; transform: none; pointer-events: auto; }
-#backToTop:hover { background: #c9a961; transform: translateY(-4px); }
+#backToTop:hover { background: #c9a961; transform: translateY(-50%); }
 
 @media (prefers-reduced-motion: reduce) {
     .ripple-span, .skeleton { animation: none !important; }
