@@ -1750,9 +1750,79 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
         <text class="oa-ck" x="288" y="42">✓</text>
     </svg>`;
 
+   // ===== 💰 CASH REGISTER SOUND =====
+window.playOrderSound = function () {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = ctx.currentTime;
+
+        // 1. Cash drawer "click"
+        const bufferSize = ctx.sampleRate * 0.03;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 3);
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.25, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+        noise.connect(noiseGain);
+        noiseGain.connect(ctx.destination);
+        noise.start(now);
+
+        // 2. First bell (E6)
+        const bell1 = ctx.createOscillator();
+        const bellGain1 = ctx.createGain();
+        bell1.connect(bellGain1);
+        bellGain1.connect(ctx.destination);
+        bell1.frequency.value = 1318.51;
+        bell1.type = 'sine';
+        bellGain1.gain.setValueAtTime(0.001, now + 0.05);
+        bellGain1.gain.exponentialRampToValueAtTime(0.3, now + 0.06);
+        bellGain1.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+        bell1.start(now + 0.05);
+        bell1.stop(now + 0.55);
+
+        // 3. Second bell (B6)
+        const bell2 = ctx.createOscillator();
+        const bellGain2 = ctx.createGain();
+        bell2.connect(bellGain2);
+        bellGain2.connect(ctx.destination);
+        bell2.frequency.value = 1975.53;
+        bell2.type = 'sine';
+        bellGain2.gain.setValueAtTime(0.001, now + 0.13);
+        bellGain2.gain.exponentialRampToValueAtTime(0.35, now + 0.15);
+        bellGain2.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+        bell2.start(now + 0.13);
+        bell2.stop(now + 0.85);
+
+        // 4. Third harmonic (E7)
+        const bell3 = ctx.createOscillator();
+        const bellGain3 = ctx.createGain();
+        bell3.connect(bellGain3);
+        bellGain3.connect(ctx.destination);
+        bell3.frequency.value = 2637.02;
+        bell3.type = 'sine';
+        bellGain3.gain.setValueAtTime(0.001, now + 0.13);
+        bellGain3.gain.exponentialRampToValueAtTime(0.12, now + 0.15);
+        bellGain3.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+        bell3.start(now + 0.13);
+        bell3.stop(now + 0.65);
+
+        console.log('💰 Cash register sound played');
+    } catch (err) {
+        console.warn('Cash register sound failed:', err);
+    }
+};
+
     window.playOrderAnimation = function () {
         if (busy) return;
         busy = true;
+            if (typeof window.playOrderSound === 'function') {
+        window.playOrderSound();
+    }
         const ov = document.createElement('div');
         ov.id = 'orderAnim';
         ov.innerHTML = SVG;
