@@ -1843,3 +1843,62 @@ window.playOrderSound = function () {
         setTimeout(close, TOTAL);
     };
 })();
+
+
+
+// ============================================
+// 📱 APP DOWNLOAD (PWA)
+// ============================================
+(function () {
+    'use strict';
+
+    let deferredPrompt = null;
+    const card = document.getElementById('appDownloadCard');
+    const installBtn = document.getElementById('installAppButton');
+
+    function isInstalled() {
+        return window.matchMedia('(display-mode: standalone)').matches ||
+               window.navigator.standalone === true;
+    }
+
+    function showInstallUI() {
+        if (card) card.style.display = 'block';
+    }
+    function hideInstallUI() {
+        if (card) card.style.display = 'none';
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallUI();
+    });
+
+    async function triggerInstall() {
+        if (!deferredPrompt) {
+            alert('To install:\n\n📱 Android: Tap menu (⋮) → "Add to Home screen"\n\niPhone: Tap Share → "Add to Home Screen"\n\n💻 Desktop: Look for install icon in address bar');
+            return;
+        }
+        deferredPrompt.prompt();
+        const result = await deferredPrompt.userChoice;
+        if (result.outcome === 'accepted') {
+            hideInstallUI();
+        }
+        deferredPrompt = null;
+    }
+
+    if (installBtn) {
+        installBtn.addEventListener('click', triggerInstall);
+    }
+
+    if (isInstalled()) {
+        hideInstallUI();
+    }
+
+    window.addEventListener('appinstalled', () => {
+        hideInstallUI();
+        console.log('✅ PWA installed');
+    });
+
+    console.log('📱 App Download module ready');
+})();
