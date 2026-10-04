@@ -625,6 +625,37 @@ if (checkoutForm) {
             showToast("✅ অর্ডার " + orderNumber + " সফল!");
 
          
+            // ===== 📧 SEND ORDER EMAIL =====
+            try {
+                emailjs.init('bbH-iNWx79UijSE5z');
+
+                const orderItemsText = order.items.map(function(i) {
+                    return '• ' + i.name + ' (Size: ' + i.size + ') × ' + i.quantity + ' = ৳' + (i.price * i.quantity);
+                }).join('\n');
+
+                emailjs.send('service_u1phsrv', 'template_1ozn5z8', {
+                    order_number: orderNumber,
+                    order_date: new Date().toLocaleString('en-BD', { timeZone: 'Asia/Dhaka' }),
+                    customer_name: order.customer.name,
+                    customer_phone: order.customer.phone,
+                    customer_email: order.customer.email,
+                    customer_address: order.customer.address,
+                    order_items: orderItemsText,
+                    subtotal: subtotal,
+                    delivery_charge: deliveryCharge,
+                    delivery_area: deliveryArea,
+                    total: total,
+                    payment_method: payment,
+                    sender_number: senderNumber,
+                    trx_id: trxId
+                }).then(function() {
+                    console.log('✅ Order email sent');
+                }).catch(function(err) {
+                    console.error('❌ Email failed:', err);
+                });
+            } catch (emailErr) {
+                console.error('❌ Email error:', emailErr);
+            }
                
         } catch (err) {
             console.error("Order save error:", err);
