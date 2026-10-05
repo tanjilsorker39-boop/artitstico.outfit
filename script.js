@@ -1949,3 +1949,77 @@ window.playOrderSound = function () {
 
     console.log('📱 App Download module ready');
 })();
+
+
+
+// ============================================
+// 🎬 SCROLL PARALLAX — Hero Section
+// ============================================
+(function () {
+    'use strict';
+
+    // Check reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    const heroContent = hero.querySelector('.hero-content');
+    const heroBadge = hero.querySelector('.hero-badge');
+    const heroTitle = hero.querySelector('h1');
+    const heroText = hero.querySelector('.hero-text');
+    const heroButton = hero.querySelector('.cta-button');
+
+    let ticking = false;
+
+    function updateParallax() {
+        const scrollY = window.scrollY;
+        const heroHeight = hero.offsetHeight;
+
+        // Only apply if hero is visible
+        if (scrollY > heroHeight) return;
+
+        const progress = scrollY / heroHeight;
+
+        // Badge goes fast (top-left effect)
+        if (heroBadge) {
+            heroBadge.style.transform = `translateY(${scrollY * -0.3}px) scale(${1 - progress * 0.1})`;
+            heroBadge.style.opacity = 1 - progress * 0.5;
+        }
+
+        // Title goes medium (main focus)
+        if (heroTitle) {
+            heroTitle.style.transform = `translateY(${scrollY * -0.15}px)`;
+            heroTitle.style.opacity = 1 - progress * 0.3;
+        }
+
+        // Text goes slow
+        if (heroText) {
+            heroText.style.transform = `translateY(${scrollY * -0.08}px)`;
+            heroText.style.opacity = 1 - progress * 0.4;
+        }
+
+        // Button goes slowest
+        if (heroButton) {
+            heroButton.style.transform = `translateY(${scrollY * -0.05}px)`;
+            heroButton.style.opacity = 1 - progress * 0.5;
+        }
+
+        // Hero content slight fade
+        if (heroContent) {
+            heroContent.style.filter = `blur(${progress * 3}px)`;
+        }
+    }
+
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            updateParallax();
+            ticking = false;
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    console.log('🎬 Hero Parallax initialized');
+})();
