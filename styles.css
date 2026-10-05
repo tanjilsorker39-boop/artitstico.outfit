@@ -4326,3 +4326,74 @@ body.dark-mode .app-card-note {
         font-size: 16px;
     }
 }
+
+
+
+/* ============================================
+   🎨 PROFESSIONAL SVG ICONS
+   ============================================ */
+
+/* Trust Badges Icons */
+.badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #dce8df 0%, #c5d8cb 100%);
+    color: #294d3b;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.badge-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.2;
+}
+
+.badge-item:hover .badge-icon {
+    background: linear-gradient(135deg, #294d3b 0%, #3d6b50 100%);
+    color: #ffffff;
+    transform: scale(1.15) rotate(-5deg);
+    box-shadow: 0 10px 25px rgba(41, 77, 59, 0.25);
+}
+
+body.dark-mode .badge-icon {
+    background: linear-gradient(135deg, #2a3d33 0%, #1a2621 100%);
+    color: #7fb89a;
+}
+
+body.dark-mode .badge-item:hover .badge-icon {
+    background: linear-gradient(135deg, #7fb89a 0%, #a8d4ba 100%);
+    color: #0f1a16;
+}
+
+/* Dark Mode Toggle Icon */
+.theme-icon-svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle:hover .theme-icon-svg {
+    transform: rotate(20deg) scale(1.15);
+}
+
+/* Dark Mode - Sun icon */
+body.dark-mode .theme-icon-svg .moon-icon {
+    display: none;
+}
+
+body.dark-mode .theme-icon-svg .sun-icon {
+    display: block !important;
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+    .badge-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+    .theme-icon-svg {
+        width: 16px;
+        height: 16px;
+    }
+}
