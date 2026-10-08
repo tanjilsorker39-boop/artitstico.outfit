@@ -2275,3 +2275,52 @@ function toggleWishlistFromPopup(id) {
 }
 
 document.addEventListener('DOMContentLoaded', initProductPopup);
+
+
+// ===== Service Worker register + Update notification =====
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+            console.log('SW registered:', reg);
+
+            // Update notification logic
+            reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        showUpdateNotification();
+                    }
+                });
+            });
+        }).catch(err => console.log('SW Error:', err));
+
+        // Notification permission request
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+    });
+}
+
+// Device notification function
+function showUpdateNotification() {
+    if (!('Notification' in window)) return;
+
+    if (Notification.permission === 'granted') {
+        navigator.serviceWorker.ready.then(reg => {
+            reg.showNotification('ARTistico Wear — Update Available!', {
+                body: 'নতুন আপডেট এসেছে। এখনই রিফ্রেশ করে দেখুন। ✨',
+                icon: 'https://res.cloudinary.com/sqz4fxak/image/upload/w_192,h_192,c_fill/v1790309820/screenshot.png',
+                badge: 'https://res.cloudinary.com/sqz4fxak/image/upload/w_96,h_96,c_fill/v1790309820/screenshot.png',
+                vibrate: [200, 100, 200],
+                tag: 'app-update',
+                renotify: true,
+                requireInteraction: true,
+                actions: [
+                    { action: 'open', title: '🔄 Update Now' },
+                    { action: 'dismiss', title: 'Later' }
+                ]
+            });
+        });
+    }
+}
