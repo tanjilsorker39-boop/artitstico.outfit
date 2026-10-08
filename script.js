@@ -2023,3 +2023,37 @@ window.playOrderSound = function () {
     window.addEventListener('scroll', onScroll, { passive: true });
     console.log('🎬 Hero Parallax initialized');
 })();
+
+
+
+// ============================================
+// 🎯 HOW TO ORDER TIMELINE — Scroll Reveal
+// ============================================
+(function () {
+    'use strict';
+
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    if (!timelineItems.length) return;
+
+    // Reduced motion check
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        timelineItems.forEach(item => item.classList.add('reveal'));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -80px 0px'
+    });
+
+    timelineItems.forEach(item => observer.observe(item));
+
+    console.log('🎯 How to Order Timeline initialized');
+})();
