@@ -65,11 +65,11 @@ img {
 }
 
 /* ============================================
-   FIXED TEXT (Shirt name)
+   SHIRT NAME (উপরে)
    ============================================ */
 .fixed-text {
     position: fixed;
-    top: 80px;
+    top: 12vh;
     left: 0;
     right: 0;
     text-align: center;
@@ -78,25 +78,28 @@ img {
     padding: 0 20px;
 }
 
-/* Price Container — নিচে */
+#shirtTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 68px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: #294d3b;
+    text-shadow: 0 2px 20px rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+/* ============================================
+   PRICE (নিচে)
+   ============================================ */
 .price-container {
     position: fixed;
-    bottom: 110px;
+    bottom: 140px;
     left: 0;
     right: 0;
     text-align: center;
     z-index: 50;
     pointer-events: none;
-}
-#shirtTitle {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 5vw, 64px);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -1.5px;
-    color: #294d3b;
-    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
-    margin-bottom: 12px;
 }
 
 .price-badge {
@@ -308,8 +311,8 @@ img {
     }
 
     #shirtTitle {
-        font-size: clamp(40px, 9vw, 100px);
-        letter-spacing: -2px;
+        font-size: clamp(28px, 7vw, 52px);
+        letter-spacing: -1px;
     }
 
     .price-badge {
@@ -354,12 +357,17 @@ img {
     }
 
     #shirtTitle {
-        font-size: 38px;
-        letter-spacing: -1.5px;
+        font-size: 28px;
+        letter-spacing: -0.8px;
     }
 
     .fixed-text {
         padding: 0 16px;
+        top: 10vh;
+    }
+
+    .price-container {
+        bottom: 120px;
     }
 
     .demo-back {
