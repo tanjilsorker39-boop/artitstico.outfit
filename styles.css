@@ -5398,3 +5398,27 @@ body.dark-mode .popup-title { color: #e8f0eb; }
     .fab-item { width: 55px; height: 55px; font-size: 20px; }
     .fab-item::before { display: none; }
 }
+
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.logo-text > span {
+    font-family: "Playfair Display", serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+}
+
+.logo-tagline {
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #D4AF37;
+    margin-top: 3px;
+}
