@@ -1679,15 +1679,31 @@ console.log("✅ ARTistico initialized with COD + Fraud Detection");
 
     // 8. Marquee Strip
     function initMarquee() {
-        const anchor = document.querySelector('.trust-badges');
-        if (!anchor) return;
-        const items = ['💵 Cash on Delivery', '🔄 ৭ দিনের রিটার্ন', '✅ ১০০% অরিজিনাল', '🚚 ফাস্ট ডেলিভারি', '♻️ Thrift • Sustainable'];
-        const html = items.map(t => `<span>${t}</span>`).join('');
-        const strip = document.createElement('div');
-        strip.className = 'marquee-strip';
-        strip.innerHTML = `<div class="marquee-track">${html}${html}${html}${html}</div>`;
-        anchor.parentNode.insertBefore(strip, anchor);
-    }
+    const anchor = document.querySelector('.trust-badges');
+    if (!anchor) return;
+
+    const icons = {
+        return: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>`,
+        check: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>`,
+        truck: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="15" height="12" rx="1"/><path d="M16 10h4l3 3v5h-7"/><circle cx="6" cy="18" r="2"/><circle cx="19" cy="18" r="2"/></svg>`,
+        recycle: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/></svg>`,
+        cash: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>`
+    };
+
+    const items = [
+        `<span class="marquee-item">${icons.cash}<span>Cash on Delivery</span></span>`,
+        `<span class="marquee-item">${icons.return}<span>৭ দিনের রিটার্ন</span></span>`,
+        `<span class="marquee-item">${icons.check}<span>১০০% অরিজিনাল</span></span>`,
+        `<span class="marquee-item">${icons.truck}<span>ফাস্ট ডেলিভারি</span></span>`,
+        `<span class="marquee-item">${icons.recycle}<span>Thrift • Sustainable</span></span>`
+    ];
+
+    const html = items.join('');
+    const strip = document.createElement('div');
+    strip.className = 'marquee-strip';
+    strip.innerHTML = `<div class="marquee-track">${html}${html}${html}${html}</div>`;
+    anchor.parentNode.insertBefore(strip, anchor);
+}
 
     document.addEventListener('DOMContentLoaded', () => {
         initTilt(); initQuickView(); initFlyToCart();
