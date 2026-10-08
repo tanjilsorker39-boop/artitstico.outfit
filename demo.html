@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTistico — Product Showcase Demo</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="demo-header">
+        <h2 class="demo-logo">ARTistico</h2>
+        <a href="index.html" class="demo-back">← Back to site</a>
+    </header>
+
+    <!-- Main Carousel -->
+    <main>
+        <!-- Prev/Next Buttons -->
+        <button id="prevBtn" class="nav-btn prev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+            </svg>
+        </button>
+        <button id="nextBtn" class="nav-btn next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+        </button>
+
+        <!-- Fixed Text (Shirt name) -->
+        <div class="fixed-text">
+            <h1 id="shirtTitle">Loading...</h1>
+            <div class="price-badge" id="shirtPrice">৳399</div>
+        </div>
+
+        <!-- Product Counter -->
+        <div class="counter">
+            <span id="currentNum">1</span> / <span id="totalNum">11</span>
+        </div>
+
+        <!-- Slides -->
+        <div class="slide-container-main">
+            <div class="slide-container" id="slideContainer">
+                <!-- JS will insert slides here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading indicator -->
+    <div id="loading" class="loading">Loading products...</div>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="demo.js"></script>
+</body>
+</html>
