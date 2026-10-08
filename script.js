@@ -2057,3 +2057,232 @@ window.playOrderSound = function () {
 
     console.log('🎯 How to Order Timeline initialized');
 })();
+
+
+
+// ============================================
+// 🎬 STACKED CAROUSEL (Main)
+// ============================================
+(function () {
+    'use strict';
+
+    const slide = document.getElementById('stackedSlide');
+    const prevBtn = document.getElementById('stackedPrev');
+    const nextBtn = document.getElementById('stackedNext');
+
+    if (!slide) return;
+
+    function buildCarousel() {
+        // Wait until products loaded from Firebase
+        if (!Array.isArray(products) || products.length === 0) {
+            setTimeout(buildCarousel, 500);
+            return;
+        }
+
+        slide.innerHTML = '';
+        products.forEach(product => {
+            const item = document.createElement('div');
+            item.className = 'stacked-item';
+            item.style.backgroundImage = `url('${product.image}')`;
+
+            item.innerHTML = `
+                <div class="stacked-content">
+                    <div class="stacked-name">${product.name}</div>
+                    <div class="stacked-des">${product.description || 'Premium quality shirt from ARTistico.'}</div>
+                    <button class="stacked-see-more" data-id="${product.id}">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        Order Now
+                    </button>
+                </div>
+            `;
+
+            // Click on image → popup
+            item.addEventListener('click', (e) => {
+                if (e.target.closest('.stacked-see-more')) return;
+                openProductPopup(product);
+            });
+
+            slide.appendChild(item);
+        });
+
+        // Order Now
+        slide.addEventListener('click', (e) => {
+            const btn = e.target.closest('.stacked-see-more');
+            if (!btn) return;
+            e.stopPropagation();
+            const id = Number(btn.dataset.id);
+            const product = products.find(p => Number(p.id) === id);
+            if (product) openProductPopup(product);
+        });
+
+        // Prev/Next
+        nextBtn.addEventListener('click', () => {
+            const items = slide.querySelectorAll('.stacked-item');
+            if (!items.length) return;
+            slide.appendChild(items[0]);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            const items = slide.querySelectorAll('.stacked-item');
+            if (!items.length) return;
+            slide.prepend(items[items.length - 1]);
+        });
+
+        console.log('🎬 Stacked Carousel:', products.length, 'items');
+    }
+
+    setTimeout(buildCarousel, 1500);
+})();
+
+// ============================================
+// 🎬 PRODUCT POPUP
+// ============================================
+let currentPopupProduct = null;
+let currentPopupSize = null;
+
+function initProductPopup() {
+    const popup = document.getElementById('productPopup');
+    if (!popup) return;
+
+    const closeBtn = document.getElementById('popupClose');
+    const overlay = document.querySelector('.popup-overlay');
+
+    if (closeBtn) closeBtn.addEventListener('click', closeProductPopup);
+    if (overlay) overlay.addEventListener('click', closeProductPopup);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeProductPopup();
+    });
+
+    const addBtn = document.getElementById('popupAddCart');
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            if (!currentPopupProduct || !currentPopupSize) return;
+            addToCartFromPopup(currentPopupProduct, currentPopupSize);
+            closeProductPopup();
+        });
+    }
+
+    const wishBtn = document.getElementById('popupWishlist');
+    if (wishBtn) {
+        wishBtn.addEventListener('click', () => {
+            if (!currentPopupProduct) return;
+            toggleWishlistFromPopup(currentPopupProduct.id);
+        });
+    }
+}
+
+function openProductPopup(product) {
+    if (!product) return;
+
+    currentPopupProduct = product;
+    currentPopupSize = (product.sizes && product.sizes[0]) || 'M';
+
+    document.getElementById('popupImage').src = product.image;
+    document.getElementById('popupTitle').textContent = product.name;
+    document.getElementById('popupCategory').textContent = product.category || 'shirt';
+    document.getElementById('popupDescription').textContent = product.description || 'Premium shirt from ARTistico.';
+    document.getElementById('popupPrice').textContent = '৳' + Number(product.price || 0).toLocaleString('en-BD');
+
+    const sizesContainer = document.getElementById('popupSizes');
+    sizesContainer.innerHTML = '';
+    (product.sizes || ['M', 'L', 'XL']).forEach((size, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'popup-size-btn' + (i === 0 ? ' selected' : '');
+        btn.textContent = size;
+        btn.addEventListener('click', () => {
+            sizesContainer.querySelectorAll('.popup-size-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            currentPopupSize = size;
+        });
+        sizesContainer.appendChild(btn);
+    });
+
+    const stock = product.quantity !== undefined ? Number(product.quantity) : 10;
+    const stockDot = document.querySelector('.stock-dot');
+    const stockText = document.getElementById('popupStockText');
+    const addBtn = document.getElementById('popupAddCart');
+
+    if (stockDot && stockText && addBtn) {
+        if (stock <= 0) {
+            stockDot.classList.add('out');
+            stockText.textContent = 'Stock Out';
+            addBtn.disabled = true;
+        } else {
+            stockDot.classList.remove('out');
+            stockText.textContent = 'In Stock (' + stock + ' available)';
+            addBtn.disabled = false;
+        }
+    }
+
+    const wishlist = JSON.parse(localStorage.getItem('artisticoWishlist') || '[]');
+    const wishBtn = document.getElementById('popupWishlist');
+    if (wishBtn) {
+        wishBtn.textContent = wishlist.includes(product.id) ? '❤️' : '🤍';
+        wishBtn.classList.toggle('active', wishlist.includes(product.id));
+    }
+
+    document.getElementById('productPopup').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProductPopup() {
+    const popup = document.getElementById('productPopup');
+    if (popup) popup.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// 🛒 Add to Cart
+function addToCartFromPopup(product, size) {
+    const cartId = product.id + '-' + size;
+    const existing = cart.find(item => item.cartId === cartId);
+    const maxQty = product.quantity !== undefined ? Number(product.quantity) : 10;
+
+    if (existing) {
+        if (existing.quantity >= maxQty) {
+            if (typeof showToast === 'function') showToast('⚠️ স্টকে মাত্র ' + maxQty + 'টা আছে!');
+            return;
+        }
+        existing.quantity++;
+    } else {
+        cart.push({
+            cartId: cartId,
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            size: size,
+            quantity: 1
+        });
+    }
+
+    if (typeof renderCart === 'function') renderCart();
+    if (typeof bumpCartIcon === 'function') bumpCartIcon();
+    if (typeof showToast === 'function') showToast('✅ ' + product.name + ' কার্টে যোগ হয়েছে');
+}
+
+// ❤️ Wishlist
+function toggleWishlistFromPopup(id) {
+    const index = wishlist.indexOf(id);
+    if (index > -1) {
+        wishlist.splice(index, 1);
+        if (typeof showToast === 'function') showToast('Wishlist থেকে সরানো হয়েছে');
+    } else {
+        wishlist.push(id);
+        if (typeof showToast === 'function') showToast('❤️ Wishlist-এ যোগ হয়েছে');
+    }
+    localStorage.setItem('artisticoWishlist', JSON.stringify(wishlist));
+
+    const wishBtn = document.getElementById('popupWishlist');
+    if (wishBtn) {
+        wishBtn.textContent = wishlist.includes(id) ? '❤️' : '🤍';
+        wishBtn.classList.toggle('active', wishlist.includes(id));
+    }
+
+    if (typeof updateWishlistCount === 'function') updateWishlistCount();
+}
+
+document.addEventListener('DOMContentLoaded', initProductPopup);
